@@ -58,7 +58,7 @@ export const signUp = async (request: IRequest, mock?: SignInResponseCode) => {
   }
 
   const { body, ...options } = request;
-  const response = await fetch("/api/login", {
+  const response = await fetch("/api/toy-example", {
     method: "POST",
     body: JSON.stringify(body),
     ...options,

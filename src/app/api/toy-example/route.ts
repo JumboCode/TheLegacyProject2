@@ -14,7 +14,7 @@ const DATABASE = [
 
 export const POST = async (request: NextRequest) => {
   // safeParse prevents an error from being thrown.
-  const maybeBody = SignInRequest.safeParse(request.body);
+  const maybeBody = SignInRequest.safeParse(await request.json());
 
   if (!maybeBody.success) {
     // Check which field fails the schema.

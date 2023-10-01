@@ -281,7 +281,7 @@ We will first verify that the request contains the expected body.
 
 export const POST = async (request: NextRequest) => {
   // safeParse prevents an error from being thrown.
-  const maybeBody = SignInRequest.safeParse(request.body);
+  const maybeBody = SignInRequest.safeParse(await request.json());
 
   if (!maybeBody.success) {
     // Check which field fails the schema.
@@ -329,7 +329,7 @@ If the request body is successfully parsed, we can check whether the email is un
 
 export const POST = async (request: NextRequest) => {
   // safeParse prevents an error from being thrown.
-  const maybeBody = SignInRequest.safeParse(request.body);
+  const maybeBody = SignInRequest.safeParse(await request.json());
 
   if (!maybeBody.success) {
     // Check which field fails the schema...
@@ -361,7 +361,7 @@ If the new user's email is unique, we can safely add it to our database and retu
 
 export const POST = async (request: NextRequest) => {
   // safeParse prevents an error from being thrown.
-  const maybeBody = SignInRequest.safeParse(request.body);
+  const maybeBody = SignInRequest.safeParse(await request.json());
 
   if (!maybeBody.success) {
     // Check which field fails the schema...
