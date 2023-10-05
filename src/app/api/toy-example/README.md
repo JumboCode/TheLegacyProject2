@@ -181,7 +181,7 @@ By specifying the schemas ahead, frontend developers can start using your API be
 
 Below is the full snippet of the code. There's a lot of code, but don't fret! I want you to focus on the function `signUp` and take away the following:
 
-1. When you hover over `Request`, you will notice that the body is well-defined. Frontend developers will know exactly the paramaters to provide when calling your API,
+1. When you hover over `Request`, you will notice that the body is well-defined. Frontend developers will know exactly the parameters to provide when calling your API,
 2. When you hover over `signUp`, you will notice that the return value is well-defined,
 3. Finally, frontend developers can choose to pass the parameter for `mock` to get mocked data for a specific scenario.
 
