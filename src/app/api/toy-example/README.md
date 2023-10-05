@@ -1,8 +1,7 @@
 # Developing RESTful API
 
 Hello, aspiring backend developers. In this tutorial, I will walk you through the design process for a RESTful API route.
-Do note that there are multiple "routes" you can take to design an effective API. The approach that I will be showing you
-is highly opinionated.
+There are multiple approaches to design an effective API. The approach that I will be showing you is highly opionated.
 
 ## A Gentle Introduction
 
@@ -29,13 +28,20 @@ As the developer of the API routes, you get to make the contract between the cli
 3. `POST /api/createStudent`,
 4. `PATCH /api/updateStudentByID`.
 
-I opt-in for the first approach whenever possible; the segments of the API route specifies the collections that they interact with and the HTTP verb dictates what action to perform on these collections. I think this approach is more maintable and intuitive to end-users.
+I opt-in for the first approach whenever possible; the segments of the API route
+specifies the collections that they interact with and the HTTP verb dictates
+what action to perform on these collections. I think this approach is more
+intuitive and maintainable for _other programmers_ on your team (and your future
+self).
 
 ## A Toy Example
 
 I will now guide you through the process of designing an API route for users to create a new account with an application.
 
 I've also included the source code and comments within the directory. We will be using TypeScript, [Zod](https://zod.dev/), and [Next.js 13](https://nextjs.org/docs). I will assume that you have basic understanding of TypeScript and React.
+
+A quick note: You will see instructions to "hover your mouse" throughout the tutorial; in that case,
+you should open the file containing the source code in VSCode and place your mouse on the variable of interest.
 
 ### Specifying The Contract
 
@@ -63,6 +69,9 @@ export const SignInRequest = z.object({
     .min(5, { message: "Password must be at least 5 characters" }),
 });
 
+/*
+ * z.object is similar to a struct in C or C++. Esentially, it's a "bundle of variables" that you can access and use.
+ */
 export const SignInResponse = z.discriminatedUnion("code", [
   z.object({
     code: z.literal("SUCCESS"),
@@ -98,7 +107,14 @@ I hope the `SignInRequest` is intuitive. The `SignInResponse` is slightly more c
 3. The email is improperly formatted (`INVALID_EMAIL`),
 4. The password is improperly formatted (`INVALID_PASSWORD`).
 
-We added the 5th case (`UNKNOWN`) as a catch-all for unanticipated errors - such as network or database error. Instead of creating 5 different `z.object`, we use [discriminated unions](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions) to differentiate between the cases. Discriminated union is a complex TypeScript feature, which we will not do a deep-dive on. At a high level, it enforces type safety. In the context of web development, this means that frontend developers can safely work with the response from the server. Hopefully, the next example will demonstrate how powerful discriminate unions are.
+We added the 5th case (`UNKNOWN`) as a catch-all for unanticipated errors - such
+as network or database error. Instead of creating 5 different `z.object`, we use
+[discriminated
+unions](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions)
+to differentiate between the cases. Discriminated union is a complex TypeScript
+feature, which we will not do a deep-dive on. At a high level, it enforces type
+safety. In the context of web development, this means that frontend developers
+can safely work with the response from the server. Hopefully, the next example will demonstrate how powerful discriminate unions are.
 
 ```tsx
 // SignInForm.tsx
@@ -155,7 +171,9 @@ You may wonder why are we spending so much time on the specifications?
 
 #### Writing Good Software
 
-Determining the expected input and output helps us think about edge cases and write "delibrated" code - think of your experience in COMP15 and COMP40!
+Determining the expected input and output helps us think about edge cases and
+write "carefully considered" code - think of your experience in COMP15 and
+COMP40!
 
 #### Work Parallelization
 
@@ -388,11 +406,3 @@ export const POST = async (request: NextRequest) => {
 ```
 
 That's it. The final step is to test your API route - either through the web app or [Postman](https://www.postman.com/). Congrats on making it here 😁! I hope you've learned something new and feel somewhat more prepared for backend development.
-
-### Afterwords
-
-The tutorial serves as a high-level overview for backend development. If you're interested in learning more, I recommend exploring the following topics:
-
-1. [Cache](https://nextjs.org/docs/app/building-your-application/caching#data-cache) to reduce the overhead of making network requests,
-2. [Middlewares](https://nextjs.org/docs/app/building-your-application/routing/middleware) to build an access control layer - for example, you may want to protect certain routes from non-admin users,
-3. TBD.
