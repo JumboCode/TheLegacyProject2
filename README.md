@@ -88,8 +88,9 @@ We prefer small and iterative changes, as they will be easier to review. To star
 2. `git checkout -b <Your GitHub username>/<feature>`
 3. Make your changes
 4. Once you're happy with your changes:
-   1. `git add <file 1> <file 2> ... <file n>` to stage all the files you want to commit for version control
-   2. `git commit -m "<A message to describe your changes>"`
+   1. Make sure that `npm run build` doesn't error out,
+   2. `git add <file 1> <file 2> ... <file n>` to stage all the files you want to commit for version control,
+   3. `git commit -m "<A message to describe your changes>"`,
 5. Go to the [GitHub repository](https://github.com/JumboCode/TheLegacyProject2) to make a Pull Request (PR). After you've made a PR, request for review from someone else.
 
 ## Resources / Additional Information
