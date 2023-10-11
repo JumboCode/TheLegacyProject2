@@ -2,9 +2,13 @@
 
 import type { GetServerSidePropsContext } from "next";
 import { unstable_getServerSession } from "next-auth";
-import { authOptions as nextAuthOptions } from "../../pages/api/auth/[...nextauth]";
+import { authOptions as nextAuthOptions } from "src/app/api/auth/[...nextauth]/route";
 
-// Next API route example - /pages/api/restricted.ts
+/**
+ * Next API route example - /pages/api/restricted.ts
+ *
+ * @deprecated Should move to a centralized middleware for API protection
+ */
 export const getServerAuthSession = async (ctx: {
   req: GetServerSidePropsContext["req"];
   res: GetServerSidePropsContext["res"];

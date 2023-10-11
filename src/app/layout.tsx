@@ -3,7 +3,7 @@ import "../styles/globals.css";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import SessionProvider from "src/context/SessionProvider";
-import { authOptions } from "src/pages/api/auth/[...nextauth]";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 import { Inter } from "next/font/google";
 import Navbar from "@components/Navbar";
 
