@@ -19,7 +19,12 @@ model Account {
     providerAccountId  String
     refresh_token      String? @db.String
     access_token       String? @db.String
+
+    // Unix timestamp
+    // @todo(nickbar01234) - I actually couldn't find a document that said this definitely, but this assumption made 
+    // sense if you convert the value to regular time the most sense
     expires_at         Int?
+
     token_type         String?
     scope              String?
     id_token           String? @db.String
@@ -46,7 +51,11 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+
+    // @deprecated Pending for removal when we expand to multiple universities
     admin         Boolean   @default(false)
+    role          Role      @default(USER)
+
     Account       Account[]
     Session       Session[]
     SeniorIDs     String[]  @db.ObjectId
@@ -58,6 +67,12 @@ enum Approval {
     PENDING
     APPROVED
     DENIED
+}
+
+enum Role {
+    USER
+    CHAPTER_LEADER
+    ADMIN
 }
 
 model Senior {
