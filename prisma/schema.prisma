@@ -22,7 +22,7 @@ model Account {
 
     // Unix timestamp
     // @todo(nickbar01234) - I actually couldn't find a document that said this definitely, but this assumption made 
-    // sense if you convert the value to regular time the most sense
+    // sense if you convert the value to regular time 
     expires_at         Int?
 
     token_type         String?
