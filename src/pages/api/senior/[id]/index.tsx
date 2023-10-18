@@ -67,7 +67,7 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
           description: z.string().optional(),
           StudentIDs: z.array(z.string()),
         });
-        
+
         const body = seniorSchema.parse(JSON.parse(req.body));
 
         if (admin) {
@@ -76,7 +76,7 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
               id: seniorId,
             },
             data: {
-              ...body
+              ...body,
             },
           });
 
@@ -107,6 +107,16 @@ const senior = async (req: NextApiRequest, res: NextApiResponse) => {
         })) ?? { admin: false };
 
         if (admin) {
+          const disconnectSenior = await prisma.senior.update({
+            where: {
+              id: seniorId,
+            },
+            data: {
+              Students: {
+                set: [],
+              },
+            },
+          });
           const deleteSenior = await prisma.senior.delete({
             where: {
               id: seniorId,

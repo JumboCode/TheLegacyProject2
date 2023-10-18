@@ -81,7 +81,7 @@ model Senior {
     location    String
     description String
     StudentIDs  String[] @db.ObjectId
-    Students    User[]   @relation(fields: [StudentIDs], references: [id])
+    Students    User[]   @relation(fields: [StudentIDs], references: [id], onDelete: Cascade)
     folder      String
     Files       File[]
 }
@@ -94,6 +94,6 @@ model File {
     lastModified DateTime
     url          String
     seniorId     String   @db.ObjectId
-    senior       Senior   @relation(fields: [seniorId], references: [id])
+    senior       Senior   @relation(fields: [seniorId], references: [id], onDelete: Cascade)
     Tags         String[]
 }
