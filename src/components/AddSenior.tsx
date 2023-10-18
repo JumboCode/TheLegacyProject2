@@ -1,9 +1,26 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
+import Image from "next/legacy/image";
 import cn from "classnames";
 import FilterDropdown from "@components/FilterDropdown";
 import { Senior, User } from "@prisma/client";
 
+const AddSeniorIcon = () => (
+  <svg
+    width="21"
+    height="21"
+    viewBox="0 0 14 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M6 8H0V6H6V0H8V6H14V8H8V14H6V8Z" fill="#22555A" />
+  </svg>
+);
+import { Senior, User } from "@prisma/client";
+
 type AddSeniorProps = {
+  seniors: Senior[];
+  students: User[];
+  setSeniors: Dispatch<SetStateAction<Senior[]>>;
   seniors: Senior[];
   students: User[];
   setSeniors: Dispatch<SetStateAction<Senior[]>>;
@@ -24,13 +41,28 @@ export const AddSeniorTile = ({
   setShowAddSeniorPopUp,
   setSeniorPatch,
 }: AddSeniorTileProps) => {
+export const AddSeniorTile = ({
+  showAddSeniorPopUp,
+  setShowAddSeniorPopUp,
+  setSeniorPatch,
+}: AddSeniorTileProps) => {
   const handlePopUp = () => {
     setShowAddSeniorPopUp(!showAddSeniorPopUp);
     setSeniorPatch("");
   };
 
   return (
+    // add senior button
     <button onClick={handlePopUp}>
+      <div className="relative flex aspect-square w-auto flex-col items-center rounded-xl border-2 border-[#22555A] bg-white font-['Merriweather'] text-sm font-medium text-[#22555A] drop-shadow-md hover:bg-off-white">
+        <div className="flex h-1/2 flex-col justify-end">
+          <AddSeniorIcon />
+        </div>
+        <div className="relative flex h-1/2 w-full flex-col p-2 text-center text-lg font-medium">
+          <span className="text-neutral-800 break-words px-2">New Senior</span>
+        </div>
+      </div>
+    </button>
       <div className="font-merriweather transition-background flex h-[217px] w-[160px] flex-col items-center justify-center gap-[10px] rounded-[8px] border-[1px] border-solid border-[#22555A] bg-tan font-['Merriweather'] text-[#22555A] duration-300 hover:bg-[#E5E0DA]">
         <div className="text-4xl font-semibold">+</div>
         <div className="text-lg">New Senior</div>
@@ -43,7 +75,10 @@ const StudentSelector = ({
   students,
   selectedStudents,
   setSelectedStudents,
+  setSelectedStudents,
 }: {
+  students: User[];
+  selectedStudents: User[];
   students: User[];
   selectedStudents: User[];
   setSelectedStudents: React.Dispatch<React.SetStateAction<User[]>>;
@@ -51,12 +86,15 @@ const StudentSelector = ({
   return (
     <div>
       <div className="text-neutral-600 mb-1 h-[34px] w-full font-sans text-lg">
+      <div className="text-neutral-600 mb-1 h-[34px] w-full font-sans text-lg">
         Students
       </div>
       <FilterDropdown<User>
         items={students}
         filterMatch={(usr, term) => (usr.name ?? "").indexOf(term) != -1}
+        filterMatch={(usr, term) => (usr.name ?? "").indexOf(term) != -1}
         display={(usr: User) => (
+          <div className="m-1 whitespace-nowrap rounded bg-tan px-3 py-1">
           <div className="m-1 whitespace-nowrap rounded bg-tan px-3 py-1">
             {usr.name}
           </div>
@@ -73,6 +111,10 @@ type SeniorData = {
   location: string;
   description: string;
 };
+  name: string;
+  location: string;
+  description: string;
+};
 
 const AddSenior = ({
   seniors,
@@ -82,9 +124,12 @@ const AddSenior = ({
   setShowAddSeniorPopUp,
   seniorPatch,
   setSeniorPatch,
+  setSeniorPatch,
 }: AddSeniorProps) => {
   const emptySenior: SeniorData = { name: "", location: "", description: "" };
+  const emptySenior: SeniorData = { name: "", location: "", description: "" };
   const [seniorData, setSeniorData] = useState<SeniorData>(emptySenior);
+  const [selectedStudents, setSelectedStudents] = useState<User[]>([]);
   const [selectedStudents, setSelectedStudents] = useState<User[]>([]);
 
   const [confirm, setConfirm] = useState<boolean>(false);
@@ -99,13 +144,16 @@ const AddSenior = ({
     setConfirm(false);
     setError(false);
   };
+  };
 
   const updateSeniorStudents = async (seniorID: string) => {
     let currRes = await fetch("/api/senior/" + seniorID + "/students", {
       method: "GET",
       body: null,
+      body: null,
     });
 
+    if (currRes.status != 200) {
     if (currRes.status != 200) {
       return currRes;
     }
@@ -119,15 +167,28 @@ const AddSenior = ({
     const newStudents = selectedStudents.filter(
       (usr) => !oldStudents.includes(usr, 0)
     );
+    const removedStudents = oldStudents.filter(
+      (usr) => !selectedStudents.includes(usr, 0)
+    );
+    const newStudents = selectedStudents.filter(
+      (usr) => !oldStudents.includes(usr, 0)
+    );
 
     removedStudents.map(async (usr) => {
       // remove this Senior from Student
+      currRes = await fetch("/api/student/" + usr.id, {
       currRes = await fetch("/api/student/" + usr.id, {
         method: "PATCH",
         body: JSON.stringify({
           SeniorIDs: usr.SeniorIDs.filter((id) => id != seniorID),
         }),
+          SeniorIDs: usr.SeniorIDs.filter((id) => id != seniorID),
+        }),
       });
+
+      if (currRes.status != 200) {
+        return currRes;
+      }
 
       if (currRes.status != 200) {
         return currRes;
@@ -138,12 +199,18 @@ const AddSenior = ({
     newStudents.map(async (usr) => {
       // add this Senior from Student
       currRes = await fetch("/api/student/" + usr.id, {
+      currRes = await fetch("/api/student/" + usr.id, {
         method: "PATCH",
         body: JSON.stringify({
           SeniorIDs: [...usr.SeniorIDs, seniorID],
         }),
+          SeniorIDs: [...usr.SeniorIDs, seniorID],
+        }),
       });
 
+      if (currRes.status != 200) {
+        return currRes;
+      }
       if (currRes.status != 200) {
         return currRes;
       }
@@ -159,6 +226,8 @@ const AddSenior = ({
       ...seniorData,
       StudentIDs: selectedStudents.map((usr) => usr.id),
     };
+      StudentIDs: selectedStudents.map((usr) => usr.id),
+    };
 
     // PATCH existing senior model in database
     let currRes = await fetch("/api/senior/" + seniorPatch, {
@@ -167,6 +236,7 @@ const AddSenior = ({
     });
     const newerSeniorObj = await currRes.json();
 
+
     if (currRes.status === 200) {
       // PATCH students models previously and newly associated with senior model
       currRes = await updateSeniorStudents(seniorPatch);
@@ -174,11 +244,17 @@ const AddSenior = ({
       if (currRes.status === 200) {
         setConfirm(true);
         const newSeniors = seniors.filter((i) => i.id !== newerSeniorObj.id);
+        const newSeniors = seniors.filter((i) => i.id !== newerSeniorObj.id);
         setSeniors([...newSeniors, newerSeniorObj]);
       }
     }
     // check after both API calls
     if (currRes.status != 200) {
+      console.log(
+        currRes.text().then((text) => {
+          console.log(text);
+        })
+      );
       console.log(
         currRes.text().then((text) => {
           console.log(text);
@@ -195,6 +271,11 @@ const AddSenior = ({
     // put accumulated students into senior model data
     const seniorModel = {
       ...seniorData,
+      StudentIDs: selectedStudents.map((usr) => {
+        console.log(usr.id);
+        return usr.id;
+      }),
+    };
       StudentIDs: selectedStudents.map((usr) => {
         console.log(usr.id);
         return usr.id;
@@ -217,8 +298,14 @@ const AddSenior = ({
         setSeniors([...seniors, newSeniorObj]);
       }
     }
+    }
     // check after both API calls
     if (currRes.status != 200) {
+      console.log(
+        currRes.text().then((text) => {
+          console.log(text);
+        })
+      );
       console.log(
         currRes.text().then((text) => {
           console.log(text);
@@ -252,7 +339,38 @@ const AddSenior = ({
                   <div className="mb-8 font-serif text-3xl sm:text-center md:text-left">
                     {seniorPatch ? "Update" : "Add New"} Senior
                   </div>
+      {showAddSeniorPopUp && (
+        <div
+          className="\ absolute left-0 top-0 z-50 flex h-screen w-screen flex-row items-center justify-center
+                        text-left backdrop-blur-[2px] backdrop-brightness-75 md:w-full"
+        >
+          <div
+            className={cn(
+              "min-h-1/4 sticky flex flex-col justify-between rounded-lg bg-white p-10",
+              confirm || error
+                ? "top-[12.5%] w-2/5"
+                : "top-[5%] sm:w-4/5 md:w-1/2"
+            )}
+          >
+            {!confirm && !error ? (
+              <>
+                <div>
+                  <div className="mb-8 font-serif text-3xl sm:text-center md:text-left">
+                    {seniorPatch ? "Update" : "Add New"} Senior
+                  </div>
 
+                  <div className="text-neutral-600 mb-1 h-[34px] w-full font-sans text-lg">
+                    {" "}
+                    Name{" "}
+                  </div>
+                  <input
+                    className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3"
+                    type="text"
+                    value={seniorData.name}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setSeniorData({ ...seniorData, name: e.target.value })
+                    }
+                  />
                   <div className="text-neutral-600 mb-1 h-[34px] w-full font-sans text-lg">
                     {" "}
                     Name{" "}
@@ -271,7 +389,24 @@ const AddSenior = ({
                     selectedStudents={selectedStudents}
                     setSelectedStudents={setSelectedStudents}
                   />
+                  <StudentSelector
+                    students={students}
+                    selectedStudents={selectedStudents}
+                    setSelectedStudents={setSelectedStudents}
+                  />
 
+                  <div className="text-neutral-600 mb-1 h-[34px]  w-full font-sans text-lg">
+                    {" "}
+                    Location{" "}
+                  </div>
+                  <input
+                    className="mb-5 h-[46px] w-full rounded border-2 border-solid border-tan px-3"
+                    type="text"
+                    value={seniorData.location}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setSeniorData({ ...seniorData, location: e.target.value })
+                    }
+                  />
                   <div className="text-neutral-600 mb-1 h-[34px]  w-full font-sans text-lg">
                     {" "}
                     Location{" "}
@@ -300,7 +435,25 @@ const AddSenior = ({
                     }
                   />
                 </div>
+                  <div className="text-neutral-600 mb-1 h-[34px] w-full text-lg">
+                    {" "}
+                    Description{" "}
+                  </div>
+                  <textarea
+                    className="mb-4 h-1/2 min-h-[46px] w-full rounded border-2 border-solid border-tan bg-off-white p-[12px] text-start text-base"
+                    placeholder=""
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                      setSeniorData({
+                        ...seniorData,
+                        description: e.target.value,
+                      })
+                    }
+                  />
+                </div>
 
+                <div className="flex w-full flex-row justify-center">
+                  <button
+                    className="\ mx-2 my-4 w-full max-w-[10rem] rounded bg-off-white p-3 text-lg font-normal drop-shadow-md
                 <div className="flex w-full flex-row justify-center">
                   <button
                     className="\ mx-2 my-4 w-full max-w-[10rem] rounded bg-off-white p-3 text-lg font-normal drop-shadow-md
@@ -311,7 +464,49 @@ const AddSenior = ({
                   </button>
                   <button
                     className="bg-legacy-teal \ mx-2 my-4 w-full max-w-[10rem] rounded p-3 text-lg font-normal text-white drop-shadow-md
+                    onClick={handlePopUp}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="bg-legacy-teal \ mx-2 my-4 w-full max-w-[10rem] rounded p-3 text-lg font-normal text-white drop-shadow-md
                                 hover:bg-dark-teal"
+                    onClick={seniorPatch ? patchAddSenior : postAddSenior}
+                  >
+                    {seniorPatch ? "Update" : "Create"}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                {confirm ? (
+                  <div className="flex flex-col items-center">
+                    <div className="mb-8 text-center font-serif text-3xl">
+                      {seniorPatch ? "Updated" : "Added"} successfully!
+                    </div>
+                    <button
+                      className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-lg font-normal drop-shadow-md hover:bg-offer-white"
+                      onClick={handleConfirm}
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center break-words">
+                    <div className="mb-8 text-center font-serif text-xl">
+                      There was an error adding your senior. Please reach out to
+                      your club administrator for help.
+                    </div>
+                    <button
+                      className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-lg font-normal drop-shadow-md hover:bg-offer-white"
+                      onClick={handleConfirm}
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
                     onClick={seniorPatch ? patchAddSenior : postAddSenior}
                   >
                     {seniorPatch ? "Update" : "Create"}
@@ -356,8 +551,15 @@ const AddSenior = ({
         setShowAddSeniorPopUp={setShowAddSeniorPopUp}
         setSeniorPatch={setSeniorPatch}
       />
+      )}
+      <AddSeniorTile
+        showAddSeniorPopUp={showAddSeniorPopUp}
+        setShowAddSeniorPopUp={setShowAddSeniorPopUp}
+        setSeniorPatch={setSeniorPatch}
+      />
     </>
   );
 };
 
 export default AddSenior;
+
