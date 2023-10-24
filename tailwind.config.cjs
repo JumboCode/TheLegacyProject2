@@ -38,7 +38,7 @@ module.exports = withMT({
       "dark-tan": "#D4CCC1",
       "darker-tan": "#CAC2B7",
       "darkest-tan": "#665E53",
-      "med-tan": "#E8E0D5",
+      "med-tan": "#E7E0D6",
       "dark-green": "#22555A",
       "offer-white": "#F0F0F0",
       "light-sage": "#AEBDB6",
@@ -76,6 +76,23 @@ module.exports = withMT({
       xl: "1280px",
       "2x": "1536px",
     },
+
+    fontSize: {
+      xxs: "0.62rem",
+      xs: "0.75rem",
+      base: "1rem",
+      lg: "1.125rem",
+      xl: "1.25 rem",
+      "2xl": "1.5rem",
+      "3xl": "1.85rem",
+      "4xl": "2.25rem",
+      "5xl": "3rem",
+      "6xl": "3.75 rem",
+      "7xl": "4.5rem",
+      "8xl": "6rem",
+      "9xl": "8rem",
+    },
+    
   },
   plugins: [],
 });
