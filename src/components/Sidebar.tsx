@@ -64,7 +64,7 @@ const SidebarItem = ({
   );
 };
 
-const Sidebar = () => {
+const Sidebar = (/*{ displayName }: { displayName: string }*/) => {
   return (
     <div
       className="\ top-0 flex h-screen w-[210px] flex-col justify-start border-r
@@ -95,11 +95,11 @@ const Sidebar = () => {
         University
       </div>
 
-      <div className="text-md flex w-full px-10 pt-1 text-left font-serif text-xs">
+      <div className="text-md flex w-full pt-1 px-10 text-left font-serif text-xs">
         Tufts University
       </div>
 
-      <hr className="mx-10 my-10 h-px rounded border-0 bg-black md:my-10" />
+      <hr className="mx-10 my-5 h-px rounded border-0 bg-black" />
 
       <div className="text-md flex w-full px-10 text-left font-serif">
         Kick Doyen
