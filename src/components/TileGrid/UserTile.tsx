@@ -54,7 +54,7 @@ export function UserTile({
               ? senior.name
               : null}
           </p>
-          {/* @TODO: Add pronouns once we add to student field */}
+          {/* @TODO: Add pronouns once we add to student field  */}
           <p className="text-md font-base text-neutral-600 mt-[5px] truncate font-['Merriweather'] text-[10px] text-[#22555A]">
             {senior && senior.location}
           </p>
