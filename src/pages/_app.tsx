@@ -12,23 +12,23 @@ const MyApp: AppType<{ session: Session | null }> = ({
   if (Component.displayName == "public") {
     return (
       <SessionProvider session={session}>
-          <div className="flex flex-col w-full h-full items-center bg-tan">  
-            <Navbar displayName={Component.displayName}/>
-            <Component {...pageProps} />
-          </div>
+        <div className="flex h-full w-full flex-col items-center bg-tan">
+          <Navbar displayName={Component.displayName} />
+          <Component {...pageProps} />
+        </div>
       </SessionProvider>
     );
   } else {
     return (
       <SessionProvider session={session}>
-        <div className="flex w-full h-full bg-tan flex-col md:flex-row">
+        <div className="flex h-full w-full flex-col bg-tan md:flex-row">
           <span className="inline md:hidden">
-            <Navbar displayName={Component.displayName ?? "private"}/>
+            <Navbar displayName={Component.displayName ?? "private"} />
           </span>
           <span className="hidden md:inline">
-            <Sidebar displayName={Component.displayName ?? "private"}/>
+            <Sidebar />
           </span>
-            <Component {...pageProps} />
+          <Component {...pageProps} />
         </div>
       </SessionProvider>
     );
