@@ -1,4 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "merriweather";
+    src: url("/fonts/Merriweather/Merriweather-Regular.ttf");
+  }
+}
+
+* {
+  font-family: "merriweather";
+}
