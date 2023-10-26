@@ -1,3 +1,4 @@
+/* @deprecated */
 import { TileEdit } from "./TileEdit";
 import { Senior } from "@prisma/client";
 import Image from "next/legacy/image";

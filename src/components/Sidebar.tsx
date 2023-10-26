@@ -13,7 +13,7 @@ const SidebarItem = ({ label }: { label: string }) => {
 const Sidebar = ({ displayName }: { displayName: string }) => {
   return (
     <div
-      className="\ sticky top-0 flex h-screen w-[160px] flex-col justify-start gap-20
+      className="\ top-0 flex h-screen w-[160px] flex-col justify-start gap-20
                     border-r border-darker-tan bg-med-tan py-12"
     >
       <div className="flex flex-col place-items-center p-4">

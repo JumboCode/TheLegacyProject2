@@ -1,5 +1,6 @@
 import cn from "classnames";
 import React, { useState } from "react";
+/* @TODO: Add this font globally */
 import "@fontsource/merriweather";
 
 const TileEditBreadcrumbs = () => (
