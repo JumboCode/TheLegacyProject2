@@ -221,52 +221,6 @@ function PendingBody({
         <PendingCard key={user.id} name={user.name ?? ""} />
       ))}
     </>
-    // <ul className="pb-9 min-h-screen">
-    //   {pending.map((user) => (
-    //     <li
-    //       className="flex flex-row p-4 mb-8 gap-4 items-center rounded bg-white drop-shadow-md"
-    //       key={user.id}
-    //     >
-    //       <Image
-    //         alt="Profile Picture"
-    //         src={user.image ?? "/profile/genericprofile.png"}
-    //         className="rounded"
-    //         width={48}
-    //         height={48}
-    //       />
-    //       <div className="ml-1 flex-grow">
-    //         <p className="text-lg font-bold text-neutral-600">{user.name}</p>
-    //         <p className="text-md text-neutral-600">{user.email}</p>
-    //       </div>
-    //       <button
-    //         title="Reject"
-    //         className="flex h-8 p-5 items-center text-lg justify-center rounded \
-    //                    text-white bg-tag-rust hover:bg-[#B76056] drop-shadow-md duration-150 hover:-translate-y-0.5"
-    //         onClick={() => {
-    //           fetch(`/api/student/${user.id}`, { method: "DELETE" });
-    //           setPending((prev) => prev.filter((u) => u.id !== user.id));
-    //           setDeactivated((prev) => [...prev, user]);
-    //           refreshData();
-    //         }}
-    //       >
-    //         Reject
-    //       </button>
-    //       <button
-    //         title="Approve"
-    //         className="flex h-8 p-5 items-center justify-center rounded \
-    //                    text-white bg-dark-sage hover:bg-[#7F8E86] drop-shadow-md duration-150 hover:-translate-y-0.5 "
-    //         onClick={() => {
-    //           fetch(`/api/student/${user.id}/approve`, { method: "POST" });
-    //           setPending((prev) => prev.filter((u) => u.id !== user.id));
-    //           setStudents((prev) => [...prev, user]);
-    //           refreshData();
-    //         }}
-    //       >
-    //         Approve
-    //       </button>
-    //     </li>
-    //   ))}
-    // </ul>
   );
 }
 
