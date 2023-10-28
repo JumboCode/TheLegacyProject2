@@ -4,8 +4,7 @@ import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import SessionProvider from "src/context/SessionProvider";
 import { authOptions } from "./api/auth/[...nextauth]/route";
-import { Inter } from "next/font/google";
-import Navbar from "@components/Navbar";
+import { Merriweather } from "next/font/google";
 
 interface IRootLayout {
   children: React.ReactNode;
@@ -25,24 +24,22 @@ export const metadata: Metadata = {
  * Define default font.
  *
  * @link {https://nextjs.org/docs/app/building-your-application/optimizing/fonts}
- * @todo Talk with Gayatri to get new font
  */
-const inter = Inter({
+const merriweather = Merriweather({
+  weight: "400",
+  style: "normal",
   subsets: ["latin"],
-  display: "swap",
 });
 
 const RootLayout = async ({ children }: IRootLayout) => {
   const session = await getServerSession(authOptions);
 
-  // TODO(nickbar01234) - Port private component Sidebar from _app.tsx
   return (
     <html lang="en">
       <SessionProvider session={session}>
         <body
-          className={`${inter.className} flex h-full w-full flex-col items-center overscroll-none bg-white`}
+          className={`${merriweather.className} h-screen w-screen items-center overscroll-none bg-white`}
         >
-          <Navbar displayName="public" />
           {children}
         </body>
       </SessionProvider>
