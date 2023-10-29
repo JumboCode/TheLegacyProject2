@@ -31,7 +31,7 @@ export const AddSeniorTile = ({
 
   return (
     <button onClick={handlePopUp}>
-      <div className="font-merriweather transition-background flex h-[217px] w-[160px] flex-col items-center justify-center gap-[10px] rounded-[8px] border-[1px] border-solid border-[#22555A] bg-tan font-['Merriweather'] text-[#22555A] duration-300 hover:bg-[#E5E0DA]">
+      <div className="font-merriweather transition-background flex h-[217px] w-[160px] flex-col items-center justify-center gap-[10px] rounded-[8px] border-[1px] border-solid border-dark-teal bg-tan font-['Merriweather'] text-dark-teal duration-300 hover:bg-[#E5E0DA]">
         <div className="text-4xl font-semibold">+</div>
         <div className="text-lg">New Senior</div>
       </div>
