@@ -18,10 +18,10 @@ const PendingCard = (props: IPendingCard) => {
         {props.name}
       </div>
       <div className="flex flex-col gap-2 text-white">
-        <button className="rounded-2xl bg-dark-teal py-1 text-sm">
+        <button className="rounded-2xl bg-dark-teal py-1 text-sm transition duration-300 ease-in-out hover:-translate-y-1">
           Accept
         </button>
-        <button className="rounded-2xl bg-sunset-orange py-1 text-sm">
+        <button className="rounded-2xl bg-sunset-orange py-1 text-sm transition duration-300 ease-in-out hover:-translate-y-1">
           Reject
         </button>
       </div>
