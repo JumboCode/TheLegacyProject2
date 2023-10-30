@@ -1,4 +1,4 @@
-import HeaderContainer from "@components/container/HeaderContainer";
+import { HeaderContainer } from "@components/container/index";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 interface IProfileLayout {

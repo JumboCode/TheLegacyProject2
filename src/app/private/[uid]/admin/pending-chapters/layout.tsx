@@ -1,4 +1,4 @@
-import HeaderContainer from "@components/container/HeaderContainer";
+import { HeaderContainer } from "@components/container/index";
 import { faHouseLock } from "@fortawesome/free-solid-svg-icons";
 
 interface IPendingChapters {

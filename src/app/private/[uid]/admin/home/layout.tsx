@@ -1,4 +1,4 @@
-import HeaderContainer from "@components/container/HeaderContainer";
+import { HeaderContainer } from "@components/container/index";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 
 interface IAdminHomeLayout {
