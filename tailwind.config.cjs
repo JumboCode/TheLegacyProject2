@@ -33,6 +33,7 @@ module.exports = withMT({
       "light-rust": "#C58078",
       "light-moss": "#CDD3C8",
       "off-white": "#F5F5F5",
+      "med-gray": "#8A8581",
       tan: "#F5F0EA",
       "dark-tan": "#D4CCC1",
       "darker-tan": "#CAC2B7",
@@ -76,6 +77,7 @@ module.exports = withMT({
     fontSize: {
       xxs: "0.62rem",
       xs: "0.75rem",
+      ms: "0.875rem",
       base: "1rem",
       lg: "1.125rem",
       xl: "1.25 rem",
@@ -88,7 +90,6 @@ module.exports = withMT({
       "8xl": "6rem",
       "9xl": "8rem",
     },
-    
   },
   plugins: [],
 });
