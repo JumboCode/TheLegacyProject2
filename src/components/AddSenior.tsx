@@ -252,7 +252,7 @@ const AddSenior = ({
                         First name{" "}
                       </div>
                       <input
-                        className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
+                        className="text-sm mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-black"
                         type="text"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData({
@@ -269,7 +269,7 @@ const AddSenior = ({
                         Last name{" "}
                       </div>
                       <input
-                        className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
+                        className="text-sm mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-black"
                         type="text"
                         onBlur={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData((seniorData) => ({
@@ -286,7 +286,7 @@ const AddSenior = ({
                     Location{" "}
                   </div>
                   <input
-                    className="mb-3 h-9 w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
+                    className="text-sm mb-3 h-9 w-full rounded-md border-2 border-solid border-tan px-3 text-black"
                     type="text"
                     value={seniorData.location}
                     placeholder="Where are you and your senior meeting?"
@@ -300,7 +300,7 @@ const AddSenior = ({
                     Description{" "}
                   </div>
                   <textarea
-                    className="h-25 mb-3 min-h-[20px] w-full rounded-md border-2 border-solid border-tan bg-white p-[10px] text-start text-sm text-black"
+                    className="h-25 text-sm mb-3 min-h-[20px] w-full rounded-md border-2 border-solid border-tan bg-white p-[10px] text-start text-black"
                     placeholder="Write a brief description about the senior"
                     onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                       setSeniorData({
