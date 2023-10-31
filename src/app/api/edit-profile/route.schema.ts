@@ -27,3 +27,22 @@ export const EditProfileResponse = z.discriminatedUnion("code", [
     message: z.literal("Unknown error received"),
   }),
 ]);
+
+export const GetProfileRequest = z.object({
+  id: z.string(),
+});
+
+export const GetProfileResponse = z.discriminatedUnion("code", [
+  z.object({
+    code: z.literal("SUCCESS"),
+    message: z.literal("Profile successfully retrieved"),
+  }),
+  z.object({
+    code: z.literal("INVALID_ID"),
+    message: z.literal("Invalid id"),
+  }),
+  z.object({
+    code: z.literal("UNKNOWN"),
+    message: z.literal("Unknown error received"),
+  }),
+]);
