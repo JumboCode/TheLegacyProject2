@@ -9,6 +9,8 @@ import FlowerBox from "@components/FlowerBox";
 import Button from "@components/Button";
 import Image from "next/legacy/image";
 
+import NewChapterForm from "@components/NewChapterForm";
+
 const HomePage = () => {
   // TODO: make env variables
   const chapterInitForm = "https://forms.gle/gBdmpsW6JFnYvwRf7";
@@ -20,6 +22,7 @@ const HomePage = () => {
   return (
     <>
       <main className="z-0 flex min-h-screen w-screen flex-col px-[40px]">
+        <NewChapterForm />
         <FlowerBox>
           {/* Hero Section and Action Items Buttons */}
           <div className="flex w-full flex-row items-center md:px-[40px] lg:px-[60px]">
