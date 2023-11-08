@@ -24,6 +24,14 @@ export const EditProfileResponse = z.discriminatedUnion("code", [
     message: z.literal("Invalid form submission"),
   }),
   z.object({
+    code: z.literal("INVALID_UID"),
+    message: z.literal("Could not find user with the given UID"),
+  }),
+  z.object({
+    code: z.literal("UNAUTHORIZED"),
+    message: z.literal("The action cannot be performed by the current user"),
+  }),
+  z.object({
     code: z.literal("UNKNOWN"),
     message: z.literal("Unknown error received"),
   }),
