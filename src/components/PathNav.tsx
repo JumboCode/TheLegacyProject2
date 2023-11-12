@@ -1,27 +1,19 @@
-// import React from "react";
-// import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-// import TestPage from "../app/private/[uid]/admin/home//page";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import TestPage from "../app/private/[uid]/admin/home/page";
 
-// const PathNav = () => {
-//   return (
-//     <Router>
-//       <nav>
-//         <ul>
-//           <li>
-//             <Link to="/test">Test</Link>
-//           </li>
-//           {/* <li>
-//             <Link to="/"></Link>
-//           </li> */}
-//         </ul>
-//       </nav>
-//       <Routes>
-//         <Route path="/test" element={<TestPage />} />
-//       </Routes>
-//     </Router>
-//   );
-// };
-// export default PathNav;
+const PathNav = () => {
+  return (
+    <>
+      <div className="font-merriweather mt-7 flex flex-row">
+        <div>Chapter</div>
+        <div className="px-2">&gt;</div>
+        <div className="text-dark-teal">Tufts University</div>
+      </div>
+    </>
+  );
+};
+export default PathNav;
 
 // // const Navigation = () => {
 // //   return (
