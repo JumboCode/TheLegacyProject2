@@ -29,7 +29,7 @@ export const PATCH = async (
       /** @todo check if Chapter Leader is editing a User in the same Chapter */
       const hasPermission =
         session.user.id === target.id ||
-        (session.user.role === "ADMIN" && target.role !== "ADMIN") || // Admins can edit any non-admin
+        (session.user.role === "ADMIN" && target.role !== "ADMIN") ||
         (session.user.role === "CHAPTER_LEADER" && target.role === "USER");
 
       if (!hasPermission) {
