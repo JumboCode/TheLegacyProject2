@@ -7,7 +7,7 @@ interface IPublicLayout {
 const PublicLayout = ({ children }: IPublicLayout) => {
   return (
     <>
-      <Navbar displayName="public" />
+      <Navbar />
       {children}
     </>
   );
