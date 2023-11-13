@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
