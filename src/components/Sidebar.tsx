@@ -4,12 +4,6 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { signOut } from "next-auth/react";
 import {
-  faHouse,
-  faUsers,
-  faUserGroup,
-  faUserPlus,
-  faCircleUser,
-  faCity,
   faArrowRightFromBracket,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
