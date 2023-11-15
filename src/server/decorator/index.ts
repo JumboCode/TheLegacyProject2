@@ -1,8 +1,8 @@
 import { User } from "@prisma/client";
 import { Session, getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "src/app/api/auth/[...nextauth]/route";
-import { unauthorizedErrorResponse } from "src/app/api/route.schema";
+import { authOptions } from "@api/auth/[...nextauth]/route";
+import { unauthorizedErrorResponse } from "@api/route.schema";
 
 /**
  * NextApiParams is of type dictionary when an endpoint with dynamic url is hit.
@@ -26,7 +26,7 @@ type NextApiHandler = (
   params: NextApiParams
 ) => Promise<NextResponse>;
 
-type SessionApiHandler = (
+export type SessionApiHandler = (
   params: AuthorizedSessionApiHandlerParams
 ) => Promise<NextResponse>;
 
