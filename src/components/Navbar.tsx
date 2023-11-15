@@ -1,88 +1,99 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
+import { UserContext } from "src/context/UserProvider";
 
-const Navbar = ({ displayName }: { displayName: string}) => {
-  
+const Navbar = ({ displayName }: { displayName: string }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const handleMenuClick: React.MouseEventHandler = () => {
     setDropdownVisible((visible) => !visible);
   };
 
   const router = useRouter();
-  const { data: session } = useSession();
-  const legacySignIn = (() => signIn("google", { callbackUrl: "/home" }));
-  const legacyHome = (() => router.push("/home"));
-  const buttonAction = session && session.user ? legacyHome : legacySignIn;
+  const userContext = useContext(UserContext);
+  // const { data: session } = useSession();
+  const legacySignIn = () => signIn("google", { callbackUrl: "/home" });
+  const legacyHome = () => router.push("/home");
+  /*session.user.role -> Admin -> router.push(/private/[uid]/admin/home) */
+  const buttonAction =
+    userContext.user.role === "ADMIN"
+      ? () => router.push("/private/" + userContext.user.id + "/admin/home")
+      : userContext.user.role === "CHAPTER_LEADER"
+      ? () =>
+          router.push(
+            "/private/" + userContext.user.id + "/chapter-leader/home"
+          )
+      : userContext.user.role === "USER"
+      ? () => router.push("/private/" + userContext.user.id + "/user/home")
+      : legacySignIn;
+  // const buttonAction = session && session.user ? legacyHome : legacySignIn;
 
   return (
-    <nav className="top-0 h-[60px] w-full flex flex-row items-center justify-between z-10 \ 
-                    bg-med-tan border border-dark-tan z-10">
-
+    <nav
+      className="\ top-0 z-10 z-10 flex h-[60px] w-full flex-row items-center 
+                    justify-between border border-dark-tan bg-med-tan"
+    >
       {/* Logo */}
-      <div className="pl-[20px] sm:pl-[40px] font-serif font-medium text-xl md:text-2xl">
+      <div className="pl-[20px] font-serif text-xl font-medium sm:pl-[40px] md:text-2xl">
         <Link href="/">The Legacy Project</Link>
       </div>
 
       {/* Menu Option vs. Menu Close */}
       <div className="visible z-10 pr-[20px] sm:pr-[40px]">
         <span onClick={handleMenuClick}>
-          { dropdownVisible ? 
-            (
-              <svg
-                className="h-8 w-8 sm:hidden text-darkest-tan"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <line x1="17" y1="6" x2="6" y2="17" />
-                <line x1="6" y1="6" x2="17" y2="17" />
-              </svg>
-            )
-            :
-            (
-                <svg className="h-8 w-8 visible sm:hidden text-darkest-tan"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                >
-                  <line x1="4" y1="7" x2="20" y2="7"/>
-                  <line x1="4" y1="12" x2="20" y2="12"/>
-                  <line x1="4" y1="17" x2="20" y2="17"/>
-                </svg>  
-            )
-          }
+          {dropdownVisible ? (
+            <svg
+              className="h-8 w-8 text-darkest-tan sm:hidden"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <line x1="17" y1="6" x2="6" y2="17" />
+              <line x1="6" y1="6" x2="17" y2="17" />
+            </svg>
+          ) : (
+            <svg
+              className="visible h-8 w-8 text-darkest-tan sm:hidden"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <line x1="4" y1="7" x2="20" y2="7" />
+              <line x1="4" y1="12" x2="20" y2="12" />
+              <line x1="4" y1="17" x2="20" y2="17" />
+            </svg>
+          )}
         </span>
       </div>
 
-    {/* Navbar Content */}
-      <div className=
-        { dropdownVisible ? 
-          "flex flex-col sm:hidden absolute items-center z-20 top-[60px] right-0 gap-[20px] p-[20px] \
-           bg-med-tan border-l border-r border-b border-dark-tan "
-          : 
-          "hidden sm:flex flex-row align-center gap-[20px] pr-[40px]"}
+      {/* Navbar Content */}
+      <div
+        className={
+          dropdownVisible
+            ? "absolute right-0 top-[60px] z-20 flex flex-col items-center gap-[20px] border-b border-l            border-r border-dark-tan bg-med-tan p-[20px] sm:hidden "
+            : "align-center hidden flex-row gap-[20px] pr-[40px] sm:flex"
+        }
       >
         <Link href="/">
-          <div className="font-serif m-auto font-medium text-lg duration-150 hover:-translate-y-0.5">
+          <div className="m-auto font-serif text-lg font-medium duration-150 hover:-translate-y-0.5">
             About Us
           </div>
         </Link>
-        
+
         <button onClick={buttonAction}>
-          <div className="font-serif m-auto font-medium text-lg duration-150 hover:-translate-y-0.5">
-            {session && session.user ? "Home" : "Sign In"}
+          <div className="m-auto font-serif text-lg font-medium duration-150 hover:-translate-y-0.5">
+            {userContext.user.role ? "Home" : "Sign In"}
           </div>
         </button>
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;
