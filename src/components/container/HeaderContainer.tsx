@@ -2,7 +2,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IHeaderContainer {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   header: string;
   headerIcon: IconProp;
   showHorizontalLine: boolean;
@@ -20,7 +20,7 @@ const HeaderContainer = (props: IHeaderContainer) => {
       {showHorizontalLine && (
         <hr className="mt-6 w-full border-t border-black" />
       )}
-      <div className="mt-6">{children}</div>
+      {children}
     </div>
   );
 };
