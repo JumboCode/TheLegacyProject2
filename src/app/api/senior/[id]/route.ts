@@ -146,4 +146,3 @@ export const PATCH = withSession(async ({ params, req }) => {
     );
   }
 });
-

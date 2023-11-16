@@ -6,7 +6,18 @@
 import { serverSchema } from "./schema.mjs";
 import { env as clientEnv, formatErrors } from "./client.mjs";
 
-const _serverEnv = serverSchema.safeParse(process.env);
+if (process.env.NODE_ENV === "test") {
+  const variables = Object.keys(import.meta.env).filter((key) =>
+    key.startsWith("VITE")
+  );
+  for (const variable of variables) {
+    import.meta.env[variable.replace("VITE_", "")] = import.meta.env[variable];
+  }
+}
+
+const _serverEnv = serverSchema.safeParse(
+  process.env.NODE_ENV === "development" ? process.env : import.meta.env
+);
 
 if (!_serverEnv.success) {
   console.error(
