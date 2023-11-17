@@ -26,4 +26,7 @@ export default defineNextConfig({
       { protocol: "https", hostname: "**.googleusercontent.com" },
     ],
   },
+  typescript: {
+    tsconfigPath: "tsconfig.build.json",
+  },
 });

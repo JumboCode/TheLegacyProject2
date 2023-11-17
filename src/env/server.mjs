@@ -1,4 +1,3 @@
-// @ts-check
 /**
  * This file is included in `/next.config.mjs` which ensures the app isn't built with invalid env vars.
  * It has to be a `.mjs`-file to be imported there.
@@ -7,6 +6,7 @@ import { serverSchema } from "./schema.mjs";
 import { env as clientEnv, formatErrors } from "./client.mjs";
 
 if (process.env.NODE_ENV === "test") {
+  // @ts-expect-error Disable env doesn't exist error
   const variables = Object.keys(import.meta.env).filter((key) =>
     key.startsWith("VITE")
   );
@@ -15,8 +15,9 @@ if (process.env.NODE_ENV === "test") {
   }
 }
 
+// @ts-expect-error Disable env doesn't exist error
 const _serverEnv = serverSchema.safeParse(
-  process.env.NODE_ENV === "development" ? process.env : import.meta.env
+  process.env.NODE_ENV === "test" ? import.meta.env : process.env
 );
 
 if (!_serverEnv.success) {
