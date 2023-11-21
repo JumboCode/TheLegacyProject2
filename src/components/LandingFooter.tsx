@@ -63,10 +63,16 @@ const LandingFooter = () => {
         </p>
         <p className="w-3/4 self-center font-serif text-lg">
           Leave a lasting legacy on your college or university campus by
-          founding a chapter of The Legacy Project at your school today. Join
-          our E-List below for updates.
+          founding a chapter of The Legacy Project at your school today. Reach
+          us at{" "}
+          <a
+            href="mailto: exec@thelegacyproject.org"
+            className="text-dark-teal"
+          >
+            exec@thelegacyproject.org.
+          </a>
         </p>
-        <form
+        {/* <form
           className="mx-auto flex w-3/4 flex-col justify-center gap-[20px] sm:flex-row"
           method="post"
           onSubmit={onEmailSubmit}
@@ -89,7 +95,7 @@ const LandingFooter = () => {
               {buttonText}
             </span>
           </button>
-        </form>
+        </form> */}
       </FlowerBox>
     </div>
   );
