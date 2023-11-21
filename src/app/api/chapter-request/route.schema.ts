@@ -14,16 +14,16 @@ import { z } from "zod";
   questions            String
 */
 export const ChapterRequest = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
+  firstName: z.string().min(1, "Please provide a first name"),
+  lastName: z.string().min(1, "Please provide a last name"),
   universityEmail: z.string().email("This is not a valid email"),
   phoneNumber: z.string().length(10, "Phone number must be 10 digits"),
-  university: z.string(),
-  universityAddress: z.string(),
-  leadershipExperience: z.string(),
-  motivation: z.string(),
+  university: z.string().min(1, "Please provide a university"),
+  universityAddress: z.string().min(1, "Please provide an address"),
+  leadershipExperience: z.string().min(1, "Please state some leadership experience"),
+  motivation: z.string().min(1, "Please describe your motivation in joining the legacy project"),
   // TODO: Figure out if availabilities should have a better type
-  availabilities: z.string(),
+  availabilities: z.string().min(1, "Please provide some times"),
   questions: z.string(),
 }) satisfies z.ZodType<Prisma.ChapterRequestCreateInput>;
 

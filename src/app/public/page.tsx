@@ -10,6 +10,7 @@ import Button from "@components/Button";
 import Image from "next/legacy/image";
 
 import NewChapterForm from "@components/NewChapterForm";
+import Link from "next/link";
 
 const HomePage = () => {
   // TODO: make env variables
@@ -58,12 +59,16 @@ const HomePage = () => {
           {/* Action Items Buttons */}
 
           <div className="flex w-full flex-row flex-wrap place-items-center justify-center gap-[20px]">
-            <Button
+            {/* <Button
               text="Start a Chapter"
               color="bg-tag-rust"
               hover="hover:bg-dark-rust"
-              link={chapterInitForm}
-            />
+          
+            /> */}
+            <h3>
+              <Link href="/public/startChapter">Start a Chapter</Link>
+            </h3>
+
             <Button
               text="TLP Chapter Resources"
               color="bg-tag-rust"
