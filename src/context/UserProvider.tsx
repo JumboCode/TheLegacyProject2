@@ -2,7 +2,7 @@
 
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import React from "react";
 
 interface IUserProvider {
@@ -22,7 +22,9 @@ const UserContext = React.createContext<IAuthenticatedUser>(
  */
 const UserProvider = ({ children }: IUserProvider) => {
   const { data, status } = useSession();
+  const path = usePathname();
 
+  console.log(path);
   React.useEffect(() => {
     if (status === "unauthenticated") {
       redirect("/public/");
