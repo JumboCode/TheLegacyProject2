@@ -1,13 +1,17 @@
+"use client";
+
 import NewChapterForm from "@components/NewChapterForm";
 
 
 
 const startChapter = () => {
   return (
-    <div className="px-20">
-      <div className="grid place-items-center py-3">
-        <div className="py-3 text-3xl font-bold">Start a Chapter</div>
-        <div className="text-lg font-semibold">
+     <>
+  <div className = "bg-med-tan">
+      <div className="px-20">
+      <div className="py-3">
+        <div className="py-2 text-4xl font-bold">Start a Chapter</div>
+        <div className="pt-6 text-lg font-semibold">
           Start a chapter of the Legacy Project, Inc. on your campus today!
         </div>
       </div>
@@ -39,7 +43,14 @@ const startChapter = () => {
         </p>
       </div>
     </div>
-  );
+    <div>
+    <NewChapterForm />
+    </div>
+   
+ 
+  </div>
+    </>
+  )
 };
 
 export default startChapter;

@@ -23,7 +23,6 @@ const HomePage = () => {
   return (
     <>
       <main className="z-0 flex min-h-screen w-screen flex-col px-[40px]">
-        <NewChapterForm />
         <FlowerBox>
           {/* Hero Section and Action Items Buttons */}
           <div className="flex w-full flex-row items-center md:px-[40px] lg:px-[60px]">
@@ -66,7 +65,7 @@ const HomePage = () => {
           
             /> */}
             <h3>
-              <Link href="/public/startChapter">Start a Chapter</Link>
+              <Link href="/public/start-chapter">Start a Chapter</Link>
             </h3>
 
             <Button
