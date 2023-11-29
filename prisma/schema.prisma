@@ -60,21 +60,13 @@ model User {
   admin Boolean @default(false)
   role  Role    @default(USER)
 
-<<<<<<< HEAD
-    Account       Account[]
-    Session       Session[]
-    SeniorIDs     String[]  @db.ObjectId
-    Seniors       Senior[]  @relation(fields: [SeniorIDs], references: [id])
-    approved      Approval  @default(PENDING)
-    ChapterID     String?   @db.ObjectId
-    Chapter       Chapter?  @relation(fields: [ChapterID], references: [id])
-=======
   Account   Account[]
   Session   Session[]
   SeniorIDs String[]  @db.ObjectId
   Seniors   Senior[]  @relation(fields: [SeniorIDs], references: [id])
   approved  Approval  @default(PENDING)
->>>>>>> b5b971f (prisma schema updates and edit-profile route added)
+  ChapterID String?   @db.ObjectId
+  Chapter   Chapter?  @relation(fields: [ChapterID], references: [id])
 }
 
 enum Approval {
@@ -101,17 +93,6 @@ model Senior {
 }
 
 model File {
-<<<<<<< HEAD
-    id           String   @id @default(auto()) @map("_id") @db.ObjectId
-    name         String
-    description  String
-    filetype     String
-    lastModified DateTime
-    url          String
-    seniorId     String   @db.ObjectId
-    senior       Senior   @relation(fields: [seniorId], references: [id], onDelete: Cascade)
-    Tags         String[]
-=======
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   description  String
@@ -119,9 +100,8 @@ model File {
   lastModified DateTime
   url          String
   seniorId     String   @db.ObjectId
-  senior       Senior   @relation(fields: [seniorId], references: [id])
+  senior       Senior   @relation(fields: [seniorId], references: [id], onDelete: Cascade)
   Tags         String[]
->>>>>>> b5b971f (prisma schema updates and edit-profile route added)
 }
 
 model ChapterRequest {
@@ -138,13 +118,13 @@ model ChapterRequest {
   availabilities       String
   questions            String
 }
- 
+
 model Chapter {
-  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
-  chapterName          String
-  location             String
-  dateCreated          DateTime  @default(now())
-  students             User[] 
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  chapterName String
+  location    String
+  dateCreated DateTime @default(now())
+  students    User[]
 }
 
 model Resource {

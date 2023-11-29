@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { EditProfileRequest, EditProfileResponse } from "./route.schema";
+import { EditProfileRequest, EditPositionRequest } from "./route.schema";
+import { EditProfileResponse } from "./route.schema";
 import { prisma } from "@server/db/client";
 import { withSession } from "@server/decorator";
 
@@ -26,13 +27,69 @@ export const PATCH = async (
         );
       }
 
+      const can_edit_self = session.user.id === target.id;
       /** @todo check if Chapter Leader is editing a User in the same Chapter */
-      const hasPermission =
-        session.user.id === target.id ||
+      const can_update_position =
         (session.user.role === "ADMIN" && target.role !== "ADMIN") ||
         (session.user.role === "CHAPTER_LEADER" && target.role === "USER");
 
-      if (!hasPermission) {
+      if (can_edit_self) {
+        const editRequest = EditProfileRequest.safeParse(await req.json());
+        if (!editRequest.success) {
+          return NextResponse.json(
+            EditProfileResponse.parse({
+              code: "INVALID_FORM",
+              message: "Invalid form submission",
+            }),
+            { status: 400 }
+          );
+        }
+        const body = editRequest.data;
+        await prisma.user.update({
+          where: {
+            id: targetUID,
+          },
+          data: {
+            firstName: body.firstName,
+            lastName: body.lastName,
+            pronouns: body.pronouns,
+          },
+        });
+        return NextResponse.json(
+          EditProfileResponse.parse({
+            code: "SUCCESS",
+            message: "Profile successfully updated",
+          }),
+          { status: 200 }
+        );
+      } else if (can_update_position) {
+        const editRequest = EditPositionRequest.safeParse(await req.json());
+        if (!editRequest.success) {
+          return NextResponse.json(
+            EditProfileResponse.parse({
+              code: "INVALID_FORM",
+              message: "Invalid form submission",
+            }),
+            { status: 400 }
+          );
+        }
+        const body = editRequest.data;
+        await prisma.user.update({
+          where: {
+            id: targetUID,
+          },
+          data: {
+            position: body.position,
+          },
+        });
+        return NextResponse.json(
+          EditProfileResponse.parse({
+            code: "SUCCESS",
+            message: "Profile successfully updated",
+          }),
+          { status: 200 }
+        );
+      } else {
         return NextResponse.json(
           EditProfileResponse.parse({
             code: "UNAUTHORIZED",
@@ -41,38 +98,6 @@ export const PATCH = async (
           { status: 401 }
         );
       }
-
-      const editRequest = EditProfileRequest.safeParse(await req.json());
-      if (!editRequest.success) {
-        return NextResponse.json(
-          EditProfileResponse.parse({
-            code: "INVALID_FORM",
-            message: "Invalid form submission",
-          }),
-          { status: 400 }
-        );
-      }
-
-      const body = editRequest.data;
-      await prisma.user.update({
-        where: {
-          id: targetUID,
-        },
-        data: {
-          firstName: body.firstName,
-          lastName: body.lastName,
-          pronouns: body.pronouns,
-          position: body.position,
-        },
-      });
-
-      return NextResponse.json(
-        EditProfileResponse.parse({
-          code: "SUCCESS",
-          message: "Profile successfully updated",
-        }),
-        { status: 200 }
-      );
     } catch {
       return NextResponse.json(
         EditProfileResponse.parse({

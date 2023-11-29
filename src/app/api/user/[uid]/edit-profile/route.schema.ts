@@ -1,16 +1,12 @@
 import { z } from "zod";
 
-/*
-  firstName     String
-  lastName      String
-  pronouns      String
-  position      String
-*/
-
 export const EditProfileRequest = z.object({
   firstName: z.string(),
   lastName: z.string(),
   pronouns: z.string(),
+});
+
+export const EditPositionRequest = z.object({
   position: z.string(),
 });
 
