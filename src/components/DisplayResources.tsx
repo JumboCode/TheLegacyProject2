@@ -1,18 +1,23 @@
-"use client";
-
 import { batchCreateResources } from "@api/resources/route.client";
 import { batchCreateRequestSchema } from "@api/resources/route.schema";
 import Resource from "@components/Resource";
 import { prisma } from "@server/db/client";
-import { AdminResourcesPageServer } from 
 
-const AdminResourcesPage = () => {
+export async function ServerAdminResourcesPage() {
+  const listResources = await prisma.resource.findMany();
+
+  console.log("here");
+  console.log(listResources);
   return (
     <div className="grid items-start gap-4 self-stretch md:grid-cols-2">
       {" "}
-      <AdminResourcesPageServer() />
+      {listResources.map((resource) => (
+        <Resource
+          key={resource.id}
+          title={resource.title}
+          role={resource.access}
+        />
+      ))}
     </div>
   );
-};
-
-export default AdminResourcesPage;
+}
