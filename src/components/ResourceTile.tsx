@@ -1,22 +1,25 @@
 import { prisma } from "@server/db/client";
 import { Resource } from "@prisma/client";
 
-type ResourceProp = {
-  title: string;
-  role: string[];
-};
+interface IResourceProp {
+  resource: Resource;
+  isEdit: boolean;
+  // onSave : () => any
+}
 
-const ResourceTile = (props: { resource: Resource }) => {
-  return (
+const ResourceTile = (props: IResourceProp) => {
+  return props.isEdit ? (
+    <div className="flex w-full rounded-lg bg-white p-6">
+      <div className="text-sm font-normal">
+        {" "}
+        isEDIT TODO {props.resource.title}
+      </div>
+    </div>
+  ) : (
     <div className="flex w-full rounded-lg bg-white p-6">
       <div className="text-sm font-normal">{props.resource.title}</div>
     </div>
   );
 };
-
-// const ResourceTile = ( resource: Resource ) => {
-//   return <div className="w-full rounded-lg bg-white p-6">
-//   </div>;
-// };
 
 export default ResourceTile;
