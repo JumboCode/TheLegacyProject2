@@ -48,7 +48,7 @@ const SeniorPage = async ({ params }: Params) => {
         {senior.description.length > 0 && (
           <p className="text-[15px]">{senior.description}</p>
         )}
-        <div className="flex flex-wrap gap-6">
+        <div className="flex flex-wrap gap-10">
           {senior.Files.map((file) => (
             <FileTile
               key={file.id}
