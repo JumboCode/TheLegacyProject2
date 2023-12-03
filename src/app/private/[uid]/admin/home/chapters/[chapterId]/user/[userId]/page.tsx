@@ -20,10 +20,8 @@ const UserPage = async ({ params }: Params) => {
     },
   });
 
-  const seniors = [...user.Seniors, ...user.Seniors, ...user.Seniors];
-
   return (
-    <div className="">
+    <>
       <PathNav
         pathInfo={[
           { display: "Chapters", url: "chapters" },
@@ -33,12 +31,12 @@ const UserPage = async ({ params }: Params) => {
       />
       {/* TODO(nickbar01234) - Add pronouns */}
       <h1 className="mt-6 text-2xl font-bold text-[#002]">{user.name ?? ""}</h1>
-      <div className="mt-6 flex flex-wrap gap-6">
-        {seniors.map((senior) => (
+      <div className="mt-6 flex flex-wrap gap-10">
+        {user.Seniors.map((senior) => (
           <UserTile key={senior.id} senior={senior} link="" />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 
