@@ -1,13 +1,15 @@
 "use client";
 
 import React from "react";
-
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditProfileRequest } from "@api/user/[uid]/edit-profile/route.schema";
 import { useForm, SubmitHandler } from "react-hook-form";
 
+import { editProfile } from "@api/user/[uid]/edit-profile/route.client";
+
 interface editProfileParams {
+  uid: string;
   firstName: string;
   lastName: string;
   pronouns: string;
@@ -17,16 +19,13 @@ interface editProfileParams {
 const EditProfileForm = (params: editProfileParams) => {
   type ValidationSchema = z.infer<typeof EditProfileRequest>;
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ValidationSchema>({
+  const { register, handleSubmit } = useForm<ValidationSchema>({
     resolver: zodResolver(EditProfileRequest),
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => {
     console.log(data);
+    editProfile({ body: data }, params.uid);
   };
 
   return (
@@ -34,39 +33,20 @@ const EditProfileForm = (params: editProfileParams) => {
       <input
         id="firstName"
         type="text"
-        placeholder={params.firstName}
+        defaultValue={params.firstName}
         {...register("firstName")}
       />
-      {errors.firstName && (
-        <p className="mt-2 text-xs italic text-red-500">
-          {" "}
-          {errors.firstName?.message}
-        </p>
-      )}
       <input
         id="lastName"
-        type="text"
-        placeholder={params.lastName}
+        defaultValue={params.lastName}
         {...register("lastName")}
       />
-      {errors.lastName && (
-        <p className="mt-2 text-xs italic text-red-500">
-          {" "}
-          {errors.lastName?.message}
-        </p>
-      )}
       <input
         id="pronouns"
         type="text"
-        placeholder={params.pronouns}
+        defaultValue={params.pronouns}
         {...register("pronouns")}
       />
-      {errors.pronouns && (
-        <p className="mt-2 text-xs italic text-red-500">
-          {" "}
-          {errors.pronouns?.message}
-        </p>
-      )}
       <input
         id="email"
         type="email"
@@ -77,5 +57,4 @@ const EditProfileForm = (params: editProfileParams) => {
     </form>
   );
 };
-
 export default EditProfileForm;

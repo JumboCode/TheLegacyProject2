@@ -2,34 +2,47 @@ import React from "react";
 import { prisma } from "@server/db/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@api/auth/[...nextauth]/route";
-import { EditProfileForm } from "EditProfileForm";
+import EditProfileForm from "./EditProfileForm";
 
-const EditProfile = async ({ params }: { params: { uid: string } }) => {
-  const fetchProfileName = async () => {
+const EditProfile = async () => {
+  let firstName = "";
+  let lastName = "";
+  let pronouns = "";
+  let email = "";
+  let uid = "";
+
+  const fetchProfile = async () => {
     const session = await getServerSession(authOptions);
     if (session == null || session.user == undefined) {
       return "";
     }
-    const targetUID = params.uid;
-    const currentUserID = session.user.id;
 
-    if (targetUID === currentUserID) {
-      return "Edit my profile";
-    } else {
-      const user = await prisma.user.findFirst({
-        where: {
-          id: targetUID,
-        },
-      });
-      return user != null ? `Edit ${user?.name}'s profile` : "Unknown UID";
-    }
+    uid = session.user.id;
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: uid,
+      },
+    });
+
+    firstName = user?.firstName ?? "";
+    lastName = user?.lastName ?? "";
+    pronouns = user?.pronouns ?? "";
+    email = user?.email ?? "";
   };
-  const editProfileMessage = await fetchProfileName();
+
+  await fetchProfile();
 
   return (
     <div>
-      <h2>{editProfileMessage}</h2>
-      <EditProfileForm />
+      <h2>Edit my Profile</h2>
+      <EditProfileForm
+        uid={uid}
+        firstName={firstName}
+        lastName={lastName}
+        pronouns={pronouns}
+        email={email}
+      />
     </div>
   );
 };
