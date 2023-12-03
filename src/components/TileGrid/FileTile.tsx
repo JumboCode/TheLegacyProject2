@@ -1,7 +1,11 @@
+"use client";
+
 import { File } from "@prisma/client";
 import { useState } from "react";
 import Tag, { tagMap } from "../Tag";
-import Link from "next/link"
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFile } from "@fortawesome/free-solid-svg-icons";
 
 export type IFileTileProps = Pick<
   File,
@@ -58,40 +62,53 @@ const FileTile = ({
   }
 
   return (
-    //     <div className="relative w-auto flex flex-col flex-nowrap aspect-square justify-center items-center rounded \  bg-white hover:bg-off-white text-base drop-shadow-md">
-    <div className="flex flex-col aspect-square rounded bg-white p-8 text-left font-sans drop-shadow-md hover:cursor-pointer hover:bg-off-white">
-      <Link href={url ?? "/home"}>
-        <div className="flex flex-col">
-          <span className="mb-2 text-lg font-semibold"> {name} </span>
-          <a
-            href={url}
-            rel="noopener noreferrer"
-            target="_blank"
-            onClick={async () => {
-              const date = new Date();
-              setLastModified(date);
-              const res = await fetch(`/api/file/${id}/update`, {
-                method: "POST",
-              });
-              const newFile = await res.json();
-              if (newFile.error) {
-                console.error(newFile.error);
-                return;
-              }
-              setLastModified(new Date(newFile.lastModified));
-            }}
+    <Link href={url}>
+      <div className="flex h-48 w-40 flex-col items-start gap-y-2.5 rounded-lg bg-dark-teal px-4 py-2.5">
+        <FontAwesomeIcon icon={faFile} color="white" size="xl" />
+        <h1 className="text-white">{new Date().toISOString().split("T")[0]}</h1>
+        {Tags.map((tag, idx) => (
+          <div
+            key={idx}
+            className="w-full overflow-hidden truncate rounded-lg bg-[#F5F0EA] py-[3px] pl-2.5 text-dark-teal"
           >
-          </a>
-          <span> Opened {dateString} </span>
-          {/* Row of Tags */}
-          <div className="flex flex-row overflow-scroll justify-left mt-20 gap-x-2">
-            {Tags.map((name, i) => (
-                <Tag key={i} name={name} color={tagMap.get(name) ?? ""} />
-            ))}
+            {tag}
           </div>
-        </div>
-      </Link>
-    </div>
+        ))}
+      </div>
+    </Link>
+    //     <div className="relative w-auto flex flex-col flex-nowrap aspect-square justify-center items-center rounded \  bg-white hover:bg-off-white text-base drop-shadow-md">
+    // <div className="flex aspect-square flex-col rounded bg-white p-8 text-left font-sans drop-shadow-md hover:cursor-pointer hover:bg-off-white">
+    //   <Link href={url ?? "/home"}>
+    //     <div className="flex flex-col">
+    //       <span className="mb-2 text-lg font-semibold"> {name} </span>
+    //       <a
+    //         href={url}
+    //         rel="noopener noreferrer"
+    //         target="_blank"
+    //         onClick={async () => {
+    //           const date = new Date();
+    //           setLastModified(date);
+    //           const res = await fetch(`/api/file/${id}/update`, {
+    //             method: "POST",
+    //           });
+    //           const newFile = await res.json();
+    //           if (newFile.error) {
+    //             console.error(newFile.error);
+    //             return;
+    //           }
+    //           setLastModified(new Date(newFile.lastModified));
+    //         }}
+    //       ></a>
+    //       <span> Opened {dateString} </span>
+    //       {/* Row of Tags */}
+    //       <div className="justify-left mt-20 flex flex-row gap-x-2 overflow-scroll">
+    //         {Tags.map((name, i) => (
+    //           <Tag key={i} name={name} color={tagMap.get(name) ?? ""} />
+    //         ))}
+    //       </div>
+    //     </div>
+    //   </Link>
+    // </div>
   );
 };
 
