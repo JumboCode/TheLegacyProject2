@@ -65,7 +65,12 @@ const HomePage = () => {
           
             /> */}
             <h3>
-              <Link href="/public/start-chapter">Start a Chapter</Link>
+              <Button
+                text="Start a Chapter"
+                color="bg-tag-rust"
+                hover="hover:bg-dark-rust"
+                link="/public/start-chapter"
+              />
             </h3>
 
             <Button
