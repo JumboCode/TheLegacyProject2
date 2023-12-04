@@ -4,14 +4,14 @@ import { prisma } from "@server/db/client";
 
 interface Params {
   params: {
-    uid: string;
+    userId: string;
     chapterId: string;
     seniorId: string;
   };
 }
 
 const SeniorPage = async ({ params }: Params) => {
-  const { uid, chapterId, seniorId } = params;
+  const { userId, chapterId, seniorId } = params;
 
   // TODO(nickbar01234) - Associate each senior to a chapter
   const senior = await prisma.senior.findUniqueOrThrow({
@@ -25,7 +25,7 @@ const SeniorPage = async ({ params }: Params) => {
 
   const user = await prisma.user.findUniqueOrThrow({
     where: {
-      id: uid,
+      id: userId,
       ChapterID: chapterId,
     },
     include: {
@@ -39,7 +39,7 @@ const SeniorPage = async ({ params }: Params) => {
         pathInfo={[
           { display: "Chapters", url: "chapters" },
           { display: user.Chapter?.chapterName ?? "", url: chapterId },
-          { display: user.name ?? "", url: uid },
+          { display: user.name ?? "", url: userId },
           { display: senior.name, url: seniorId },
         ]}
       />

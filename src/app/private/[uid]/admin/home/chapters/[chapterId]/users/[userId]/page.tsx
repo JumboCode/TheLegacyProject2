@@ -4,13 +4,14 @@ import { prisma } from "@server/db/client";
 
 interface Params {
   params: {
+    uid: string;
     userId: string;
     chapterId: string;
   };
 }
 
 const UserPage = async ({ params }: Params) => {
-  const { userId, chapterId } = params;
+  const { userId, chapterId, uid } = params;
 
   const user = await prisma.user.findUniqueOrThrow({
     where: { id: userId, ChapterID: chapterId },
@@ -33,7 +34,11 @@ const UserPage = async ({ params }: Params) => {
       <h1 className="mt-6 text-2xl font-bold text-[#002]">{user.name ?? ""}</h1>
       <div className="mt-6 flex flex-wrap gap-10">
         {user.Seniors.map((senior) => (
-          <UserTile key={senior.id} senior={senior} link="" />
+          <UserTile
+            key={senior.id}
+            senior={senior}
+            link={`/private/${uid}/admin/home/chapters/${chapterId}/users/${userId}/seniors/${senior.id}`}
+          />
         ))}
       </div>
     </>

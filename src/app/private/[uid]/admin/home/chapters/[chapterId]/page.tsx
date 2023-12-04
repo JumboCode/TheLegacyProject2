@@ -6,6 +6,7 @@ import DisplayChapterInfo from "@components/DisplayChapterInfo";
 
 interface ChapterPageParams {
   params: {
+    uid: string;
     chapterId: string;
   };
 }
@@ -52,7 +53,11 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
           {chapter.students
             .filter((user) => user.role == "CHAPTER_LEADER")
             .map((user) => (
-              <UserTile key={user.id} student={user} link="" />
+              <UserTile
+                key={user.id}
+                student={user}
+                link={`/private/${params.uid}/admin/home/chapters/${params.chapterId}/users/${user.id}`}
+              />
             ))}
         </div>
         <div className="font-merriweather mt-5 text-xl font-bold">
@@ -64,6 +69,7 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
           {chapter.students
             .filter((user) => user.approved == "PENDING")
             .map((user) => (
+              // TODO(nickbar01234) - Replace with pending cards
               <UserTile key={user.id} student={user} link="" />
             ))}
         </div>
@@ -75,7 +81,11 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
           {chapter.students
             .filter((user) => user.role == "USER")
             .map((user) => (
-              <UserTile key={user.id} student={user} link="" />
+              <UserTile
+                key={user.id}
+                student={user}
+                link={`/private/${params.uid}/admin/home/chapters/${params.chapterId}/users/${user.id}`}
+              />
             ))}
         </div>
       </div>

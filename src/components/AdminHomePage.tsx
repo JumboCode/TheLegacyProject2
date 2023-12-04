@@ -2,12 +2,12 @@
 
 import SearchBar from "@components/SearchBar";
 import { ChapterTile } from "@components/TileGrid/ChapterTile";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Prisma } from "@prisma/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { TileEdit } from "./TileGrid/TileEdit";
-import { Noto_Sans_Tamil_Supplement } from "next/font/google";
+import { UserContext } from "src/context/UserProvider";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -19,6 +19,7 @@ type AdminHomePageProps = {
 
 const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
   const [filter, setFilter] = useState("");
+  const userContext = useContext(UserContext);
 
   return (
     <>
@@ -71,6 +72,7 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
                     }
                   />
                 }
+                href={`/private/${userContext.user.id}/admin/home/chapters/${chapter.id}`}
               />
             );
           })}

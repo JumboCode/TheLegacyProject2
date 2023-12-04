@@ -1,7 +1,11 @@
+"use client";
+
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface ChapterTileProps {
   title: string;
@@ -10,6 +14,7 @@ interface ChapterTileProps {
   yearsActive: number;
   emailPresident: string | null;
   topRightButton: React.ReactNode;
+  href: string;
 }
 
 export function ChapterTile({
@@ -19,11 +24,14 @@ export function ChapterTile({
   yearsActive,
   emailPresident,
   topRightButton,
+  href,
 }: ChapterTileProps) {
   return (
     <div className="max-w-xl rounded-xl bg-white p-6">
       <div className="mb-2.5 flex items-center justify-between gap-2.5">
-        <div className="text-2xl underline">{title}</div>
+        <Link className="cursor-pointer" href={href}>
+          <div className="text-2xl underline">{title}</div>
+        </Link>
         {topRightButton}
       </div>
       <div className="flex gap-2.5">
