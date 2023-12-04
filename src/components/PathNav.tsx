@@ -16,12 +16,10 @@ export type PathInfoType = {
 const PathNav = ({ pathInfo }: PathNavParams) => {
   const currentPath = usePathname() as string;
 
-  console.log("Path", pathInfo);
   const getPath = (currentIndex: number, segment: string) => {
     const segments = currentPath.split("/");
     const index = segments.findLastIndex((value) => value === segment) + 1;
     const path = segments.slice(0, index);
-    console.log(segment, path.join("/"));
     return path.join("/");
   };
 
