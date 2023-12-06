@@ -35,7 +35,7 @@ const EditProfile = async () => {
 
   return (
     <div>
-      <h2>Edit my Profile</h2>
+      <h2 className="mb-12 text-2xl">Edit my profile</h2>
       <EditProfileForm
         uid={uid}
         firstName={firstName}

@@ -1,5 +1,5 @@
 import { HeaderContainer } from "@components/container/index";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 
 interface IEditProfileLayout {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface IEditProfileLayout {
 const EditProfileLayout = ({ children }: IEditProfileLayout) => {
   return (
     <HeaderContainer
-      header="Edit Profile"
+      header="Profile"
       headerIcon={faUser}
       showHorizontalLine={true}
     >
