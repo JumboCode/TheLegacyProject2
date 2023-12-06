@@ -73,6 +73,7 @@ const LandingFooter = () => {
           className="mx-auto flex w-3/4 flex-col justify-center gap-[20px] sm:flex-row"
           method="post"
           onSubmit={onEmailSubmit}
+          autoComplete="off"
         >
           <input
             className="text-dark \ relative h-[40px] rounded border-2 border-offer-white bg-off-white

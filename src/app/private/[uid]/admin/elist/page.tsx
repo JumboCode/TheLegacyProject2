@@ -16,38 +16,34 @@ const ElistPage = async () => {
   const columns = chunkArray(elistData, 20);
 
   return (
-    <div>
-      <HeaderContainer
-        header="E-list"
-        headerIcon={faEnvelope}
-        showHorizontalLine={true}
-      >
-        <div className="flex flex-row items-center justify-between">
-          <div className="mb-5 text-xl font-bold">
-            Total ({elistData.length})
+    <HeaderContainer
+      header="E-list"
+      headerIcon={faEnvelope}
+      showHorizontalLine={true}
+    >
+      <div className="flex flex-row items-center justify-between">
+        <div className="mb-5 text-xl font-bold">Total ({elistData.length})</div>
+        <CSVSaveButton
+          csvContent={
+            "data:text/csv;charset=utf-8," +
+            [["Email"], ...elistData.map((elistEmail) => [elistEmail.email])]
+              .map((row) => row.join(","))
+              .join("\n")
+          }
+        />
+      </div>
+      <div className="mb-10 grid grid-cols-3 gap-y-5">
+        {columns.map((column, columnIndex) => (
+          <div key={columnIndex}>
+            {column.map((elistEmail, index) => (
+              <div key={index} className="mb-1 underline">
+                {elistEmail.email}
+              </div>
+            ))}
           </div>
-          <CSVSaveButton
-            csvContent={
-              "data:text/csv;charset=utf-8," +
-              [["Email"], ...elistData.map((elistEmail) => [elistEmail.email])]
-                .map((row) => row.join(","))
-                .join("\n")
-            }
-          />
-        </div>
-        <div className="mb-10 grid grid-cols-3 gap-y-5">
-          {columns.map((column, columnIndex) => (
-            <div key={columnIndex}>
-              {column.map((elistEmail, index) => (
-                <div key={index} className="mb-1 underline">
-                  {elistEmail.email}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </HeaderContainer>
-    </div>
+        ))}
+      </div>
+    </HeaderContainer>
   );
 };
 
