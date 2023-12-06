@@ -1,10 +1,5 @@
-import { batchCreateResources } from "@api/resources/route.client";
-import { batchCreateRequestSchema } from "@api/resources/route.schema";
 import DisplayResources from "@components/DisplayResources";
-import ResourceTile from "@components/ResourceTile";
-import { Resource } from "@prisma/client";
 import { prisma } from "@server/db/client";
-import { useSelectedLayoutSegment } from "next/navigation";
 
 // TODO (johnny-t06) - Client component to setEditMode state
 // Fetch respective resources to Roles (defined by route anyway)

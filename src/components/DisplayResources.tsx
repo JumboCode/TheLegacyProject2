@@ -1,8 +1,5 @@
 "use client";
-import { batchCreateResources } from "@api/resources/route.client";
-import { batchCreateRequestSchema } from "@api/resources/route.schema";
 import ResourceTile from "@components/ResourceTile";
-import { prisma } from "@server/db/client";
 import { Resource } from "@prisma/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faPlus } from "@fortawesome/free-solid-svg-icons";

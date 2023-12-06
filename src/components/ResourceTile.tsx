@@ -1,4 +1,3 @@
-import { prisma } from "@server/db/client";
 import { Resource } from "@prisma/client";
 import { RoleAlias } from "src/constants/RoleAlias";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,7 +7,6 @@ import Link from "next/link";
 interface IResourceProp {
   resource: Resource;
   isEdit: boolean;
-  // onSave : () => any
   showRole: boolean;
 }
 
