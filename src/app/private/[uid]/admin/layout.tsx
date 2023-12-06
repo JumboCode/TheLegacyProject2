@@ -35,7 +35,7 @@ const AdminLayout = ({ children }: IAdminLayout) => {
       },
       {
         name: "Profile",
-        link: `/private/${user.id}/admin/profile`,
+        link: `/private/${user.id}/admin/edit-profile`,
         icon: faUser,
       },
     ],

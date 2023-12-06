@@ -26,9 +26,11 @@ const EditProfileForm = (params: editProfileParams) => {
     resolver: zodResolver(EditProfileRequest),
   });
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
+  const onSubmit: SubmitHandler<ValidationSchema> = async (data, event) => {
+    event?.preventDefault();
     const response = await editProfile({ body: data }, params.uid);
     if (response.code == "SUCCESS") {
+      setEdited(false);
       router.refresh();
     }
   };
