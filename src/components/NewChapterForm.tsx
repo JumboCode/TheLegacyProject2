@@ -4,19 +4,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChapterRequest } from "src/app/api/chapter-request/route.schema";
 import { ErrorMessage } from "@hookform/error-message";
-import {createChapterRequest} from "@api/chapter-request/route.client";
+import { createChapterRequest } from "@api/chapter-request/route.client";
 
 type ValidationSchema = z.infer<typeof ChapterRequest>;
-const NewChapterForm = () => {
-  const title = [
-    "First Name",
-    "Last Name",
-    "University Email",
-    "Phone Number",
-    "University",
-    "University Address",
-  ];
 
+const NewChapterForm = () => {
   const {
     register,
     handleSubmit,
@@ -25,16 +17,19 @@ const NewChapterForm = () => {
     resolver: zodResolver(ChapterRequest),
   });
 
-  const onSubmit: SubmitHandler <z.infer<typeof ChapterRequest>> =  async (data, event) => {
+  const onSubmit: SubmitHandler<z.infer<typeof ChapterRequest>> = async (
+    data,
+    event
+  ) => {
     event?.preventDefault();
     console.log(data);
-    await createChapterRequest({body:data}); 
+    await createChapterRequest({ body: data });
     //TODO: revisit all possible return/calls
-}
+  };
 
   return (
     <div className="grid place-items-center px-10 py-5">
-      <div className="h-fit w-11/12  w-5/6 rounded-md bg-dark-teal px-9 py-10 text-lg text-white">
+      <div className="w-full rounded-md bg-dark-teal px-9 py-10 text-lg text-white">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-2 gap-x-10 gap-y-5">
             <div className="w-full ">
@@ -153,7 +148,7 @@ const NewChapterForm = () => {
               </div>
             </div>
           </div>
-          <div className=" pt-5">
+          <div className="pt-5">
             <div>
               <div>
                 Do you have any experience in student leadership / club
@@ -161,7 +156,7 @@ const NewChapterForm = () => {
               </div>
               <textarea
                 {...register("leadershipExperience")}
-                className="h-18 w-full resize-y rounded-md px-2 py-2 text-black align-top"
+                className="h-18 w-full resize-y rounded-md px-2 py-2 align-top text-black"
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -182,7 +177,7 @@ const NewChapterForm = () => {
               </div>
               <textarea
                 {...register("motivation")}
-                className="h-18 w-full resize-y rounded-md px-2 py-2 text-black align-top"
+                className="h-18 w-full resize-y rounded-md px-2 py-2 align-top text-black"
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -224,12 +219,15 @@ const NewChapterForm = () => {
               <div>What questions do you have for us? </div>
               <textarea
                 {...register("questions")}
-                className="h-8 w-full resize-y rounded-md px-2 py-1 text-black align-top"
+                className="h-8 w-full resize-y rounded-md px-2 py-1 align-top text-black"
               />
             </div>
           </div>
-          <div className="grid place-items-center pt-5">       
-              <input type="submit" className="items-center text-dark-teal w-1/12 cursor-pointer rounded-lg bg-white px-1 py-1 text-center" />
+          <div className="grid place-items-center pt-8">
+            <input
+              type="submit"
+              className="w-1/12 cursor-pointer items-center rounded-lg bg-white px-1 py-1 text-center text-dark-teal"
+            />
           </div>
         </form>
       </div>
