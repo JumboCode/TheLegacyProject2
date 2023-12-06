@@ -9,9 +9,6 @@ import FlowerBox from "@components/FlowerBox";
 import Button from "@components/Button";
 import Image from "next/legacy/image";
 
-import NewChapterForm from "@components/NewChapterForm";
-import Link from "next/link";
-
 const HomePage = () => {
   // TODO: make env variables
   const chapterInitForm = "https://forms.gle/gBdmpsW6JFnYvwRf7";
@@ -58,12 +55,6 @@ const HomePage = () => {
           {/* Action Items Buttons */}
 
           <div className="flex w-full flex-row flex-wrap place-items-center justify-center gap-[20px]">
-            {/* <Button
-              text="Start a Chapter"
-              color="bg-tag-rust"
-              hover="hover:bg-dark-rust"
-          
-            /> */}
             <h3>
               <Button
                 text="Start a Chapter"

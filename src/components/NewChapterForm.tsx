@@ -1,10 +1,12 @@
 import React from "react";
-import { z } from "Zod";
+import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChapterRequest } from "src/app/api/chapter-request/route.schema";
 import { ErrorMessage } from "@hookform/error-message";
+import {createChapterRequest} from "@api/chapter-request/route.client";
 
+type ValidationSchema = z.infer<typeof ChapterRequest>;
 const NewChapterForm = () => {
   const title = [
     "First Name",
@@ -15,21 +17,6 @@ const NewChapterForm = () => {
     "University Address",
   ];
 
-  // const schema = ChapterRequest
-  // .object({
-  //   firstName: ChapterRequest.string().required(),
-  //   lastName: ChapterRequest.string().required(),
-  //   universityEmail: ChapterRequest.string().email("This is not a valid email").required(),
-  //   phoneNumber: ChapterRequest.string().length(10, "Phone number must be 10 digits").required(),
-  //   university: ChapterRequest.string().required(),
-  //   universityAddress: ChapterRequest.string().required(),
-  //   leadershipExperience: ChapterRequest.string().required(),
-  //   motivation: ChapterRequest.string().required(),
-  //   availabilities: z.string(),
-  //   questions: z.string(),
-  // })
-  // .required()
-
   const {
     register,
     handleSubmit,
@@ -38,30 +25,23 @@ const NewChapterForm = () => {
     resolver: zodResolver(ChapterRequest),
   });
 
-  const onSubmit: SubmitHandler<typeof ChapterRequest> = (data) =>
+  const onSubmit: SubmitHandler <z.infer<typeof ChapterRequest>> =  async (data, event) => {
+    event?.preventDefault();
     console.log(data);
-
-  // const validationSchema = z
-  // .object({
-  //   firstName: z.string().min(1, { message: "Firstname is required" }),
-  //   lastName: z.string().min(1, { message: "Lastname is required" }),
-  //   email: z.string().min(1, { message: "Email is required" }).email({
-  //     message: "Must be a valid email",
-  //   })
-  // })
-
-  type ValidationSchema = z.infer<typeof ChapterRequest>;
+    await createChapterRequest({body:data}); 
+    //TODO: revisit all possible return/calls
+}
 
   return (
     <div className="grid place-items-center px-10 py-5">
-      <div className="h-fit w-11/12  rounded-md bg-dark-teal px-9 py-10 text-lg text-white">
+      <div className="h-fit w-11/12  w-5/6 rounded-md bg-dark-teal px-9 py-10 text-lg text-white">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-2 gap-x-10 gap-y-5">
             <div className="w-full ">
               <div>First Name</div>
               <input
                 {...register("firstName")}
-                className="h-8 w-full rounded-md px-1 text-black"
+                className="h-8 w-full rounded-md px-2 py-2 text-black"
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -81,7 +61,7 @@ const NewChapterForm = () => {
               <div>Last Name</div>
               <input
                 {...register("lastName")}
-                className="h-8 w-full rounded-md px-1 text-black"
+                className="h-8 w-full rounded-md px-2 py-2 text-black"
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -100,7 +80,7 @@ const NewChapterForm = () => {
               <div>University Email</div>
               <input
                 {...register("universityEmail")}
-                className="h-8 w-full rounded-md px-1 text-black"
+                className="h-8 w-full rounded-md px-2 py-2 text-black"
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -119,7 +99,7 @@ const NewChapterForm = () => {
               <div>Phone Number</div>
               <input
                 {...register("phoneNumber")}
-                className="h-8 w-full rounded-md px-1 text-black"
+                className="h-8 w-full rounded-md px-2 py-2 text-black"
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -138,7 +118,7 @@ const NewChapterForm = () => {
               <div>College / University</div>
               <input
                 {...register("university")}
-                className="h-8 w-full rounded-md px-1 text-black"
+                className="h-8 w-full rounded-md px-2 py-2 text-black"
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -157,7 +137,7 @@ const NewChapterForm = () => {
               <div>College / University Address</div>
               <input
                 {...register("universityAddress")}
-                className="h-8 w-full rounded-md px-1 text-black"
+                className="h-8 w-full rounded-md px-2 py-2 text-black"
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -172,14 +152,6 @@ const NewChapterForm = () => {
                 />
               </div>
             </div>
-            {/* {title.map((item, index) => (
-            <div key={index} className="w-full">
-              <div>{item}</div>
-              <div>
-                <input className="h-8 w-full rounded-md " />
-              </div>
-            </div>
-          ))} */}
           </div>
           <div className=" pt-5">
             <div>
@@ -189,7 +161,7 @@ const NewChapterForm = () => {
               </div>
               <textarea
                 {...register("leadershipExperience")}
-                className="h-18 w-full resize-y rounded-md px-1 text-black"
+                className="h-18 w-full resize-y rounded-md px-2 py-2 text-black align-top"
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -210,7 +182,7 @@ const NewChapterForm = () => {
               </div>
               <textarea
                 {...register("motivation")}
-                className="h-18 w-full resize-y rounded-md px-1 text-black"
+                className="h-18 w-full resize-y rounded-md px-2 py-2 text-black align-top"
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -232,7 +204,7 @@ const NewChapterForm = () => {
               </div>
               <input
                 {...register("availabilities")}
-                className="h-8 w-full rounded-md px-1 text-black"
+                className="h-8 w-full rounded-md px-2 py-2 text-black"
                 placeholder="Include the date (mm-dd-yyyy), time (hh:mm am/pm), and your timezone"
               />
               <div className="text-sm">
@@ -252,14 +224,12 @@ const NewChapterForm = () => {
               <div>What questions do you have for us? </div>
               <textarea
                 {...register("questions")}
-                className="h-8 w-full resize-y rounded-md px-1 text-black"
+                className="h-8 w-full resize-y rounded-md px-2 py-1 text-black align-top"
               />
             </div>
           </div>
-          <div className="grid place-items-center pt-5">
-            <div className="w-1/12 cursor-pointer rounded-lg bg-white px-1 py-1 text-center ">
-              <input type="submit" className="items-center text-dark-teal" />
-            </div>
+          <div className="grid place-items-center pt-5">       
+              <input type="submit" className="items-center text-dark-teal w-1/12 cursor-pointer rounded-lg bg-white px-1 py-1 text-center" />
           </div>
         </form>
       </div>
