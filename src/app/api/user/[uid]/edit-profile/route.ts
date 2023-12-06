@@ -4,7 +4,7 @@ import { EditProfileResponse } from "./route.schema";
 import { prisma } from "@server/db/client";
 import { withSession } from "@server/decorator";
 
-/* Dummy PATCH Request for updating */
+/* PATCH Request for updating profile information */
 export const PATCH = async (
   request: NextRequest,
   { params }: { params: { uid: string } }
