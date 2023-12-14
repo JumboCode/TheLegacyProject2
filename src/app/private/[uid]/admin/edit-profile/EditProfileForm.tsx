@@ -8,6 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
 import { editProfile } from "@api/user/[uid]/edit-profile/route.client";
+import { useSession } from "next-auth/react";
 
 interface editProfileParams {
   uid: string;
@@ -18,6 +19,7 @@ interface editProfileParams {
 }
 
 const EditProfileForm = (params: editProfileParams) => {
+  const { update } = useSession();
   const [edited, setEdited] = React.useState(false);
   type ValidationSchema = z.infer<typeof EditProfileRequest>;
   const router = useRouter();
@@ -31,6 +33,7 @@ const EditProfileForm = (params: editProfileParams) => {
     const response = await editProfile({ body: data }, params.uid);
     if (response.code == "SUCCESS") {
       setEdited(false);
+      update();
       router.refresh();
     }
   };

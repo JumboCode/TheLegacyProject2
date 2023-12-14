@@ -1,5 +1,6 @@
 import { env } from "@env/server.mjs";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { User } from "@prisma/client";
 import { prisma } from "@server/db/client";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
@@ -32,6 +33,17 @@ export const authOptions: NextAuthOptions = {
           scope: GOOGLE_API_SCOPE.join(" "),
         },
       },
+      profile: (profile) => {
+        return {
+          id: profile.sub,
+          email: profile.email,
+          image: profile.picture,
+          name: profile.name,
+          firstName: profile.given_name,
+          lastName: profile.family_name,
+          emailVerified: profile.email_verified,
+        } as User;
+      },
     }),
   ],
 
@@ -42,11 +54,23 @@ export const authOptions: NextAuthOptions = {
         session.user.id = user.id;
         session.user.role = user.role;
         session.user.ChapterID = user.ChapterID;
+        session.user.name = user.firstName + " " + user.lastName;
       }
       return session;
     },
   },
 
+  events: {
+    signIn: async ({ user, profile, isNewUser }) => {
+      if (profile != undefined && isNewUser) {
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { firstName: profile.firstName, lastName: profile.lastName },
+        });
+      }
+      return;
+    },
+  },
   // @TODO(nickbar01234) - Update session on client side
 };
 

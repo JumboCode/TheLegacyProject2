@@ -13,4 +13,12 @@ declare module "next-auth" {
   interface Session {
     user?: Pick<User, "id" | "role" | "ChapterID"> & DefaultSession["user"];
   }
+
+  /**
+   * Returned by GoogleProvider `profile()` method.
+   */
+  interface Profile {
+    firstName: string;
+    lastName: string;
+  }
 }
