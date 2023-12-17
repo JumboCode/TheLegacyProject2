@@ -60,17 +60,6 @@ export const authOptions: NextAuthOptions = {
     },
   },
 
-  events: {
-    signIn: async ({ user, profile, isNewUser }) => {
-      if (profile != undefined && isNewUser) {
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { firstName: profile.firstName, lastName: profile.lastName },
-        });
-      }
-      return;
-    },
-  },
   // @TODO(nickbar01234) - Update session on client side
 };
 

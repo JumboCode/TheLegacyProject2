@@ -47,9 +47,12 @@ model Session {
 
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
+
+  // https://github.com/nextauthjs/next-auth/blob/v4/packages/next-auth/src/providers/google.ts
+  // Fields mappable from PrismaAdapter. We can map the value return from profle() in [...nextauth].
   name          String?
-  firstName     String    @default("")
-  lastName      String    @default("")
+  firstName     String    @default("") @map("given_name")
+  lastName      String    @default("") @map("family_name")
   pronouns      String    @default("")
   email         String?   @unique
   emailVerified DateTime?

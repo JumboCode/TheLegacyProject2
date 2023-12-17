@@ -36,13 +36,13 @@ const UserProvider = ({ children }: IUserProvider) => {
         />
       </div>
     );
+  } else {
+    return (
+      <UserContext.Provider value={{ user: data.user }}>
+        {children}
+      </UserContext.Provider>
+    );
   }
-
-  return (
-    <UserContext.Provider value={{ user: data.user }}>
-      {children}
-    </UserContext.Provider>
-  );
 };
 
 export { UserContext };
