@@ -102,10 +102,8 @@ const ChapterRequest = ({
                     approved: true,
                   },
                 }).then((res) => {
-                  if (res.code === "SUCCESS_ACCEPTED") {
+                  if (res.code === "SUCCESS") {
                     router.refresh();
-                  } else if (res.code === "SUCCESS_DECLINED") {
-                    alert("STOP HACKING US");
                   } else {
                     alert("Please refresh the page and try again");
                   }
@@ -123,10 +121,8 @@ const ChapterRequest = ({
                     approved: false,
                   },
                 }).then((res) => {
-                  if (res.code === "SUCCESS_DECLINED") {
+                  if (res.code === "SUCCESS") {
                     router.refresh();
-                  } else if (res.code === "SUCCESS_ACCEPTED") {
-                    alert("STOP HACKING US");
                   } else {
                     alert("Please refresh the page and try again");
                   }
