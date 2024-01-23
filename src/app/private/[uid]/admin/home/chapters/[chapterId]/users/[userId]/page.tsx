@@ -42,7 +42,7 @@ const UserPage = async ({ params }: Params) => {
           <UserTile
             key={senior.id}
             senior={senior}
-            link={`/private/${uid}/admin/home/chapters/${chapterId}/users/${user.id}/seniors/${senior.id}`}
+            link={`/private/${uid}/admin/home/chapters/${chapterId}/users/${userId}/seniors/${senior.id}`}
           />
         ))}
       />

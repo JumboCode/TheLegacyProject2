@@ -19,14 +19,17 @@ const TabButtons = ({ queries }: TabButtonsProps) => {
   return (
     <div style={{ width: "fit-content" }}>
       <div className="flex gap-6">
-        {queries.map(({segment, name}, index) => {
-          const isTabSelected = pathName.includes(segment) || (urlSegment === null && index === 0);
+        {queries.map(({ segment, name }, index) => {
+          const isTabSelected =
+            pathName.includes(segment) || (urlSegment === null && index === 0);
 
           const base = pathName.match(
-            new RegExp(`.*?(?=${queries.map((q) => "/" + q.segment).join("|")}|$)`)
+            new RegExp(
+              `.*?(?=${queries.map((q) => "/" + q.segment).join("|")}|$)`
+            )
           ) as RegExpExecArray;
           const href = `${base[0]}/${segment}`;
-          
+
           return (
             <div key={name}>
               <Link

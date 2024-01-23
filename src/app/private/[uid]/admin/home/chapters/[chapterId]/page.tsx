@@ -3,7 +3,6 @@ import { CardGrid } from "@components/container";
 import { prisma } from "@server/db/client";
 import PathNav, { PathInfoType } from "@components/PathNav";
 import DisplayChapterInfo from "@components/DisplayChapterInfo";
-// import ChapterPage from "@components/ChapterPage";
 
 interface ChapterPageParams {
   params: {
