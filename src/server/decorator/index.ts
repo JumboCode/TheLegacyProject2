@@ -6,8 +6,9 @@ import { unauthorizedErrorResponse } from "@api/route.schema";
 
 /**
  * NextApiParams is of type dictionary when an endpoint with dynamic url is hit.
+ * @todo Rewrite type of params - kinda janky
  */
-type NextApiParams = { params: Record<string, string> };
+type NextApiParams = any;
 
 interface AuthorizedSession extends Session {
   user: NonNullable<Session["user"]>;
