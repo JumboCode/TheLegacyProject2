@@ -1,7 +1,6 @@
 import { Prisma } from "@prisma/client";
+import { roleSchema } from "@server/schema";
 import z from "zod";
-
-const roleSchema = z.enum(["USER", "CHAPTER_LEADER", "ADMIN"]);
 
 /**
  * TODO - What should the maximum length of title be?
