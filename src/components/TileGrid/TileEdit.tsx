@@ -51,7 +51,7 @@ interface ITileEditMenu {
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   options: {
-    name: string;
+    name: React.ReactNode;
     onClick: React.MouseEventHandler;
     color: string;
     icon: React.ReactNode;
@@ -70,7 +70,7 @@ function TileEditMenu({ visible, setVisible, options, icons }: ITileEditMenu) {
     >
       <form method="dialog">
         {options.map((option, index) => (
-          <React.Fragment key={option.name}>
+          <React.Fragment key={index}>
             <button
               className="w-full rounded-md p-2 px-4 hover:bg-offer-white"
               style={{
@@ -104,7 +104,7 @@ function TileEditMenu({ visible, setVisible, options, icons }: ITileEditMenu) {
 
 export interface TileEditProps {
   options: {
-    name: string;
+    name: React.ReactNode;
     onClick: React.MouseEventHandler;
     color: string;
     icon: React.ReactNode;
