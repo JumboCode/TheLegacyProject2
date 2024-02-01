@@ -3,11 +3,13 @@
 import { editRole } from "@api/user/[uid]/edit-role/route.client";
 import DisplayChapterInfo from "@components/DisplayChapterInfo";
 import PathNav, { PathInfoType } from "@components/PathNav";
+import PendingCard from "@components/PendingCard";
 import { UserTile } from "@components/TileGrid";
 import { TileEdit } from "@components/TileGrid/TileEdit";
 import { CardGrid } from "@components/container";
 import { faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { User } from "@prisma/client";
 import { ChapterWithStudent } from "@server/type";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -15,10 +17,11 @@ import React from "react";
 interface DisplayChapterProps {
   uid: string;
   chapter: ChapterWithStudent;
+  requestUsers: User[];
 }
 
 const DisplayChapter = (props: DisplayChapterProps) => {
-  const { uid, chapter } = props;
+  const { uid, chapter, requestUsers } = props;
   const router = useRouter();
 
   const chapterPath: PathInfoType = {
@@ -121,20 +124,18 @@ const DisplayChapter = (props: DisplayChapterProps) => {
       <CardGrid
         title={
           <div className="font-merriweather text-xl font-bold">
-            Pending (
-            {
-              chapter.students.filter((user) => user.approved === "PENDING")
-                .length
-            }
-            )
+            Pending ({requestUsers.length})
           </div>
         }
-        tiles={chapter.students
-          .filter((user) => user.approved === "PENDING")
-          .map((user) => (
-            <UserTile key={user.id} student={user} link={""} />
-          ))}
+        tiles={requestUsers.map((user) => (
+          <PendingCard
+            key={user.id}
+            name={user.name ? user.name : ""}
+            uid={user.id}
+          />
+        ))}
       />
+
       <CardGrid
         title={
           <div className="font-merriweather text-xl font-bold">
