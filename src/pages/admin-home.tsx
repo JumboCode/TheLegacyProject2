@@ -294,7 +294,7 @@ function PendingBody({
   return (
     <>
       {pending.map((user) => (
-        <PendingCard key={user.id} name={user.name ?? ""} />
+        <PendingCard key={user.id} name={user.name ?? ""} uid={user.id} />
       ))}
     </>
   );
