@@ -6,6 +6,11 @@ import { Resource } from "@prisma/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { v4 as uuid } from "uuid";
+import {
+  batchCreateResources,
+  batchUpdateResources,
+  batchDeleteResources,
+} from "@api/resources/route.client";
 
 interface IDisplayResources {
   resources: Resource[];
@@ -13,7 +18,7 @@ interface IDisplayResources {
 }
 
 interface ResourceState extends Resource {
-  state: "UNEDITED" | "EDITED" | "DELETED" | "CREATED";
+  state: "UNEDITED" | "UPDATED" | "DELETED" | "CREATED";
 }
 
 const DisplayResources = (props: IDisplayResources) => {
@@ -47,6 +52,48 @@ const DisplayResources = (props: IDisplayResources) => {
     });
   };
 
+  const getResourceByState = (state: ResourceState["state"]) => {
+    return stateResources
+      .filter((curr) => curr.state === state)
+      .map((curr) => {
+        const { state, ...rest } = curr;
+        return rest;
+      });
+  };
+  /* Todo (Johnny and Tia): 
+      1. Map through stateResources
+        a. Have 3 lists for added, edited(put), and deleted
+        b. Put eachStateResource into respective list. 
+        c. There might be some conversion of the stateResources to Resources
+      2. Pass list of Resources into respective API calls
+
+      Possilbe drawbacks: Overhead with mapping or converting?
+  */
+  const onSaveResources = async () => {
+    const deletedResources = getResourceByState("DELETED").map((curr) => {
+      const { id, ...rest } = curr;
+      return id;
+    });
+    const updatedResources = getResourceByState("UPDATED");
+    const createdResources = getResourceByState("CREATED");
+
+    await Promise.all([
+      batchCreateResources({ body: createdResources }),
+      batchUpdateResources({ body: updatedResources }),
+      batchDeleteResources({ body: deletedResources }),
+    ]).then(() => {
+      setStateResources((prev) => {
+        const newResources = prev
+          .filter((curr) => curr.state != "DELETED")
+          .map((curr) => {
+            curr.state = "UNEDITED";
+            return curr;
+          });
+        return newResources;
+      });
+    });
+  };
+
   return (
     <div className="mt-6">
       <div className="flex justify-between">
@@ -54,10 +101,14 @@ const DisplayResources = (props: IDisplayResources) => {
           <p className="text-base font-normal" onClick={onAddResource}>
             Add resource
           </p>
+          {/* TIA TODO: ADD ONCLIC */}
           <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
         </button>
         {edit ? (
-          <button className="rounded-xl bg-dark-teal px-6 py-2 text-white">
+          <button
+            className="rounded-xl bg-dark-teal px-6 py-2 text-white"
+            onClick={onSaveResources}
+          >
             Save
           </button>
         ) : (
@@ -81,6 +132,7 @@ const DisplayResources = (props: IDisplayResources) => {
               showRole={props.showRole}
               onDelete={onDelete}
               onEdit={(resource) => {
+                console.log("Edited");
                 return;
               }}
             />
