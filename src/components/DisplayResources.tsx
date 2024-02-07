@@ -52,6 +52,30 @@ const DisplayResources = (props: IDisplayResources) => {
     });
   };
 
+  // created: update resource attributes but keep state
+  // updated: update resource attribute but keep state
+  // uedited: update resource attribute and change state to edited
+
+  // deleted: baddddd!!! Don't do anything
+  const onEdit = (editedResource: Resource) => {
+    setStateResources((prev) => {
+      const otherResources = prev.filter(
+        (resource) => resource.id !== editedResource.id
+      );
+      const prevResource = prev.find(
+        (prevResource) => prevResource.id === editedResource.id
+      );
+      if (prevResource == undefined || prevResource.state === "DELETED") {
+        return otherResources;
+      } else {
+        return [
+          ...otherResources,
+          { ...editedResource, state: prevResource.state },
+        ];
+      }
+    });
+  };
+
   const getResourceByState = (state: ResourceState["state"]) => {
     return stateResources
       .filter((curr) => curr.state === state)
