@@ -18,9 +18,11 @@ export const POST = withSessionAndRole(["ADMIN"], async (request) => {
       return NextResponse.json(invalidFormReponse, { status: 400 });
     } else {
       const body = resourceRequest.data;
-      await prisma.resource.createMany({
-        data: body,
-      });
+      if (body.length > 0) {
+        await prisma.resource.createMany({
+          data: body,
+        });
+      }
 
       return NextResponse.json(batchResponseSchema.parse({ code: "SUCCESS" }));
     }
@@ -66,12 +68,13 @@ export const DELETE = withSessionAndRole(["ADMIN"], async (request) => {
     if (!resourceRequest.success) {
       return NextResponse.json(invalidFormReponse, { status: 400 });
     } else {
-      await prisma.resource.deleteMany({
-        where: {
-          id: { in: resourceRequest.data },
-        },
-      });
-
+      if (resourceRequest.data.length > 0) {
+        await prisma.resource.deleteMany({
+          where: {
+            id: { in: resourceRequest.data },
+          },
+        });
+      }
       return NextResponse.json(batchResponseSchema.parse({ code: "SUCCESS" }));
     }
   } catch (error) {

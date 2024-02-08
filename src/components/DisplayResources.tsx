@@ -11,6 +11,7 @@ import {
   batchUpdateResources,
   batchDeleteResources,
 } from "@api/resources/route.client";
+import { useRouter } from "next/navigation";
 
 interface IDisplayResources {
   resources: Resource[];
@@ -27,6 +28,9 @@ const DisplayResources = (props: IDisplayResources) => {
     () =>
       props.resources.map((resource) => ({ state: "UNEDITED", ...resource }))
   );
+  const router = useRouter();
+
+  console.log(stateResources);
 
   const onAddResource = () => {
     setStateResources((prev) => [
@@ -65,8 +69,11 @@ const DisplayResources = (props: IDisplayResources) => {
       const prevResource = prev.find(
         (prevResource) => prevResource.id === editedResource.id
       );
-      if (prevResource == undefined || prevResource.state === "DELETED") {
+
+      if (prevResource == undefined) {
         return otherResources;
+      } else if (prevResource.state === "UNEDITED") {
+        return [...otherResources, { ...editedResource, state: "UPDATED" }];
       } else {
         return [
           ...otherResources,
@@ -101,31 +108,35 @@ const DisplayResources = (props: IDisplayResources) => {
     const updatedResources = getResourceByState("UPDATED");
     const createdResources = getResourceByState("CREATED");
 
+    console.log("Creating", createdResources);
+
     await Promise.all([
       batchCreateResources({ body: createdResources }),
       batchUpdateResources({ body: updatedResources }),
       batchDeleteResources({ body: deletedResources }),
     ]).then(() => {
-      setStateResources((prev) => {
-        const newResources = prev
-          .filter((curr) => curr.state != "DELETED")
-          .map((curr) => {
-            curr.state = "UNEDITED";
-            return curr;
-          });
-        return newResources;
-      });
+      // setStateResources((prev) => {
+      //   const newResources = prev
+      //     .filter((curr) => curr.state !== "DELETED")
+      //     .map((curr) => {
+      //       curr.state = "UNEDITED";
+      //       return curr;
+      //     });
+      //   return newResources;
+      // });
+      // setEdit(false);
+      router.refresh();
     });
   };
 
   return (
     <div className="mt-6">
       <div className="flex justify-between">
-        <button className="flex w-44 items-center justify-between rounded-xl border border-dark-teal px-4 py-2.5">
-          <p className="text-base font-normal" onClick={onAddResource}>
-            Add resource
-          </p>
-          {/* TIA TODO: ADD ONCLIC */}
+        <button
+          className="flex w-44 items-center justify-between rounded-xl border border-dark-teal px-4 py-2.5"
+          onClick={onAddResource}
+        >
+          <p className="text-base font-normal">Add resource</p>
           <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
         </button>
         {edit ? (
@@ -155,10 +166,7 @@ const DisplayResources = (props: IDisplayResources) => {
               isEdit={edit}
               showRole={props.showRole}
               onDelete={onDelete}
-              onEdit={(resource) => {
-                console.log("Edited");
-                return;
-              }}
+              onEdit={onEdit}
             />
           ))}
       </div>

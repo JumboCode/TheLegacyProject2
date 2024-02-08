@@ -33,6 +33,7 @@ const ResourceTile = ({
       <input
         className="w-full rounded-xl bg-tan px-4 py-2.5"
         defaultValue={resource.title}
+        placeholder="How to grow my chapter"
         onChange={(e) => {
           resource.title = e.target.value;
           onEdit(resource);
@@ -41,6 +42,7 @@ const ResourceTile = ({
       <input
         className="w-full rounded-xl bg-tan px-4 py-2.5"
         defaultValue={resource.link}
+        placeholder="https://www.google.com/"
         onChange={(e) => {
           resource.link = e.target.value;
           onEdit(resource);
