@@ -26,13 +26,7 @@ export const batchCreateResources = async (request: IBatchCreateRequest) => {
     ...options,
   });
   const json = await response.json();
-
-  try {
-    return batchResponseSchema.parse(json);
-  } catch (error) {
-    console.log(error);
-    throw new Error("Uncaught error");
-  }
+  return batchResponseSchema.parse(json);
 };
 
 export const batchUpdateResources = async (request: IBatchUpdateRequest) => {
@@ -43,13 +37,7 @@ export const batchUpdateResources = async (request: IBatchUpdateRequest) => {
     ...options,
   });
   const json = await response.json();
-
-  try {
-    return batchResponseSchema.parse(json);
-  } catch (error) {
-    console.log(error);
-    throw new Error("Uncaught error");
-  }
+  return batchResponseSchema.parse(json);
 };
 
 export const batchDeleteResources = async (request: IBatchDeleteRequest) => {
@@ -60,11 +48,5 @@ export const batchDeleteResources = async (request: IBatchDeleteRequest) => {
     ...options,
   });
   const json = await response.json();
-
-  try {
-    return batchResponseSchema.parse(json);
-  } catch (error) {
-    console.log(error);
-    throw new Error("Uncaught error");
-  }
+  return batchResponseSchema.parse(json);
 };
