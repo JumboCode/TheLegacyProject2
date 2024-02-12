@@ -21,7 +21,16 @@
       "@api/*": ["./src/app/api/*"],
       "@server/*": ["./src/server/*"],
       "@components/*": ["./src/components/*"],
-      "@env/*": ["./src/env/*"]
+      "@env/*": ["./src/env/*"],
+
+      "@hooks": ["./src/hooks"],
+      "@hooks/*": ["./src/hooks/*"],
+
+      "@constants": ["./src/constants/"],
+      "@constants/*": ["./src/constants/*"],
+
+      "@utils": ["./src/utils"],
+      "@utils/*": ["./src/utils/*"]
     },
     "plugins": [
       {

@@ -1,5 +1,5 @@
 import { Resource } from "@prisma/client";
-import { RoleAlias } from "src/constants/RoleAlias";
+import { RoleAlias } from "@constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowUpRightFromSquare,
