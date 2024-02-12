@@ -1,8 +1,11 @@
+"use client";
 import SearchBar from "./SearchBar";
-import { useState } from "react";
+import { useState, ReactNode } from "react";
+import { CardGrid } from "./container";
 
 interface SearchableContainerProps<T> {
   addElementComponent?: React.ReactNode;
+  title?: ReactNode;
   display: (elem: T) => React.ReactNode;
   elements: T[];
   search?: ((elem: T, filter: string) => boolean) | null;
@@ -10,26 +13,34 @@ interface SearchableContainerProps<T> {
 
 const SearchableContainer = <T,>({
   addElementComponent,
+  title,
   display,
   elements,
   search = null,
 }: SearchableContainerProps<T>) => {
   const [filter, setFilter] = useState("");
+  const tilesToDisplay = elements
+    .filter((e) => {
+      if (search === null) return true; // No search method provided
+      return search(e, filter);
+    })
+    .map((e) => display(e));
   return (
     <div>
       {search && (
-        <div className="z-10 flex flex-row justify-between space-x-3 align-middle">
+        <div className="z-10 mb-2 flex flex-row justify-between space-x-3 align-middle">
           <SearchBar setFilter={setFilter} />
         </div>
       )}
-      <div className=" mx-8 mt-6 grid grid-cols-2 gap-12 pr-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        {addElementComponent && addElementComponent}
-        {elements
-          .filter((e) => {
-            if (search === null) return true; // No search method provided
-            return search(e, filter);
-          })
-          .map((e) => display(e))}
+      <div className="flex w-full flex-wrap gap-10">
+        <CardGrid
+          tiles={
+            addElementComponent
+              ? [addElementComponent, ...tilesToDisplay]
+              : tilesToDisplay
+          }
+          title={title}
+        />
       </div>
     </div>
   );
