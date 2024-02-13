@@ -6,7 +6,7 @@ import { CardGrid } from "./container";
 interface SearchableContainerProps<T> {
   addElementComponent?: React.ReactNode;
   title?: ReactNode;
-  display: (elem: T) => React.ReactNode;
+  display: (elem: T, index: number) => React.ReactNode;
   elements: T[];
   search?: ((elem: T, filter: string) => boolean) | null;
 }
@@ -24,24 +24,22 @@ const SearchableContainer = <T,>({
       if (search === null) return true; // No search method provided
       return search(e, filter);
     })
-    .map((e) => display(e));
+    .map((e, index) => display(e, index));
   return (
     <div>
       {search && (
-        <div className="z-10 mb-2 flex flex-row justify-between space-x-3 align-middle">
+        <div className="z-10 mb-6 flex flex-row justify-between space-x-3 align-middle">
           <SearchBar setFilter={setFilter} />
         </div>
       )}
-      <div className="flex w-full flex-wrap gap-10">
-        <CardGrid
-          tiles={
-            addElementComponent
-              ? [addElementComponent, ...tilesToDisplay]
-              : tilesToDisplay
-          }
-          title={title}
-        />
-      </div>
+      <CardGrid
+        tiles={
+          addElementComponent
+            ? [addElementComponent, ...tilesToDisplay]
+            : tilesToDisplay
+        }
+        title={title}
+      />
     </div>
   );
 };
