@@ -11,7 +11,7 @@ import {
   batchUpdateResources,
   batchDeleteResources,
 } from "@api/resources/route.client";
-import { useRouter } from "next/navigation";
+import { compareResource } from "src/util";
 
 interface IDisplayResources {
   resources: Resource[];
@@ -26,11 +26,10 @@ const DisplayResources = (props: IDisplayResources) => {
   const [edit, setEdit] = React.useState(false);
   const [stateResources, setStateResources] = React.useState<ResourceState[]>(
     () =>
-      props.resources.map((resource) => ({ state: "UNEDITED", ...resource }))
+      props.resources
+        .sort(compareResource)
+        .map((resource) => ({ state: "UNEDITED", ...resource }))
   );
-  const router = useRouter();
-
-  console.log(stateResources);
 
   const onAddResource = () => {
     setStateResources((prev) => [
@@ -56,30 +55,14 @@ const DisplayResources = (props: IDisplayResources) => {
     });
   };
 
-  // created: update resource attributes but keep state
-  // updated: update resource attribute but keep state
-  // uedited: update resource attribute and change state to edited
-
-  // deleted: baddddd!!! Don't do anything
   const onEdit = (editedResource: Resource) => {
     setStateResources((prev) => {
-      const otherResources = prev.filter(
-        (resource) => resource.id !== editedResource.id
-      );
-      const prevResource = prev.find(
-        (prevResource) => prevResource.id === editedResource.id
-      );
-
-      if (prevResource == undefined) {
-        return otherResources;
-      } else if (prevResource.state === "UNEDITED") {
-        return [...otherResources, { ...editedResource, state: "UPDATED" }];
-      } else {
-        return [
-          ...otherResources,
-          { ...editedResource, state: prevResource.state },
-        ];
-      }
+      const newResources: ResourceState[] = prev.map((resource) => {
+        return resource.id === editedResource.id && resource.state !== "CREATED"
+          ? { ...editedResource, state: "UPDATED" }
+          : resource;
+      });
+      return newResources;
     });
   };
 
@@ -91,41 +74,32 @@ const DisplayResources = (props: IDisplayResources) => {
         return rest;
       });
   };
-  /* Todo (Johnny and Tia): 
-      1. Map through stateResources
-        a. Have 3 lists for added, edited(put), and deleted
-        b. Put eachStateResource into respective list. 
-        c. There might be some conversion of the stateResources to Resources
-      2. Pass list of Resources into respective API calls
 
-      Possilbe drawbacks: Overhead with mapping or converting?
-  */
   const onSaveResources = async () => {
-    const deletedResources = getResourceByState("DELETED").map((curr) => {
-      const { id, ...rest } = curr;
-      return id;
-    });
+    const deletedResources = getResourceByState("DELETED").map(
+      (curr) => curr.id
+    );
     const updatedResources = getResourceByState("UPDATED");
     const createdResources = getResourceByState("CREATED");
-
-    console.log("Creating", createdResources);
 
     await Promise.all([
       batchCreateResources({ body: createdResources }),
       batchUpdateResources({ body: updatedResources }),
       batchDeleteResources({ body: deletedResources }),
-    ]).then(() => {
-      // setStateResources((prev) => {
-      //   const newResources = prev
-      //     .filter((curr) => curr.state !== "DELETED")
-      //     .map((curr) => {
-      //       curr.state = "UNEDITED";
-      //       return curr;
-      //     });
-      //   return newResources;
-      // });
-      // setEdit(false);
-      router.refresh();
+    ]).then((res) => {
+      const newResources: ResourceState[] = [
+        ...getResourceByState("UNEDITED"),
+        ...res[0].data,
+        ...res[1].data,
+      ]
+        .sort(compareResource)
+        .map((eachResource) => ({
+          ...eachResource,
+          state: "UNEDITED",
+        }));
+
+      setStateResources(newResources);
+      setEdit(false);
     });
   };
 

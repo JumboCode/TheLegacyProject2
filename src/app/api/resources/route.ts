@@ -18,7 +18,15 @@ export const POST = withSessionAndRole(["ADMIN"], async (request) => {
   } else {
     const body = resourceRequest.data;
     const resources = await prisma.$transaction(
-      body.map((resource) => prisma.resource.create({ data: resource }))
+      body.map((resource) =>
+        prisma.resource.create({
+          data: {
+            access: resource.access,
+            title: resource.title,
+            link: resource.link,
+          },
+        })
+      )
     );
     return NextResponse.json(
       batchResponseSchema.parse({ code: "SUCCESS", data: resources })
@@ -33,22 +41,23 @@ export const PUT = withSessionAndRole(["ADMIN"], async (request) => {
   if (!resourceRequest.success) {
     return NextResponse.json(invalidFormReponse, { status: 400 });
   } else {
-    const promises = resourceRequest.data.map((resource) =>
-      prisma.resource.update({
-        where: {
-          id: resource.id,
-        },
-        data: {
-          access: resource.access,
-          title: resource.title,
-          link: resource.link,
-        },
-      })
+    await prisma.$transaction(
+      resourceRequest.data.map((resource) =>
+        prisma.resource.update({
+          where: {
+            id: resource.id,
+          },
+          data: {
+            access: resource.access,
+            title: resource.title,
+            link: resource.link,
+          },
+        })
+      )
     );
-    await Promise.allSettled(promises);
 
     return NextResponse.json(
-      batchResponseSchema.parse({ code: "SUCCESS", data: resourceRequest })
+      batchResponseSchema.parse({ code: "SUCCESS", data: resourceRequest.data })
     );
   }
 });
