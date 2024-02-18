@@ -20,6 +20,9 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: NPM Install
+        run: npm i
+
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
