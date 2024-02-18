@@ -27,7 +27,7 @@ export function ChapterTile({
   href,
 }: ChapterTileProps) {
   return (
-    <div className="max-w-xl rounded-xl bg-white p-6">
+    <div className="w-full rounded-xl bg-white p-6">
       <div className="mb-2.5 flex items-center justify-between gap-2.5">
         <Link className="cursor-pointer" href={href}>
           <div className="text-2xl underline">{title}</div>
