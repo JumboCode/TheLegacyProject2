@@ -12,6 +12,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with: 
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
@@ -21,3 +24,5 @@ jobs:
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: "--write **/*.tsx"
+          prettier_plugins: "prettier-plugin-tailwindcss"
+          only_changed: True
