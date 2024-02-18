@@ -26,3 +26,4 @@ jobs:
           prettier_options: "--write **/*.tsx"
           prettier_plugins: "prettier-plugin-tailwindcss"
           only_changed: True
+          prettier_version: "^2.7.1"
