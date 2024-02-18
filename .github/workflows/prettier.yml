@@ -1,15 +1,16 @@
 name: Prettier Action
- 
+
 on:
   push:
-    branches: [ "sburchfield33-juliazel-githubactions" ]
+    branches: ["sburchfield33-juliazel-githubactions"]
   pull_request:
-    branches: [ "sburchfield33-juliazel-githubactions" ]
+    branches: ["sburchfield33-juliazel-githubactions"]
 
 jobs:
-  build:
-
+  prettier:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: creyD/prettier_action@v4.3
+      - uses: creyD/prettier_action@v4.3
+    with:
+      prettier_options: "--write **/*.tsx"
