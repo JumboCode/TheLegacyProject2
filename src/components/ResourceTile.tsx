@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createResourceSchema } from "@api/resources/route.schema";
 import { z } from "zod";
-import React, { useEffect } from "react";
+import React from "react";
 
 interface IResourceProp {
   resource: Resource;
@@ -38,6 +38,7 @@ const ResourceTile = ({
       title: resource.title,
       link: resource.link,
     },
+    mode: "onBlur",
   });
 
   const displayRow =
@@ -45,7 +46,7 @@ const ResourceTile = ({
     resource.access.length === 1 &&
     resource.access[0] === "CHAPTER_LEADER";
 
-  useEffect(() => {
+  React.useEffect(() => {
     trigger();
   }, [trigger]);
 
@@ -54,16 +55,15 @@ const ResourceTile = ({
       <div>
         <input
           {...register("title", {
-            onBlur: () => trigger("title"),
-            onChange: () => clearErrors("title"),
+            onChange: (e) => {
+              clearErrors("title");
+              resource.title = e.target.value;
+              onEdit(resource);
+            },
           })}
           className="w-full rounded-xl bg-tan px-4 py-2.5"
           defaultValue={resource.title}
           placeholder="How to grow my chapter"
-          onChange={(e) => {
-            resource.title = e.target.value;
-            onEdit(resource);
-          }}
           autoComplete="off"
         />
         <p className="text-sm text-sunset-orange before:content-['\200b']">
@@ -73,16 +73,15 @@ const ResourceTile = ({
       <div>
         <input
           {...register("link", {
-            onBlur: () => trigger("link"),
-            onChange: () => clearErrors("link"),
+            onChange: (e) => {
+              clearErrors("link");
+              resource.link = e.target.value;
+              onEdit(resource);
+            },
           })}
           className="w-full rounded-xl bg-tan px-4 py-2.5"
           defaultValue={resource.link}
           placeholder="https://www.google.com/"
-          onChange={(e) => {
-            resource.link = e.target.value;
-            onEdit(resource);
-          }}
           autoComplete="off"
         />
         <p className="text-sm text-sunset-orange before:content-['\200b']">
