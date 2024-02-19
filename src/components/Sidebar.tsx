@@ -47,14 +47,13 @@ const Sidebar = ({ buttons }: ISideBar) => {
   };
 
   return (
-    <div className="sticky top-0 flex h-full w-full flex-col items-center justify-between bg-med-tan ">
+    <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-between bg-med-tan">
       <Link href="/public/" className="flex justify-center">
         <h1 className=" mb-3 mt-20 h-auto w-full items-center justify-center px-5 duration-150 hover:-translate-y-0.5">
           <Image src={Logo} alt="logo" className="items-end" />
         </h1>
       </Link>
-      <div></div>
-      <div className="mb-20 w-full px-11">
+      <div className="mb-20 h-full w-full px-11">
         <div className="flex w-full flex-col space-y-6">
           {buttons.map((data) => (
             <Link key={data.name} href={data.link}>

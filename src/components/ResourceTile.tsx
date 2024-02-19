@@ -6,7 +6,11 @@ import {
   faArrowUpRightFromSquare,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createResourceSchema } from "@api/resources/route.schema";
+import { z } from "zod";
+import React, { useEffect } from "react";
 
 interface IResourceProp {
   resource: Resource;
@@ -23,31 +27,68 @@ const ResourceTile = ({
   onDelete,
   onEdit,
 }: IResourceProp) => {
+  const {
+    register,
+    trigger,
+    clearErrors,
+    formState: { errors },
+  } = useForm<z.infer<typeof createResourceSchema>>({
+    resolver: zodResolver(createResourceSchema),
+    defaultValues: {
+      title: resource.title,
+      link: resource.link,
+    },
+  });
+
   const displayRow =
     showRole &&
     resource.access.length === 1 &&
     resource.access[0] === "CHAPTER_LEADER";
 
+  useEffect(() => {
+    trigger();
+  }, [trigger]);
+
   return isEdit ? (
-    <div className="flex w-full flex-col gap-y-2.5 rounded-lg bg-white px-8 py-6">
-      <input
-        className="w-full rounded-xl bg-tan px-4 py-2.5"
-        defaultValue={resource.title}
-        placeholder="How to grow my chapter"
-        onChange={(e) => {
-          resource.title = e.target.value;
-          onEdit(resource);
-        }}
-      />
-      <input
-        className="w-full rounded-xl bg-tan px-4 py-2.5"
-        defaultValue={resource.link}
-        placeholder="https://www.google.com/"
-        onChange={(e) => {
-          resource.link = e.target.value;
-          onEdit(resource);
-        }}
-      />
+    <div className="flex h-56 w-full flex-col justify-between rounded-lg bg-white px-8 py-4">
+      <div>
+        <input
+          {...register("title", {
+            onBlur: () => trigger("title"),
+            onChange: () => clearErrors("title"),
+          })}
+          className="w-full rounded-xl bg-tan px-4 py-2.5"
+          defaultValue={resource.title}
+          placeholder="How to grow my chapter"
+          onChange={(e) => {
+            resource.title = e.target.value;
+            onEdit(resource);
+          }}
+          autoComplete="off"
+        />
+        <p className="text-sm text-sunset-orange before:content-['\200b']">
+          {errors.title && "Title is required"}
+        </p>
+      </div>
+      <div>
+        <input
+          {...register("link", {
+            onBlur: () => trigger("link"),
+            onChange: () => clearErrors("link"),
+          })}
+          className="w-full rounded-xl bg-tan px-4 py-2.5"
+          defaultValue={resource.link}
+          placeholder="https://www.google.com/"
+          onChange={(e) => {
+            resource.link = e.target.value;
+            onEdit(resource);
+          }}
+          autoComplete="off"
+        />
+        <p className="text-sm text-sunset-orange before:content-['\200b']">
+          {errors.link && "Link must be valid"}
+        </p>
+      </div>
       <label className="flex items-center">
         <input
           type="checkbox"
