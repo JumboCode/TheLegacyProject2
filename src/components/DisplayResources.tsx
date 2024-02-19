@@ -12,6 +12,8 @@ import {
   batchDeleteResources,
 } from "@api/resources/route.client";
 import { compareResource } from "@utils";
+import { Spinner } from "./skeleton";
+import { createResourceSchema } from "@api/resources/route.schema";
 
 interface IDisplayResources {
   resources: Resource[];
@@ -23,6 +25,7 @@ interface ResourceState extends Resource {
 }
 
 const DisplayResources = (props: IDisplayResources) => {
+  const [loading, setLoading] = React.useState(false);
   const [edit, setEdit] = React.useState(false);
   const [stateResources, setStateResources] = React.useState<ResourceState[]>(
     () =>
@@ -30,6 +33,7 @@ const DisplayResources = (props: IDisplayResources) => {
         .sort(compareResource)
         .map((resource) => ({ state: "UNEDITED", ...resource }))
   );
+  const [canSubmit, setCanSubmit] = React.useState<boolean>(true);
 
   const onAddResource = () => {
     setStateResources((prev) => [
@@ -66,9 +70,12 @@ const DisplayResources = (props: IDisplayResources) => {
     });
   };
 
-  const getResourceByState = (state: ResourceState["state"]) => {
-    return stateResources
-      .filter((curr) => curr.state === state)
+  const getResourceByStates = (
+    resources: ResourceState[],
+    states: ResourceState["state"][]
+  ) => {
+    return resources
+      .filter((curr) => states.includes(curr.state))
       .map((curr) => {
         const { state, ...rest } = curr;
         return rest;
@@ -76,11 +83,17 @@ const DisplayResources = (props: IDisplayResources) => {
   };
 
   const onSaveResources = async () => {
-    const deletedResources = getResourceByState("DELETED").map(
-      (curr) => curr.id
-    );
-    const updatedResources = getResourceByState("UPDATED");
-    const createdResources = getResourceByState("CREATED");
+    if (loading) {
+      return false;
+    }
+
+    setLoading(true);
+
+    const deletedResources = getResourceByStates(stateResources, [
+      "DELETED",
+    ]).map((curr) => curr.id);
+    const updatedResources = getResourceByStates(stateResources, ["UPDATED"]);
+    const createdResources = getResourceByStates(stateResources, ["CREATED"]);
 
     await Promise.all([
       batchCreateResources({ body: createdResources }),
@@ -88,7 +101,7 @@ const DisplayResources = (props: IDisplayResources) => {
       batchDeleteResources({ body: deletedResources }),
     ]).then((res) => {
       const newResources: ResourceState[] = [
-        ...getResourceByState("UNEDITED"),
+        ...getResourceByStates(stateResources, ["UNEDITED"]),
         ...res[0].data,
         ...res[1].data,
       ]
@@ -100,8 +113,18 @@ const DisplayResources = (props: IDisplayResources) => {
 
       setStateResources(newResources);
       setEdit(false);
+      setLoading(false);
+      setCanSubmit(true);
     });
   };
+
+  React.useEffect(() => {
+    setCanSubmit(
+      getResourceByStates(stateResources, ["UPDATED", "CREATED"])
+        .map((resource) => createResourceSchema.safeParse(resource))
+        .every((state) => state.success)
+    );
+  }, [stateResources, setCanSubmit]);
 
   return (
     <div className="mt-6">
@@ -115,8 +138,11 @@ const DisplayResources = (props: IDisplayResources) => {
         </button>
         {edit ? (
           <button
-            className="rounded-xl bg-dark-teal px-6 py-2 text-white"
+            className={`rounded-xl ${
+              canSubmit ? "bg-dark-teal" : "bg-[#A6A6A6]"
+            } px-6 py-2 text-white`}
             onClick={onSaveResources}
+            disabled={!canSubmit}
           >
             Save
           </button>
@@ -130,20 +156,26 @@ const DisplayResources = (props: IDisplayResources) => {
           </button>
         )}
       </div>
-      <div className="mt-6 grid items-start gap-6 self-stretch md:grid-cols-2 ">
-        {stateResources
-          .filter((resource) => resource.state !== "DELETED")
-          .map((eachResource) => (
-            <ResourceTile
-              key={eachResource.id}
-              resource={eachResource}
-              isEdit={edit}
-              showRole={props.showRole}
-              onDelete={onDelete}
-              onEdit={onEdit}
-            />
-          ))}
-      </div>
+      {loading ? (
+        <div className="flex h-full w-full flex-col items-center justify-center py-64">
+          <Spinner />
+        </div>
+      ) : (
+        <div className="mt-6 grid items-start gap-6 self-stretch md:grid-cols-2 ">
+          {stateResources
+            .filter((resource) => resource.state !== "DELETED")
+            .map((eachResource) => (
+              <ResourceTile
+                key={eachResource.id}
+                resource={eachResource}
+                isEdit={edit}
+                showRole={props.showRole}
+                onDelete={onDelete}
+                onEdit={onEdit}
+              />
+            ))}
+        </div>
+      )}
     </div>
   );
 };
