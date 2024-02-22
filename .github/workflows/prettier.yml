@@ -27,6 +27,6 @@ jobs:
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: "--write **/*.tsx"
-          prettier_plugins: "prettier-plugin-tailwindcss"
+          prettier_plugins: "@tailwindlabs/prettier-plugin-tailwindcss"
           only_changed: True
           prettier_version: '2.x.x'
