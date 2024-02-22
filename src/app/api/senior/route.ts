@@ -13,6 +13,7 @@ export const POST = withSessionAndRole(
     const body = await req.json();
     const newSenior = postSeniorSchema.safeParse(body);
 
+    console.log("1");
     if (!newSenior.success) {
       return NextResponse.json(
         seniorPostResponse.parse({
@@ -28,6 +29,7 @@ export const POST = withSessionAndRole(
         },
       });
 
+      console.log("2");
       if (!user) {
         return NextResponse.json(
           seniorPostResponse.parse({
@@ -46,7 +48,6 @@ export const POST = withSessionAndRole(
           })
         );
       }
-
       const baseFolder = "1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a"; // TODO: make env variable
       const fileMetadata = {
         name: [`${body.name}-${randomUUID()}`],
@@ -57,6 +58,8 @@ export const POST = withSessionAndRole(
         resource: fileMetadata,
         fields: "id",
       };
+
+      console.log("3");
 
       const { access_token, refresh_token } = (await prisma.account.findFirst({
         where: {
@@ -75,6 +78,8 @@ export const POST = withSessionAndRole(
         version: "v3",
         auth,
       });
+
+      console.log("4");
 
       const file = await (service as NonNullable<typeof service>).files.create(
         fileCreateData
@@ -104,7 +109,6 @@ export const POST = withSessionAndRole(
           },
         },
       });
-      
 
       return NextResponse.json(
         seniorPostResponse.parse({
