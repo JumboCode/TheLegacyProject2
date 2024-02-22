@@ -3,24 +3,32 @@
 import React, { useState } from "react";
 
 import Link from "next/link";
-import { useAuth } from "@hooks";
+import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
+import logoicon from "../../public/landing/newlegacy-logo.svg";
+import Image from "next/image";
 
 const Navbar = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const handleMenuClick: React.MouseEventHandler = () => {
     setDropdownVisible((visible) => !visible);
   };
-  const { status, onSignIn } = useAuth();
+
+  const router = useRouter();
+  const { data: session } = useSession();
+  const legacySignIn = () => signIn("google", { callbackUrl: "/home" });
+  const legacyHome = () => router.push("/home");
+  const buttonAction = session && session.user ? legacyHome : legacySignIn;
 
   return (
     <nav
-      className="top-0 z-10 flex h-[60px] w-full flex-row items-center 
-                    justify-between border border-dark-tan bg-med-tan"
+      className="\ top-0 z-10 z-10 flex h-[60px] w-full flex-row items-center 
+                    justify-between border border-dark-tan bg-med-tan px-24 pt-3"
     >
-      <div className="pl-[20px] font-serif text-xl font-medium sm:pl-[40px] md:text-2xl">
-        <Link href="/">The Legacy Project</Link>
-      </div>
-
+      {/* <div className="pl-[20px] font-serif text-xl font-medium sm:pl-[40px] md:text-2xl"> */}
+      {/* <Link href="/">The Legacy Project</Link> */}
+      {/* </div> */}
+      <Image src={logoicon} alt="Legacy Logo" className="w-1/6" />
       <div className="visible z-10 pr-[20px] sm:pr-[40px]">
         <span onClick={handleMenuClick}>
           {dropdownVisible ? (
@@ -63,9 +71,9 @@ const Navbar = () => {
           </div>
         </Link>
 
-        <button onClick={onSignIn}>
+        <button onClick={buttonAction}>
           <div className="m-auto font-serif text-lg font-medium duration-150 hover:-translate-y-0.5">
-            {status === "authenticated" ? "Home" : "Sign In"}
+            {session && session.user ? "Home" : "Sign In"}
           </div>
         </button>
       </div>
