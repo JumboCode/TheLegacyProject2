@@ -3,7 +3,7 @@ import type { GetServerSidePropsContext } from "next";
 import { useState } from "react";
 import FileTile from "@components/TileGrid/FileTile";
 import SearchBar from "@components/SearchBar";
-import AddFile from "@components/AddFile";
+import AddFile from "@components/user/AddFile";
 import TileGrid from "@components/TileGrid";
 import SortDropdown, { SortMethod } from "@components/SortDropdown";
 
@@ -48,71 +48,70 @@ const SeniorProfile = ({ senior }: any) => {
   };
   */
 
-  return null;
+  return (
+    <div className="relative flex min-h-screen flex-col">
+      {showAddFilePopUp ? (
+        <AddFile
+          showAddFilePopUp={showAddFilePopUp}
+          setShowAddFilePopUp={setShowAddFilePopUp}
+          seniorId={senior.id}
+          folder={senior.folder}
+        />
+      ) : null}
+      <div className="w-full p-8">
+        <h1 className="mb-4 font-serif text-5xl leading-normal sm:text-center md:text-left">
+          {senior.name}
+          <h2 className="font-serif text-xl"> {senior.location} </h2>
+        </h1>
+        <div className="mb-8 w-full border-solid bg-tan drop-shadow-md">
+          <p className="md:text-md max-h-[100px] overflow-scroll rounded bg-tan p-4 sm:text-lg">
+            {senior.description}
+          </p>
+        </div>
+        <div className="flex flex-row justify-between space-x-3 align-middle">
+          <SearchBar setFilter={setFilter} />
+          <div className="relative z-10">
+            <SortDropdown
+              sortMethod={sortMethod}
+              setSortMethod={setSortMethod}
+            />
+          </div>
+        </div>
 
-  // return (
-  // <div className="relative flex min-h-screen flex-col">
-  //   {showAddFilePopUp ? (
-  //     <AddFile
-  //       showAddFilePopUp={showAddFilePopUp}
-  //       setShowAddFilePopUp={setShowAddFilePopUp}
-  //       seniorId={senior.id}
-  //       folder={senior.folder}
-  //     />
-  //   ) : null}
-  //   <div className="w-full p-8">
-  //     <h1 className="mb-4 font-serif text-5xl leading-normal sm:text-center md:text-left">
-  //       {senior.name}
-  //       <h2 className="font-serif text-xl"> {senior.location} </h2>
-  //     </h1>
-  //     <div className="mb-8 w-full border-solid bg-tan drop-shadow-md">
-  //       <p className="md:text-md max-h-[100px] overflow-scroll rounded bg-tan p-4 sm:text-lg">
-  //         {senior.description}
-  //       </p>
-  //     </div>
-  //     <div className="flex flex-row justify-between space-x-3 align-middle">
-  //       <SearchBar setFilter={setFilter} />
-  //       <div className="relative z-10">
-  //         <SortDropdown
-  //           sortMethod={sortMethod}
-  //           setSortMethod={setSortMethod}
-  //         />
-  //       </div>
-  //     </div>
-
-  //     <TileGrid>
-  //       <button
-  //         className="\ relative flex aspect-square w-auto flex-col items-center justify-center rounded
-  //                        bg-white text-base drop-shadow-md hover:bg-off-white"
-  //         onClick={handlePopUp}
-  //       >
-  //         <div className="flex flex-col justify-end">
-  //           <Image
-  //             className="object-scale-down"
-  //             src={"/profile/addfile_icon.png"}
-  //             alt="Add file icon"
-  //             height={75}
-  //             width={75}
-  //           />
-  //         </div>
-  //         <div className="text-neutral-800 relative flex w-full flex-col p-2 text-center text-lg">
-  //           Create New File
-  //         </div>
-  //       </button>
-  //       {filteredFiles.map((file, key) => (
-  //         <div key={key}>
-  //           <FileTile
-  //             id={file.id}
-  //             date={file.date}
-  //             url={file.url}
-  //             Tags={file.Tags}
-  //           />
-  //         </div>
-  //       ))}
-  //     </TileGrid>
-  //   </div>
-  // </div>
-  //   );
+        <TileGrid>
+          <button
+            className="\ relative flex aspect-square w-auto flex-col items-center justify-center rounded 
+                           bg-white text-base drop-shadow-md hover:bg-off-white"
+            onClick={handlePopUp}
+          >
+            <div className="flex flex-col justify-end">
+              <Image
+                className="object-scale-down"
+                src={"/profile/addfile_icon.png"}
+                alt="Add file icon"
+                height={75}
+                width={75}
+              />
+            </div>
+            <div className="text-neutral-800 relative flex w-full flex-col p-2 text-center text-lg">
+              Create New File
+            </div>
+          </button>
+          {filteredFiles.map((file, key) => (
+            <div key={key}>
+              <FileTile
+                id={file.id}
+                name={file.name}
+                lastModified={new Date(file.lastModified)}
+                url={file.url}
+                Tags={file.Tags}
+              />
+            </div>
+          ))}
+        </TileGrid>
+      </div>
+    </div>
+  );
 };
 
 export default SeniorProfile;
