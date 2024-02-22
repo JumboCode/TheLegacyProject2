@@ -37,7 +37,6 @@ const UserHomePage = async ({ params }: UserHomePageParams) => {
         dateCreated={chapter.dateCreated}
       />
       <CardGrid
-        column_count={2}
         title={
           <div className="font-merriweather text-xl font-bold">
             Executive Board
