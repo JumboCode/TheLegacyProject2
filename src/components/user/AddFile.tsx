@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Dispatch, SetStateAction, useState } from "react";
 import FilterDropdown from "@components/FilterDropdown";
 import Tag, { TagProps, tagList } from "@components/Tag";
@@ -72,14 +74,11 @@ const AddFile = ({
   return (
     <>
       {showAddFilePopUp && (
-        <div className="absolute z-50 flex h-full w-screen flex-row items-start justify-center backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
+        <div className="absolute z-50 flex h-full w-screen flex-row place-content-center items-start justify-center backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
           {!confirm && !error ? (
-            <div className="mt-20 flex min-h-[650px] w-1/2 flex-col justify-between rounded-lg bg-white p-10">
+            <div className="font-merriweather mt-20 flex min-h-[650px] w-1/2 flex-col justify-between rounded-lg bg-[#22555A] p-10 text-white">
               <div>
-                <div className="mb-8 font-serif text-3xl">
-                  {" "}
-                  Create New File{" "}
-                </div>
+                <div className="mb-8 text-3xl"> Create New File </div>
                 <div className="text-neutral-600 mb-1 h-[34px] w-full font-sans text-lg">
                   File name
                 </div>
@@ -89,16 +88,6 @@ const AddFile = ({
                   value={fileName}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setFilename(e.target.value)
-                  }
-                />
-                <div className="text-neutral-600 mb-1 h-[34px] w-full text-lg">
-                  Description
-                </div>
-                <textarea
-                  className="mb-4 h-1/2 w-full rounded border-2 border-tan bg-off-white p-[12px] text-start text-base"
-                  placeholder=""
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    setDescription(e.target.value)
                   }
                 />
                 <TagSelector
