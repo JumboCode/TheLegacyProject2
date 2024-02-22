@@ -1,5 +1,7 @@
 "use client";
 
+"use client";
+
 import React, { Dispatch, SetStateAction, useState } from "react";
 import FilterDropdown from "@components/FilterDropdown";
 import Tag, { TagProps, tagList } from "@components/Tag";
@@ -76,6 +78,7 @@ const AddFile = ({
   return (
     <>
       {showAddFilePopUp && (
+        <div className="absolute z-50 flex h-full w-screen flex-row place-content-center items-start justify-center backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
         <div className="absolute z-50 flex h-full w-screen flex-row place-content-center items-start justify-center backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
           {!confirm && !error ? (
             <div className="mt-20 flex min-h-[650px] min-w-[750px] flex-col justify-between rounded-[16px] bg-[#22555A] p-10 font-['merriweather'] text-white">
