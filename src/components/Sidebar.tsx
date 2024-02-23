@@ -82,26 +82,6 @@ const Sidebar = ({ buttons }: ISideBar) => {
         <div className="flex w-full pb-6 pt-0 text-left font-serif text-sm text-med-gray">
           {user.role[0] + user.role.toLowerCase().slice(1)}
         </div>
-        <button
-          onClick={async () => {
-            await postSenior({
-              body: {
-                name: "Nick Doan",
-                location: "Tufts University",
-                description: "tech lead",
-                StudentIDs: [
-                  "65d6986025f45c5a577bbf65",
-                  "65d6980225f45c5a577bbf62",
-                ],
-              },
-            }).then(() => console.log("clicked"));
-          }}
-        >
-          <SidebarItem
-            label="Create Senior"
-            iconName={faArrowRightFromBracket}
-          />
-        </button>
         <button onClick={() => signOut({ callbackUrl: "/public/" })}>
           <SidebarItem label="Sign Out" iconName={faArrowRightFromBracket} />
         </button>

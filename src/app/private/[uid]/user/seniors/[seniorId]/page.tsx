@@ -1,3 +1,4 @@
+import { DisplaySenior } from "@components/senior";
 import { prisma } from "@server/db/client";
 
 interface PageProps {
@@ -15,9 +16,13 @@ const Page = async ({ params }: PageProps) => {
         has: params.uid,
       },
     },
+    include: {
+      Students: true,
+      Files: true,
+    },
   });
 
-  return null;
+  return <DisplaySenior editable={false} senior={senior} />;
 };
 
 export default Page;
