@@ -7,6 +7,7 @@ import { File } from "@components/file";
 import AddFile from "@components/file/AddFile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faClose } from "@fortawesome/free-solid-svg-icons";
+import { v4 as uuid } from "uuid";
 
 interface DisplayProps {
   editable: boolean;
@@ -16,7 +17,7 @@ interface DisplayProps {
 // TODO(nickbar0123) - Remove mock data
 const FILES: PrismaFile[] = [
   {
-    id: "",
+    id: "1",
     date: new Date("2023-11-20"),
     filetype: "",
     url: "https://www.google.com/",
@@ -24,7 +25,7 @@ const FILES: PrismaFile[] = [
     Tags: ["Early Childhood", "Adolecense", "Marriage"],
   },
   {
-    id: "",
+    id: "2",
     date: new Date("2023-01-20"),
     filetype: "",
     url: "https://www.google.com/",
@@ -32,7 +33,7 @@ const FILES: PrismaFile[] = [
     Tags: ["Marriage"],
   },
   {
-    id: "",
+    id: "3",
     date: new Date("2020-12-20"),
     filetype: "",
     url: "https://www.google.com/",
@@ -43,6 +44,8 @@ const FILES: PrismaFile[] = [
 
 const DisplaySenior = (props: DisplayProps) => {
   const { editable, senior } = props;
+  const addFileId = uuid();
+
   return (
     <div className="flex flex-col gap-y-6">
       {/* @TODO - Firstname + lastname */}
@@ -68,7 +71,7 @@ const DisplaySenior = (props: DisplayProps) => {
         display={(file) => <File key={file.id} file={file} />}
         elements={FILES} // TODO(nickbar01234) - Replace with real data
         search={(file, filter) => formatFileDate(file.date).includes(filter)}
-        addElementComponent={<AddFile />}
+        addElementComponent={<AddFile key={addFileId} />}
       />
     </div>
   );
