@@ -55,9 +55,6 @@ const Sidebar = ({ buttons }: ISideBar) => {
       </Link>
       <div></div>
 
-
-
-      
       <div className="mb-20 w-full px-11">
         <div className="flex w-full flex-col space-y-6">
           {buttons.map((data) => (
@@ -69,19 +66,6 @@ const Sidebar = ({ buttons }: ISideBar) => {
       </div>
 
       <div className="w-full px-11 py-20">
-
-
-
-
-
-
-
-
-
-
-
-
-        
         {/* TODO(nickbar01234) - Render university name */}
         {/* <div className="text-md flex pb-2 pt-20 text-left font-serif text-xxs text-dark-gray">
           <div className="w-4">
