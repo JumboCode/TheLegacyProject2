@@ -13,13 +13,15 @@ const AdminHomeLayout = ({ children }: IAdminHomeLayout) => {
       headerIcon={faHouse}
       showHorizontalLine={false}
     >
-      <TabButtons
-        queries={[
-          { segment: "chapters", name: "chapters" },
-          { segment: "resources", name: "resources" },
-        ]}
-      />
-      {children}
+      <div className="flex flex-col gap-y-6">
+        <TabButtons
+          queries={[
+            { segment: "chapters", name: "chapters" },
+            { segment: "resources", name: "resources" },
+          ]}
+        />
+        {children}
+      </div>
     </HeaderContainer>
   );
 };

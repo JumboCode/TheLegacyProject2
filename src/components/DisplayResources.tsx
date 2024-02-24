@@ -127,7 +127,7 @@ const DisplayResources = (props: IDisplayResources) => {
   }, [stateResources, setCanSubmit]);
 
   return (
-    <div className="mt-6">
+    <div>
       <div className="flex justify-between">
         <button
           className="flex w-44 items-center justify-between rounded-xl border border-dark-teal px-4 py-2.5"
