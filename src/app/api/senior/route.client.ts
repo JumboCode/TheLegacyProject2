@@ -6,7 +6,6 @@ interface IPostSeniorRequest extends Omit<RequestInit, "body"> {
 
 export const postSenior = async (request: IPostSeniorRequest) => {
   const { body, ...options } = request;
-  console.log("postSenior");
 
   const response = await fetch(`/api/senior/`, {
     method: "POST",
