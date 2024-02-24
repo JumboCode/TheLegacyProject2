@@ -20,7 +20,7 @@ const TagSelector = ({
 }) => {
   return (
     <div>
-      <div className="text-neutral-600 mb-1 h-[34px] w-full font-['merriweather'] text-xl">
+      <div className="text-neutral-600 mb-1 h-[34px] w-full font-['merriweather'] text-2xl">
         Tags
       </div>
       <div className="text-lg font-thin">Select min of 1, max of 3</div>
@@ -79,12 +79,15 @@ const AddFile = ({
           {!confirm && !error ? (
             <div className="mt-20 flex min-h-[650px] min-w-[700px] flex-col justify-between rounded-[16px] bg-[#22555A] p-10 font-['merriweather'] text-white">
               <div>
-                <div className="mb-8 text-3xl font-bold"> Create New File </div>
-                <div className="text-neutral-600 mb-1 h-[34px] w-full text-xl">
+                <div className="mb-5 mt-4 text-3xl font-bold">
+                  {" "}
+                  Create New File{" "}
+                </div>
+                <div className="text-neutral-600 mb-3 h-[34px] w-full text-2xl font-thin">
                   Select Date
                 </div>
                 <input
-                  className="mb-5 h-[50px] w-full rounded border-2 border-tan px-3 text-xl text-[#22555A]"
+                  className="mb-4 h-[50px] w-full rounded border-2 border-tan px-3 text-xl text-[#22555A]"
                   type="text"
                   value={fileName}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -99,13 +102,13 @@ const AddFile = ({
 
               <div className="flex w-full flex-row justify-center">
                 <button
-                  className="mx-2 my-4 w-full max-w-[10rem] rounded-[16px] bg-white p-3 text-2xl font-normal text-[#22555A] drop-shadow-md hover:bg-offer-white"
+                  className="mx-2 my-4 w-full max-w-[9rem] rounded-[16px] bg-white p-3 text-2xl font-medium text-[#22555A] drop-shadow-md hover:bg-offer-white"
                   onClick={handleCancel}
                 >
                   Cancel
                 </button>
                 <button
-                  className="bg-legacy-teal mx-2 my-4 w-full max-w-[10rem] rounded-[16px] bg-white p-3 text-2xl font-normal text-[#22555A] drop-shadow-md hover:bg-offer-white"
+                  className="bg-legacy-teal mx-2 my-4 w-full max-w-[9rem] rounded-[16px] bg-white p-3 text-2xl font-medium text-[#22555A] drop-shadow-md hover:bg-offer-white"
                   onClick={callAddFile}
                 >
                   Create
