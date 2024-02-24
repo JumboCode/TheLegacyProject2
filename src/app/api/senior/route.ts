@@ -13,7 +13,6 @@ export const POST = withSessionAndRole(
     const body = await req.json();
     const newSenior = postSeniorSchema.safeParse(body);
 
-    console.log("1");
     if (!newSenior.success) {
       return NextResponse.json(
         seniorPostResponse.parse({
@@ -29,7 +28,6 @@ export const POST = withSessionAndRole(
         },
       });
 
-      console.log("2");
       if (!user) {
         return NextResponse.json(
           seniorPostResponse.parse({
@@ -59,8 +57,6 @@ export const POST = withSessionAndRole(
         fields: "id",
       };
 
-      console.log("3");
-
       const { access_token, refresh_token } = (await prisma.account.findFirst({
         where: {
           userId: session.user.id,
@@ -78,8 +74,6 @@ export const POST = withSessionAndRole(
         version: "v3",
         auth,
       });
-
-      console.log("4");
 
       const file = await (service as NonNullable<typeof service>).files.create(
         fileCreateData

@@ -12,7 +12,7 @@ const UserSeniorsPage = async ({ params }: { params: { uid: string } }) => {
     },
   });
 
-  const seniors = user?.Seniors;
+  const seniors = user.Seniors;
 
   return <SeniorsHomePage seniors={seniors} user={user} />;
 };
