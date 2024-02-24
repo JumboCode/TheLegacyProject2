@@ -23,7 +23,7 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
 
   return (
     <>
-      <div className="mb-6 mt-6 flex gap-2.5">
+      <div className="flex w-full gap-2.5">
         <SearchBar setFilter={setFilter} />
       </div>
 
