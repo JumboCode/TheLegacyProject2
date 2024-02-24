@@ -18,7 +18,11 @@ const Page = async ({ params }: PageProps) => {
       },
     },
     include: {
-      Students: true,
+      chapter: {
+        include: {
+          students: true,
+        },
+      },
       Files: true,
     },
   });
