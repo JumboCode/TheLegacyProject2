@@ -54,8 +54,8 @@ export function UserTile({
           <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm text-dark-teal">
             {student && student.name
               ? student.name + (student.admin ? " (Admin)" : "")
-              : senior
-              ? senior.name
+              : senior && `${senior.firstname} ${senior.lastname}`
+              ? `${senior.firstname} ${senior.lastname}`
               : null}
           </p>
           {/* @TODO: Add pronouns once we add to student field  */}

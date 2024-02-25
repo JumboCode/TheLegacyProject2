@@ -59,7 +59,11 @@ export function SeniorTile({
     },
   ];
 
-  console.log(senior.name + "'s Students: " + senior.StudentIDs.toString());
+  console.log(
+    `${senior.firstname} ${senior.lastname}` +
+      "'s Students: " +
+      senior.StudentIDs.toString()
+  );
 
   return (
     <div className="relative flex aspect-square w-auto flex-col items-center rounded bg-white font-medium drop-shadow-md hover:bg-off-white">
@@ -77,7 +81,7 @@ export function SeniorTile({
           <div className="text-md text-neutral-600 relative flex h-1/2 w-full flex-col p-2 text-center font-medium">
             <span className="break-words px-2 font-semibold">
               {" "}
-              {senior.name}{" "}
+              {`${senior.firstname} ${senior.lastname}`}{" "}
             </span>
             <p className="text-md font-base text-neutral-600 truncate px-2">
               {senior.location}
