@@ -40,6 +40,9 @@ const SeniorPage = async ({ params }: Params) => {
     
     
     
+    
+    
+    
     className="flex h-full w-full flex-col gap-y-6">
       <PathNav
         pathInfo={[
