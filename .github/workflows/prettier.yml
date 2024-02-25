@@ -1,13 +1,14 @@
 name: Prettier Action
 
 on:
-  push:
-    branches: ["sburchfield33-juliazel-githubactions"]
   pull_request:
     branches: ["sburchfield33-juliazel-githubactions"]
+  pull_request_review:
+    types: [submitted]
 
 jobs:
   prettier:
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
 
     steps:
