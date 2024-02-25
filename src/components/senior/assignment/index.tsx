@@ -1,7 +1,7 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 import React from "react";
-import Dropdown from "./Dropdown";
-import { compareUser } from "@utils";
+import { Dropdown } from "@components/selector";
+import { compareUser, fullName } from "@utils";
 import { patchSenior } from "@api/senior/[id]/route.client";
 import { useRouter } from "next/navigation";
 
@@ -28,10 +28,12 @@ const Assignment = (props: AssignmentProps) => {
   return (
     <div className="flex flex-wrap gap-2">
       {props.editable && (
-        <Dropdown
-          students={students}
-          assigned={assigned}
-          setAssigned={setAssigned}
+        <Dropdown<User>
+          header="Assign student"
+          elements={students}
+          selected={assigned}
+          setSelected={setAssigned}
+          display={(user) => fullName(user)}
           onSave={async () => {
             await patchSenior({
               body: {
