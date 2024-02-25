@@ -35,10 +35,7 @@ const SeniorPage = async ({ params }: Params) => {
   });
 
   return (
-    <div 
-    
-    
-    className="flex h-full w-full flex-col gap-y-6">
+    <div className="flex h-full w-full flex-col gap-y-6">
       <PathNav
         pathInfo={[
           { display: "Chapters", url: "chapters" },
@@ -51,36 +48,13 @@ const SeniorPage = async ({ params }: Params) => {
       <CardGrid
         title={
           <>
-            <h1 
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            className="text-2xl font-bold text-[#000022]">{senior.name}</h1>
+            <h1 className="text-2xl font-bold text-[#000022]">{senior.name}</h1>
             {senior.description.length > 0 && (
               <p className="text-[15px]">{senior.description}</p>
             )}
           </>
         }
         tiles={senior.Files.map((file) => (
-
-
-
-
-
-
-
-
-
-
-          
           <FileTile
             key={file.id}
             id={file.id}
