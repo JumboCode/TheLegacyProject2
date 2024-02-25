@@ -1,10 +1,9 @@
 name: Prettier Action
 
 on:
-  pull_request:
-    branches: ["sburchfield33-juliazel-githubactions"]
   pull_request_review:
     types: [submitted]
+    branches: ["sburchfield33-juliazel-githubactions"]
 
 jobs:
   prettier:
