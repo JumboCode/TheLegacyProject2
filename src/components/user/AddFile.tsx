@@ -3,6 +3,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import FilterDropdown from "@components/FilterDropdown";
 import Tag, { TagProps, tagList } from "@components/Tag";
+import DateSelector from "./DateSelector";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -77,7 +78,7 @@ const AddFile = ({
       {showAddFilePopUp && (
         <div className="absolute z-50 flex h-full w-screen flex-row place-content-center items-start justify-center backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
           {!confirm && !error ? (
-            <div className="mt-20 flex min-h-[650px] min-w-[700px] flex-col justify-between rounded-[16px] bg-[#22555A] p-10 font-['merriweather'] text-white">
+            <div className="mt-20 flex min-h-[650px] min-w-[750px] flex-col justify-between rounded-[16px] bg-[#22555A] p-10 font-['merriweather'] text-white">
               <div>
                 <div className="mb-5 mt-4 text-3xl font-bold">
                   {" "}
@@ -86,14 +87,15 @@ const AddFile = ({
                 <div className="text-neutral-600 mb-3 h-[34px] w-full text-2xl font-thin">
                   Select Date
                 </div>
-                <input
+                <DateSelector />
+                {/* <input
                   className="mb-4 h-[50px] w-full rounded border-2 border-tan px-3 text-xl text-[#22555A]"
                   type="text"
                   value={fileName}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setFilename(e.target.value)
                   }
-                />
+                /> */}
                 <TagSelector
                   selectedTags={selectedTags}
                   setSelectedTags={setSelectedTags}
