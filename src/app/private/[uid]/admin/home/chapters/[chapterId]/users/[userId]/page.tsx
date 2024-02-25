@@ -16,6 +16,7 @@ const UserPage = async ({ params }: Params) => {
 
   const user = await prisma.user.findUniqueOrThrow({
     where: { id: userId, ChapterID: chapterId },
+
     include: {
       Seniors: true,
       Chapter: true,
@@ -31,7 +32,13 @@ const UserPage = async ({ params }: Params) => {
           { display: user.name ?? "", url: userId },
         ]}
       />
-      {/* TODO(nickbar01234) - Add pronouns */}
+      {/* TODO(nickbar01234) - Add pronouns 
+      
+      
+      
+      
+      
+      */}
       <CardGrid
         title={
           <div className="font-merriweather text-2xl font-bold text-[#002]">
