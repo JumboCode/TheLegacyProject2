@@ -35,10 +35,19 @@ const SeniorPage = async ({ params }: Params) => {
   });
 
   return (
-    <div className="flex h-full w-full flex-col gap-y-6">
+    <div 
+    
+    
+    
+    
+    
+    
+    
+    className="flex h-full w-full flex-col gap-y-6">
       <PathNav
         pathInfo={[
-          { display: "Chapters", url: "chapters" },
+          { display: "Chapters", url: 
+          "chapters" },
           { display: user.Chapter?.chapterName ?? "", url: chapterId },
           { display: user.name ?? "", url: userId },
           { display: senior.name, url: seniorId },
