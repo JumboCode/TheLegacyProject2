@@ -54,6 +54,7 @@ const Sidebar = ({ buttons }: ISideBar) => {
         </h1>
       </Link>
       <div></div>
+
       <div className="mb-20 w-full px-11">
         <div className="flex w-full flex-col space-y-6">
           {buttons.map((data) => (
