@@ -162,10 +162,7 @@ const AddSenior = ({
     // put accumulated students into senior model data
     const seniorModel = {
       ...seniorData,
-      StudentIDs: selectedStudents.map((usr) => {
-        console.log(usr.id);
-        return usr.id;
-      }),
+      StudentIDs: selectedStudents.map((usr) => usr.id),
     };
 
     // POST new senior model to database
@@ -175,7 +172,6 @@ const AddSenior = ({
         setConfirm(true);
         setSeniors([...seniors, res.data]);
       } else {
-        console.log(res.code);
         setError(true);
       }
       setSeniorData(emptySenior);
