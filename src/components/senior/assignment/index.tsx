@@ -37,7 +37,8 @@ const Assignment = (props: AssignmentProps) => {
           onSave={async () => {
             await patchSenior({
               body: {
-                name: senior.name,
+                firstname: senior.firstname,
+                lastname: senior.lastname,
                 location: senior.location,
                 description: senior.description,
                 StudentIDs: assigned.map((user) => user.id),

@@ -52,7 +52,7 @@ const DisplaySenior = (props: DisplayProps) => {
   return (
     <div className="flex flex-col gap-y-6">
       {/* @TODO - Firstname + lastname */}
-      <h1 className="text-4xl font-bold text-[#000022]">{senior.name}</h1>
+      <h1 className="text-4xl font-bold text-[#000022]">{`${senior.firstname} ${senior.lastname}`}</h1>
       <p>{senior.description}</p>
       <Assigment editable={editable} senior={senior} />
       <SearchableContainer

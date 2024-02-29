@@ -12,7 +12,7 @@ type SeniorsHomePageProps = {
 const SeniorsHomePage = ({ seniors, user }: SeniorsHomePageProps) => {
   const displaySeniors = (elem: Senior, index: number) => (
     <UserTile
-      key={index}
+      key={elem.id}
       senior={elem}
       link={`/private/${user.id}/user/seniors/${elem.id}`}
     />

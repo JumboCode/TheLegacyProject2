@@ -33,7 +33,7 @@ const Page = async ({ params }: PageProps) => {
         pathInfo={[
           { display: "Seniors", url: `/private/${params.uid}/user/seniors` },
           {
-            display: senior.name,
+            display: `${senior.firstname} ${senior.lastname}`,
             url: `/private/${params.uid}/seniors/${senior.id}`,
           },
         ]}
