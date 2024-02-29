@@ -8,7 +8,9 @@ import { useAuth } from "@hooks";
 const Navbar = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const handleMenuClick: React.MouseEventHandler = () => {
-    setDropdownVisible((visible) => !visible);
+    setDropdownVisible((visible)
+    
+    => !visible);
   };
   const { status, onSignIn } = useAuth();
 
@@ -16,6 +18,10 @@ const Navbar = () => {
     <nav
       className="top-0 z-10 flex h-[60px] w-full flex-row items-center 
                     justify-between border border-dark-tan bg-med-tan"
+
+
+
+                    
     >
       <div className="pl-[20px] font-serif text-xl font-medium sm:pl-[40px] md:text-2xl">
         <Link href="/">The Legacy Project</Link>
