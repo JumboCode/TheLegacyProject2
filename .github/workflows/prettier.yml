@@ -24,8 +24,6 @@ jobs:
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          same_commit: True
           prettier_options: "--write **/*.tsx"
           # prettier_plugins: "@tailwindlabs/prettier-plugin-tailwindcss"
-          only_changed: True
           prettier_version: '2.x.x'
