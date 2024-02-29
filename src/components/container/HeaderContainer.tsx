@@ -12,7 +12,7 @@ const HeaderContainer = (props: IHeaderContainer) => {
   const { children, header, headerIcon, showHorizontalLine } = props;
 
   return (
-    <div className="h-full w-full p-[104px] px-7">
+    <div className="h-full w-full">
       <div className="flex w-full items-center space-x-4">
         <FontAwesomeIcon className="fa-lg h-8 w-8" icon={headerIcon} />
         <h1 className="text-2xl text-black">{header}</h1>

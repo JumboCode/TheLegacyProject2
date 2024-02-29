@@ -1,27 +1,28 @@
 "use client";
 
 import { Spinner } from "@components/skeleton";
-import { Session } from "next-auth";
+import { Prisma } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import React from "react";
 
+type UserWithChapter = Prisma.UserGetPayload<{ include: { Chapter: true } }>;
+
 interface IUserProvider {
   children: React.ReactNode;
+  user: UserWithChapter;
 }
 
-interface IAuthenticatedUser {
-  user: NonNullable<Session["user"]>;
+interface IUserContext {
+  user: UserWithChapter;
 }
 
-const UserContext = React.createContext<IAuthenticatedUser>(
-  {} as IAuthenticatedUser
-);
+const UserContext = React.createContext<IUserContext>({} as IUserContext);
 
 /**
  * Redirects to public home page if the current user is not authenticated.
  */
-const UserProvider = ({ children }: IUserProvider) => {
+const UserProvider = ({ user, children }: IUserProvider) => {
   const { data, status } = useSession({
     required: true,
     onUnauthenticated: () => redirect("/public/"),
@@ -35,7 +36,7 @@ const UserProvider = ({ children }: IUserProvider) => {
     );
   } else {
     return (
-      <UserContext.Provider value={{ user: data.user }}>
+      <UserContext.Provider value={{ user: user }}>
         {children}
       </UserContext.Provider>
     );

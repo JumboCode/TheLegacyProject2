@@ -1,17 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React from "react";
 import { signOut } from "next-auth/react";
 import {
   faArrowRightFromBracket,
+  faCity,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { UserContext } from "src/context/UserProvider";
 import Logo from "@public/icons/logo.svg";
 import Image from "next/image";
-import { postSenior } from "@api/senior/route.client";
+import { RoleAlias } from "@constants/RoleAlias";
+import { fullName } from "@utils";
 
 interface Button {
   name: string;
@@ -40,21 +42,16 @@ const SidebarItem = ({
   );
 };
 
-const Sidebar = ({ buttons }: ISideBar) => {
-  const { user } = useContext(UserContext);
-  const [sidebarVisible, setSidebarVisible] = useState(false);
-  const handleMenuClick: React.MouseEventHandler = () => {
-    setSidebarVisible((visible) => !visible);
-  };
-
+const _Sidebar = ({ buttons }: ISideBar) => {
+  const { user } = React.useContext(UserContext);
   return (
-    <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-between bg-med-tan">
+    <nav className="flex h-full w-full flex-col items-center justify-between bg-med-tan pb-32 pt-20">
       <Link href="/public/" className="flex justify-center">
-        <h1 className=" mb-3 mt-20 h-auto w-full items-center justify-center px-5 duration-150 hover:-translate-y-0.5">
+        <h1 className="h-auto w-full items-center justify-center px-5 duration-150 hover:-translate-y-0.5">
           <Image src={Logo} alt="logo" className="items-end" />
         </h1>
       </Link>
-      <div className="mb-20 h-full w-full px-11">
+      <div className="h-full w-full px-11">
         <div className="flex w-full flex-col space-y-6">
           {buttons.map((data) => (
             <Link key={data.name} href={data.link}>
@@ -64,29 +61,67 @@ const Sidebar = ({ buttons }: ISideBar) => {
         </div>
       </div>
 
-      <div className="w-full px-11 py-20">
-        {/* TODO(nickbar01234) - Render university name */}
-        {/* <div className="text-md flex pb-2 pt-20 text-left font-serif text-xxs text-dark-gray">
-          <div className="w-4">
-            <FontAwesomeIcon icon={faCity} />
-          </div>
-          University
-        </div>
-        <div className="text-md flex w-full text-left font-serif text-xs">
-          Tufts University
-        </div> */}
+      <div className="w-full px-11">
+        {user.Chapter != null && (
+          <>
+            <div className="text-md flex items-center gap-x-2 pb-2 pt-20 text-left font-serif text-dark-gray">
+              <FontAwesomeIcon icon={faCity} />
+              <span>University</span>
+            </div>
+            <div className="text-md flex w-full truncate text-left font-serif text-dark-plum">
+              {user.Chapter.chapterName}
+            </div>
+          </>
+        )}
         <hr className="my-6 h-px w-full rounded border-0 bg-black" />
-        <div className="mb-1 flex w-full text-left font-serif text-lg font-bold">
-          {user.name ?? ""}
+        <div className="mb-1 flex w-full truncate text-left font-serif text-lg font-bold">
+          {fullName(user)}
         </div>
         <div className="flex w-full pb-6 pt-0 text-left font-serif text-sm text-med-gray">
-          {user.role[0] + user.role.toLowerCase().slice(1)}
+          {RoleAlias[user.role]}
         </div>
         <button onClick={() => signOut({ callbackUrl: "/public/" })}>
           <SidebarItem label="Sign Out" iconName={faArrowRightFromBracket} />
         </button>
       </div>
-    </div>
+    </nav>
+  );
+};
+
+const Sidebar = (props: ISideBar) => {
+  const [sidebarVisible, setSidebarVisible] = React.useState(false);
+
+  return (
+    <>
+      <div className="sticky top-0 hidden h-screen lg:block">
+        <_Sidebar {...props} />
+      </div>
+      <div
+        className="block lg:hidden"
+        onMouseLeave={() => setSidebarVisible(false)}
+      >
+        {!sidebarVisible ? (
+          <div className="mt-6">
+            <svg
+              className="h-8 w-8 text-darkest-tan"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              onClick={() => setSidebarVisible(!sidebarVisible)}
+            >
+              <line x1="4" y1="7" x2="20" y2="7" />
+              <line x1="4" y1="12" x2="20" y2="12" />
+              <line x1="4" y1="17" x2="20" y2="17" />
+            </svg>
+          </div>
+        ) : (
+          <div className="fixed left-0 top-0 z-50 h-full w-64 drop-shadow-lg">
+            <_Sidebar {...props} />
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
