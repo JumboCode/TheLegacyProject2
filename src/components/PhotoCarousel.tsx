@@ -6,24 +6,27 @@ type PhotoProps = {
   caption: string;
 };
 
-
 const PhotoCarousel = () => {
   const [photos, setPhotos] = useState<PhotoProps[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [show, setShow] = useState<number>(1);
   const widthRef = useRef<HTMLHeadingElement>(null);
-  
+
   const [elemWidth, setElemWidth] = useState<number>(0);
-    
+
   useEffect(() => {
-    function handleResize() { 
+    function handleResize() {
       setElemWidth(widthRef.current ? widthRef.current.offsetWidth : 0);
-      const showVal = widthRef.current ? Math.floor(widthRef.current.offsetWidth / 250) : 1;
+      const showVal = widthRef.current
+        ? Math.floor(widthRef.current.offsetWidth / 250)
+        : 1;
       setShow(showVal || 1);
     }
     window.addEventListener("resize", handleResize);
     handleResize();
-    return () => { window.removeEventListener("resize", handleResize) }
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const carouselHeight = elemWidth / show;
@@ -40,7 +43,7 @@ const PhotoCarousel = () => {
       { filePath: "/gallery/Tufts Legacy-255.jpg", caption: "picture3" },
       { filePath: "/gallery/Tufts Legacy-258.jpg", caption: "picture4" },
     ]);
-  }, []);  
+  }, []);
 
   const nextIndex = () => {
     setActiveIndex(activeIndex === show - 1 ? 0 : activeIndex - 1);
@@ -51,8 +54,7 @@ const PhotoCarousel = () => {
   };
 
   return (
-    <div className="flex flex-col w-full place-content-center py-8 gap-y-8"
-    >
+    <div className="flex w-full flex-col place-content-center gap-y-8 py-8">
       {/* photo carousel */}
       <div className="relative flex items-center justify-center">
         <svg
@@ -71,33 +73,31 @@ const PhotoCarousel = () => {
         </svg>
 
         <div
-          className="relative flex w-full flex-row justify-between ease-in-out overflow-hidden"
-          style={{height: carouselHeight - carouselPad}}
+          className="relative flex w-full flex-row justify-between overflow-hidden ease-in-out"
+          style={{ height: carouselHeight - carouselPad }}
           ref={widthRef}
         >
-          {
-          photos.map(
-            (photo, index) =>
-              (
-                <div
-                key={index}
-                className={
-                  "absolute aspect-square object-cover h-full select-none transition-all"
-                }
-                style={{
-                  left: ((index - activeIndex + show) % show) * (carouselHeight + carouselPad / 2),
-                  height: carouselHeight - carouselPad
-                }}
-              >
-                <Image
-                  className="object-cover"
-                  layout="fill"
-                  src={photo.filePath}
-                  alt={photo.caption}
-                />
-              </div>
-              )
-          )}
+          {photos.map((photo, index) => (
+            <div
+              key={index}
+              className={
+                "absolute aspect-square h-full select-none object-cover transition-all"
+              }
+              style={{
+                left:
+                  ((index - activeIndex + show) % show) *
+                  (carouselHeight + carouselPad / 2),
+                height: carouselHeight - carouselPad,
+              }}
+            >
+              <Image
+                className="object-cover"
+                layout="fill"
+                src={photo.filePath}
+                alt={photo.caption}
+              />
+            </div>
+          ))}
         </div>
         <svg
           width="64"

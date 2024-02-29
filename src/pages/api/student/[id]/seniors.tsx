@@ -14,7 +14,7 @@ const seniors = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const { id: studentId } = req.query;
-  
+
   if (typeof studentId !== "string") {
     res.status(500).json({
       error: `studentId must be a string`,

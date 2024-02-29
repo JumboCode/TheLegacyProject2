@@ -8,7 +8,6 @@ const AdminChaptersPage = async () => {
     },
   });
 
-  
   return <AdminHomePage chapters={chapters} />;
 };
 

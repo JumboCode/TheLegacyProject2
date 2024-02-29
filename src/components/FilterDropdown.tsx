@@ -84,7 +84,7 @@ export default function FilterDropdown<T extends Named>({
             >
               {filteredItems.map((item: T, index: number) => (
                 <span
-                  className="border-light-gray \ hover:bg-legacy-teal  flex flex-row items-center border py-2
+                  className="\ hover:bg-legacy-teal flex  flex-row items-center border border-light-gray py-2
                             pl-2 text-gray-700 hover:cursor-pointer hover:font-bold"
                   onClick={() => {
                     onItemSelect(index, item);

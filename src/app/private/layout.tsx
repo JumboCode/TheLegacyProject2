@@ -4,10 +4,7 @@ interface IPrivateLayout {
   children: React.ReactNode;
 }
 
-const PrivateLayout = ({ 
-  
-  
-  children }: IPrivateLayout) => {
+const PrivateLayout = ({ children }: IPrivateLayout) => {
   return <UserProvider>{children}</UserProvider>;
 };
 

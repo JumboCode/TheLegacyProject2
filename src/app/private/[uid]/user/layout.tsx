@@ -1,11 +1,7 @@
 "use client";
 
 import Sidebar, { ISideBar } from "@components/Sidebar";
-import {
-  faHome,
-  faUsers,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHome, faUsers, faUser } from "@fortawesome/free-solid-svg-icons";
 import React, { useContext } from "react";
 import { UserContext } from "src/context/UserProvider";
 

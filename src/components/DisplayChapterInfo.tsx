@@ -1,5 +1,3 @@
-
-
 interface DisplayChapterInfoParams {
   location: string;
   noMembers: number;
@@ -23,7 +21,9 @@ const DisplayChapterInfo = ({
       </div>
       <div className="flex flex-row text-start">
         <div>Years Active: </div>
-        <div className="ml-2 font-bold">{new Date().getFullYear() - dateCreated.getFullYear()}</div>
+        <div className="ml-2 font-bold">
+          {new Date().getFullYear() - dateCreated.getFullYear()}
+        </div>
       </div>
     </div>
   );
