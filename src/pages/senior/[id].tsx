@@ -12,20 +12,20 @@ import { z } from "zod";
 import { Approval } from "@prisma/client";
 import { prisma } from "@server/db/client";
 
-// type ISeniorProfileProps = Awaited<
-//   ReturnType<typeof getServerSideProps>
-// >["props"] & {
-//   redirect: undefined;
-// };
+type ISeniorProfileProps = Awaited<
+  ReturnType<typeof getServerSideProps>
+>["props"] & {
+  redirect: undefined;
+};
 
-// type SerialzedFile = ISeniorProfileProps["senior"]["Files"][number];
+type SerialzedFile = ISeniorProfileProps["senior"]["Files"][number];
 
 const SeniorProfile = ({ senior }: any) => {
-  // const [files, _] = useState(senior.Files);
-  // const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
-  // const [filter, setFilter] = useState("");
-  // const [showAddFilePopUp, setShowAddFilePopUp] = useState<boolean>(false);
-  /*
+  const [files, _] = useState(senior.Files);
+  const [sortMethod, setSortMethod] = useState<SortMethod>("By Name");
+  const [filter, setFilter] = useState("");
+  const [showAddFilePopUp, setShowAddFilePopUp] = useState<boolean>(false);
+
   const sortFunction =
     sortMethod === "By Name"
       ? ({ name: nameA }: SerialzedFile, { name: nameB }: SerialzedFile) =>
@@ -46,7 +46,6 @@ const SeniorProfile = ({ senior }: any) => {
   const handlePopUp = () => {
     setShowAddFilePopUp(!showAddFilePopUp);
   };
-  */
 
   return (
     <div className="relative flex min-h-screen flex-col">
@@ -80,7 +79,7 @@ const SeniorProfile = ({ senior }: any) => {
 
         <TileGrid>
           <button
-            className="\ relative flex aspect-square w-auto flex-col items-center justify-center rounded 
+            className="\ relative flex aspect-square w-auto flex-col items-center justify-center rounded
                            bg-white text-base drop-shadow-md hover:bg-off-white"
             onClick={handlePopUp}
           >
@@ -116,86 +115,86 @@ const SeniorProfile = ({ senior }: any) => {
 
 export default SeniorProfile;
 
-// export const getServerSideProps = async (
-//   context: GetServerSidePropsContext
-// ) => {
-//   const session = await getServerAuthSession(context);
-//   const seniorId = z.string().parse(context.query.id);
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const session = await getServerAuthSession(context);
+  const seniorId = z.string().parse(context.query.id);
 
-//   if (!session || !session.user) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!session || !session.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
 
-//   if (!prisma) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!prisma) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
-//   const user = await prisma.user.findUnique({
-//     where: {
-//       id: session.user.id,
-//     },
-//   });
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
 
-//   if (!user) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
-//   if (user.approved === Approval.PENDING) {
-//     return {
-//       redirect: {
-//         destination: "/pending",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (user.approved === Approval.PENDING) {
+    return {
+      redirect: {
+        destination: "/pending",
+        permanent: false,
+      },
+    };
+  }
 
-//   // await fetch ("/api/senior/" + seniorId, { method: "GET" });
-//   // TODO: not using our beautiful API routes??
-//   const senior = await prisma.senior.findUnique({
-//     where: {
-//       id: seniorId, //get all information for given senior
-//     },
-//     include: {
-//       Files: true,
-//     },
-//   });
+  // await fetch ("/api/senior/" + seniorId, { method: "GET" });
+  // TODO: not using our beautiful API routes??
+  const senior = await prisma.senior.findUnique({
+    where: {
+      id: seniorId, //get all information for given senior
+    },
+    include: {
+      Files: true,
+    },
+  });
 
-//   if (
-//     !senior ||
-//     (!user.admin && !senior.StudentIDs.includes(session.user.id))
-//   ) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (
+    !senior ||
+    (!user.admin && !senior.StudentIDs.includes(session.user.id))
+  ) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
-//   return {
-//     // props: {
-//     //   senior: {
-//     //     ...senior,
-//     //     Files: senior.Files.map((file) => ({
-//     //       ...file,
-//     //       lastModified: file.lastModified.getTime(),
-//     //     })),
-//     //   },
-//     // },
-//   };
-// };
+  return {
+    props: {
+      senior: {
+        ...senior,
+        Files: senior.Files.map((file) => ({
+          ...file,
+          lastModified: file.lastModified.getTime(),
+        })),
+      },
+    },
+  };
+};

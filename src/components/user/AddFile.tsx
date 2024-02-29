@@ -3,7 +3,9 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import FilterDropdown from "@components/FilterDropdown";
 import Tag, { TagProps, tagList } from "@components/Tag";
-import DateSelector from "./DateSelector";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { createFile } from "@api/file/route.client";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -42,7 +44,7 @@ const AddFile = ({
   seniorId,
   folder,
 }: AddFileProps) => {
-  const [fileName, setFilename] = useState<string>("");
+  const [startDate, setStartDate] = useState(new Date());
   const [description, setDescription] = useState<string>("");
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -53,20 +55,17 @@ const AddFile = ({
   };
 
   const callAddFile = async () => {
-    // POST file in drive
-    const addFileRes = await fetch("/api/drive/addfile", {
-      method: "POST",
-      body: JSON.stringify({
-        fileName: fileName,
-        description: description,
-        fileType: "Google Document",
+    const response = await createFile({
+      body: {
+        date: startDate,
+        filetype: "Google Document",
+        url: "",
+        Tags: selectedTags.map((tagProp) => tagProp.name),
         seniorId: seniorId,
-        tags: selectedTags.map((tagProp) => tagProp.name),
-        folder: folder,
-      }),
+      },
     });
 
-    if (addFileRes.status === 200) {
+    if (response.code == "SUCCESS") {
       setConfirm(true);
     } else {
       setError(true);
@@ -87,15 +86,15 @@ const AddFile = ({
                 <div className="text-neutral-600 mb-3 h-[34px] w-full text-2xl font-thin">
                   Select Date
                 </div>
-                <DateSelector />
-                {/* <input
-                  className="mb-4 h-[50px] w-full rounded border-2 border-tan px-3 text-xl text-[#22555A]"
-                  type="text"
-                  value={fileName}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setFilename(e.target.value)
-                  }
-                /> */}
+                <div className="mb-4 font-['merriweather'] text-2xl text-[#22555A]">
+                  <DatePicker
+                    className="h-[70px] w-[700px] rounded-lg pl-[30px]"
+                    selected={startDate}
+                    onChange={(date) => date && setStartDate(date)}
+                    dateFormat="dd MMMM yyyy"
+                    // excludeDates={}
+                  />
+                </div>
                 <TagSelector
                   selectedTags={selectedTags}
                   setSelectedTags={setSelectedTags}
