@@ -24,6 +24,9 @@ const PendingChapters = async () => {
           email={pendingChapter.universityEmail}
           leadershipExperience={pendingChapter.leadershipExperience}
           motivation={pendingChapter.motivation}
+
+
+          
           availabilities={pendingChapter.availabilities}
           questions={pendingChapter.questions}
         />
