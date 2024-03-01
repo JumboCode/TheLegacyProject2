@@ -89,7 +89,7 @@ const _Sidebar = ({ buttons }: ISideBar) => {
 };
 
 const Sidebar = (props: ISideBar) => {
-  const [sidebarVisible, setSidebarVisible] = React.useState(false);
+  const [sidebarVisible, setSidebarVisible] = React.useState(true);
 
   return (
     <>
@@ -97,25 +97,22 @@ const Sidebar = (props: ISideBar) => {
         <_Sidebar {...props} />
       </div>
       <div
-        className="block lg:hidden"
+        className="mt-6 block lg:hidden"
         onMouseLeave={() => setSidebarVisible(false)}
       >
-        {!sidebarVisible ? (
-          <div className="mt-6">
-            <svg
-              className="h-8 w-8 text-darkest-tan"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              onClick={() => setSidebarVisible(!sidebarVisible)}
-            >
-              <line x1="4" y1="7" x2="20" y2="7" />
-              <line x1="4" y1="12" x2="20" y2="12" />
-              <line x1="4" y1="17" x2="20" y2="17" />
-            </svg>
-          </div>
-        ) : (
+        <svg
+          className="h-8 w-8 text-darkest-tan"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          onClick={() => setSidebarVisible(!sidebarVisible)}
+        >
+          <line x1="4" y1="7" x2="20" y2="7" />
+          <line x1="4" y1="12" x2="20" y2="12" />
+          <line x1="4" y1="17" x2="20" y2="17" />
+        </svg>
+        {sidebarVisible && (
           <div className="fixed left-0 top-0 z-50 h-full w-64 drop-shadow-lg">
             <_Sidebar {...props} />
           </div>
