@@ -24,7 +24,7 @@ const AdminLayout = ({ children }: IAdminLayout) => {
         icon: faHome,
       },
       {
-        name: "Pending Chapters",
+        name: "Pending",
         link: `/private/${user.id}/admin/pending-chapters`,
         icon: faHouseLock,
       },
