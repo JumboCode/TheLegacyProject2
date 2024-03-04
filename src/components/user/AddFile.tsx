@@ -79,7 +79,8 @@ const AddFile = ({
   return (
     <>
       {showAddFilePopUp && (
-        <div className="absolute z-50 flex h-full w-screen flex-row place-content-center items-start justify-center backdrop-blur-[2px] backdrop-brightness-75 md:w-full">
+        // need to check for all screens
+        <div className="absolute z-50 ml-[-350px] mt-[-470px] flex h-screen w-screen flex-row place-content-center items-start justify-center backdrop-blur-[2px] backdrop-brightness-75 ">
           {!confirm && !error ? (
             <div className="mt-20 flex min-h-[650px] min-w-[750px] flex-col justify-between rounded-[16px] bg-[#22555A] p-10 font-['merriweather'] text-white">
               <div>

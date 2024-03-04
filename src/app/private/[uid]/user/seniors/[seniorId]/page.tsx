@@ -38,7 +38,9 @@ const Page = async ({ params }: PageProps) => {
           },
         ]}
       />
-      <DisplaySenior editable={false} senior={senior} />
+      <div className="relative">
+        <DisplaySenior editable={false} senior={senior} />
+      </div>
     </div>
   );
 };
