@@ -59,7 +59,7 @@ const DisplaySenior = (props: DisplayProps) => {
         display={(file) => <File key={file.id} file={file} />}
         elements={FILES} // TODO(nickbar01234) - Replace with real data
         search={(file, filter) => formatFileDate(file.date).includes(filter)}
-        addElementComponent={<AddFile key={addFileId} />}
+        addElementComponent={<AddFile key={addFileId} {...senior.Files} />}
       />
     </div>
   );

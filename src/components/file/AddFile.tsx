@@ -3,8 +3,9 @@ import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import AddFilePopup from "@components/user/AddFile";
+import { File as PrismaFile, Prisma } from "@prisma/client";
 
-const AddFile = () => {
+const AddFile = (files: PrismaFile[]) => {
   const [showAddFilePopUp, setShowAddFilePopUp] = useState<boolean>(false);
   const handlePopUp = () => {
     setShowAddFilePopUp(!showAddFilePopUp);
@@ -16,6 +17,7 @@ const AddFile = () => {
           showAddFilePopUp={showAddFilePopUp}
           setShowAddFilePopUp={setShowAddFilePopUp}
           seniorId={"65d6a19f5b3cabcd18dbe3b1"}
+          files={files}
           folder={"1d9z-eV5eTCOdiWP_dhIx5-O5NA82lC1_"}
         />
       ) : null}

@@ -6,11 +6,13 @@ import Tag, { TagProps, tagList } from "@components/Tag";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createFile } from "@api/file/route.client";
+import { File as PrismaFile, Prisma } from "@prisma/client";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
   setShowAddFilePopUp: Dispatch<SetStateAction<boolean>>;
   seniorId: string;
+  files: PrismaFile[];
   folder: string;
 };
 
@@ -42,10 +44,10 @@ const AddFile = ({
   showAddFilePopUp,
   setShowAddFilePopUp,
   seniorId,
+  files,
   folder,
 }: AddFileProps) => {
   const [startDate, setStartDate] = useState(new Date());
-  const [description, setDescription] = useState<string>("");
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<TagProps[]>([]);
@@ -71,6 +73,8 @@ const AddFile = ({
       setError(true);
     }
   };
+  const currFiles = Object.values(files);
+  const excludeDates = currFiles.map((fileObj) => fileObj.date);
 
   return (
     <>
@@ -92,7 +96,7 @@ const AddFile = ({
                     selected={startDate}
                     onChange={(date) => date && setStartDate(date)}
                     dateFormat="dd MMMM yyyy"
-                    // excludeDates={}
+                    excludeDates={excludeDates}
                   />
                 </div>
                 <TagSelector
