@@ -2,7 +2,7 @@ name: Prettier Action
 
 on:
   pull_request:
-    branches: ["sburchfield33-juliazel-githubactions"]
+    branches: ["main"]
 
 jobs:
   prettier:
