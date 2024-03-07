@@ -9,6 +9,8 @@ import { createFile } from "@api/file/route.client";
 import { File as PrismaFile, Prisma } from "@prisma/client";
 import { Checkbox, button } from "@material-tailwind/react";
 import { setActive } from "@material-tailwind/react/components/Tabs/TabsContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -25,18 +27,6 @@ const TagOptions = ({
   selectedTags: TagProps[];
   setSelectedTags: React.Dispatch<React.SetStateAction<TagProps[]>>;
 }) => {
-  // <div class="flex">
-  //   <input type="checkbox" id="choose-me" class="peer hidden" />
-  //   <label
-  //     for="choose-me"
-  //     class="cursor-pointer select-none rounded-lg border-2 border-gray-200
-  //  px-6 py-3 font-bold text-gray-200 transition-colors duration-200 ease-in-out peer-checked:border-gray-200 peer-checked:bg-gray-200 peer-checked:text-gray-900 "
-  //   >
-  //     {" "}
-  //     Check me{" "}
-  //   </label>
-  // </div>;
-
   return (
     <div className="flex grid-flow-row flex-wrap">
       {tagList.map((tag) => (
@@ -45,33 +35,36 @@ const TagOptions = ({
             type="checkbox"
             id={tag.name}
             className="size-40 peer my-5 hidden"
-            onClick={() => setSelectedTags([...selectedTags, tag])}
+            onClick={() => {
+              if (!selectedTags.includes(tag) && selectedTags.length < 3) {
+                setSelectedTags([...selectedTags, tag]);
+              } else {
+                setSelectedTags(selectedTags.filter((i) => i != tag));
+              }
+            }}
           />
-          <label
-            htmlFor={tag.name}
-            className="m-2 ml-[-2px] inline-block rounded-full border-2 p-2 hover:bg-white hover:text-[#22555A] peer-checked:bg-white peer-checked:text-[#22555A]"
-          >
-            {tag.name}
-          </label>
+          {!selectedTags.includes(tag) && (
+            <label
+              htmlFor={tag.name}
+              className="m-2 ml-[-2px] inline-block rounded-full border-2 p-2 hover:bg-white hover:text-[#22555A]"
+            >
+              {" "}
+              {tag.name}
+            </label>
+          )}
+          {selectedTags.includes(tag) && (
+            <label
+              htmlFor={tag.name}
+              className="m-2 ml-[-2px] inline-block rounded-full border-2 bg-white p-2 text-[#22555A]"
+            >
+              {" "}
+              {tag.name}
+            </label>
+          )}
         </div>
       ))}
     </div>
   );
-
-  // return (
-  //   <div className="flex grid-flow-row flex-wrap">
-  //     {tagList.map((tag) => (
-  //       <button
-  //         key={tag.name}
-  //         className="m-1 rounded-full border-2 p-2 hover:bg-white hover:text-[#22555A] active:bg-white active:text-[#22555A]"
-  //         onClick={() => setSelectedTags([...selectedTags, tag])}
-  //         // onClick={}
-  //       >
-  //         {tag.name}
-  //       </button>
-  //     ))}
-  //   </div>
-  // );
 };
 
 const TagSelector = ({
@@ -86,18 +79,13 @@ const TagSelector = ({
       <div className="text-neutral-600 mb-1 h-[34px] w-full font-['merriweather'] text-2xl">
         Tags
       </div>
-      <div className="text-lg font-thin">Select min of 1, max of 3</div>
+      <div className="text-lg font-thin">
+        Select min of 1, max of 3 <span className="text-red-400">*</span>
+      </div>
       <TagOptions
         selectedTags={selectedTags}
         setSelectedTags={setSelectedTags}
       />
-      {/* <FilterDropdown<TagProps>
-        items={tagList}
-        filterMatch={(tag, text) => tag.name.indexOf(text) != -1}
-        display={(tag) => <Tag name={tag.name} color={tag.color} />}
-        selectedItems={selectedTags}
-        setSelectedItems={setSelectedTags}
-      /> */}
     </div>
   );
 };
@@ -159,11 +147,11 @@ const AddFile = ({
                 dateFormat="dd MMMM yyyy"
                 excludeDates={excludeDates}
               />
+              <FontAwesomeIcon icon={faCalendar} />
               <TagSelector
                 selectedTags={selectedTags}
                 setSelectedTags={setSelectedTags}
               />
-
               <div className="flex w-full flex-row justify-center">
                 <button
                   className="mx-2 my-4 w-full max-w-[9rem] rounded-[16px] bg-white p-3 text-2xl font-medium text-[#22555A] drop-shadow-md hover:bg-offer-white"
@@ -172,7 +160,8 @@ const AddFile = ({
                   Cancel
                 </button>
                 <button
-                  className="bg-legacy-teal mx-2 my-4 w-full max-w-[9rem] rounded-[16px] bg-white p-3 text-2xl font-medium text-[#22555A] drop-shadow-md hover:bg-offer-white"
+                  className="mx-2 my-4 w-full max-w-[9rem] rounded-[16px] p-3 text-2xl font-medium text-[#22555A] drop-shadow-md hover:bg-offer-white enabled:bg-white disabled:bg-gray-500 disabled:text-gray-700"
+                  disabled={selectedTags.length == 0}
                   onClick={callAddFile}
                 >
                   Create
@@ -201,7 +190,7 @@ const AddFile = ({
                   </span>
                   <div className="flex w-full flex-row justify-center">
                     <button
-                      className="bg-legacy-teal text-md mx-1 w-full max-w-[10rem] rounded p-3 font-serif font-normal text-white hover:bg-dark-teal"
+                      className="bg-legacy-teal text-md disabled: mx-1 w-full max-w-[10rem] rounded p-3 font-serif font-normal text-white hover:bg-dark-teal"
                       onClick={() => setShowAddFilePopUp(false)}
                     >
                       Confirm
