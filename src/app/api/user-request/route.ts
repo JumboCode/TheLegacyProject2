@@ -166,7 +166,6 @@ export const PATCH = withSession(async ({ req, session }) => {
         { status: 400 }
       );
     }
-
     const targetUID = approveChapterReq.data.userId;
     const target = await prisma.user.findFirst({
       where: {
@@ -182,7 +181,6 @@ export const PATCH = withSession(async ({ req, session }) => {
         { status: 400 }
       );
     }
-
     const approveChapterRequest = await prisma.userRequest.findFirst({
       where: {
         uid: targetUID,
@@ -197,12 +195,10 @@ export const PATCH = withSession(async ({ req, session }) => {
         { status: 400 }
       );
     }
-
     const canApprove =
       session.user.role === "ADMIN" ||
       (session.user.role === "CHAPTER_LEADER" &&
         session.user.ChapterID === approveChapterRequest.chapterId);
-
     if (!canApprove) {
       return NextResponse.json(
         ManageChapterRequestResponse.parse({
@@ -212,7 +208,6 @@ export const PATCH = withSession(async ({ req, session }) => {
         { status: 400 }
       );
     }
-
     await prisma.userRequest.update({
       where: {
         uid: targetUID,
@@ -221,7 +216,6 @@ export const PATCH = withSession(async ({ req, session }) => {
         approved: "APPROVED",
       },
     });
-
     await prisma.user.update({
       where: {
         id: targetUID,

@@ -46,7 +46,6 @@ export const POST = withSessionAndRole(
           })
         );
       }
-
       const baseFolder = "1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a"; // TODO: make env variable
       const fileMetadata = {
         name: [`${body.name}-${randomUUID()}`],
@@ -104,7 +103,6 @@ export const POST = withSessionAndRole(
           },
         },
       });
-      
 
       return NextResponse.json(
         seniorPostResponse.parse({

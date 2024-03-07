@@ -9,6 +9,7 @@ interface SearchableContainerProps<T> {
   display: (elem: T, index: number) => React.ReactNode;
   elements: T[];
   search?: ((elem: T, filter: string) => boolean) | null;
+  emptyNode?: ReactNode; // text to display when no elements are supplied
 }
 
 const SearchableContainer = <T,>({
@@ -17,6 +18,7 @@ const SearchableContainer = <T,>({
   display,
   elements,
   search = null,
+  emptyNode,
 }: SearchableContainerProps<T>) => {
   const [filter, setFilter] = useState("");
   const tilesToDisplay = elements
@@ -25,6 +27,7 @@ const SearchableContainer = <T,>({
       return search(e, filter);
     })
     .map((e, index) => display(e, index));
+
   return (
     <div>
       {search && (
@@ -32,14 +35,18 @@ const SearchableContainer = <T,>({
           <SearchBar setFilter={setFilter} />
         </div>
       )}
-      <CardGrid
-        tiles={
-          addElementComponent
-            ? [addElementComponent, ...tilesToDisplay]
-            : tilesToDisplay
-        }
-        title={title}
-      />
+      {emptyNode != undefined && elements.length === 0 ? (
+        <>{emptyNode}</>
+      ) : (
+        <CardGrid
+          tiles={
+            addElementComponent
+              ? [addElementComponent, ...tilesToDisplay]
+              : tilesToDisplay
+          }
+          title={title}
+        />
+      )}
     </div>
   );
 };

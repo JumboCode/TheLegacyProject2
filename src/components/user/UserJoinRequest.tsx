@@ -10,6 +10,8 @@ import {
   handleManageChapterRequest,
 } from "@api/user-request/route.client";
 import { useRouter } from "next/navigation";
+import { CardGrid } from "@components/container";
+import { Card } from "@material-tailwind/react";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -30,8 +32,9 @@ const UserJoinRequest = (props: UserJoinRequestProps) => {
     <div className="flex h-full w-full flex-col gap-y-6  px-7 pt-[104px]">
       <p className="text-center text-4xl"> Welcome To The Legacy Project</p>
       <p className="text-2xl font-bold">Join a Chapter Below:</p>
-      <div className="grid w-full grid-cols-2 gap-6">
-        {chapters.map((chapter) => {
+      <CardGrid
+        column_count={2}
+        tiles={chapters.map((chapter) => {
           const options: Parameters<typeof TileEdit>[0]["options"] = [
             {
               name: "Undo request",
@@ -51,7 +54,7 @@ const UserJoinRequest = (props: UserJoinRequestProps) => {
           ];
           return (
             <div
-              className="col-span-2 flex flex-col gap-y-1.5 md:col-span-1"
+              className="col-span-2 flex w-full flex-col gap-y-1.5 md:col-span-1"
               key={chapter.id}
             >
               <UserRequestTile
@@ -99,7 +102,7 @@ const UserJoinRequest = (props: UserJoinRequestProps) => {
             </div>
           );
         })}
-      </div>
+      />
     </div>
   );
 };
