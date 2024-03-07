@@ -1,6 +1,7 @@
 "use client";
 
 import Sidebar, { ISideBar } from "@components/Sidebar";
+import { CollapsableSidebarContainer } from "@components/container";
 import { faHome, faUsers, faUser } from "@fortawesome/free-solid-svg-icons";
 import React, { useContext } from "react";
 import { UserContext } from "src/context/UserProvider";
@@ -11,7 +12,7 @@ interface IUserLayout {
 
 const UserLayout = ({ children }: IUserLayout) => {
   const { user } = useContext(UserContext);
-  const buttons: ISideBar["buttons"] = React.useMemo(
+  const buttons = React.useMemo(
     () => [
       {
         name: "Home",
@@ -33,12 +34,9 @@ const UserLayout = ({ children }: IUserLayout) => {
   );
 
   return (
-    <div className="grid h-full w-full grid-cols-12">
-      <div className="col-span-2 bg-[#E7E0D6]">
-        <Sidebar buttons={buttons} />
-      </div>
-      <div className="col-span-10 bg-[#F4F0EB]">{children}</div>
-    </div>
+    <CollapsableSidebarContainer buttons={buttons}>
+      {children}
+    </CollapsableSidebarContainer>
   );
 };
 
