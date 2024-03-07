@@ -77,7 +77,9 @@ const approve = async (req: NextApiRequest, res: NextApiResponse) => {
           fileId: baseFolder,
           fields: "id",
         };
-        await (service as NonNullable<typeof service>).permissions.create(permData);
+        await (service as NonNullable<typeof service>).permissions.create(
+          permData
+        );
 
         res.status(200).json(student);
       } catch (error) {
