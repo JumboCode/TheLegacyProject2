@@ -6,9 +6,9 @@ name: Unit Testing
 
 on:
   push:
-    branches: [ "sburchfield33-juliazel-githubactions" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "sburchfield33-juliazel-githubactions" ]
+    branches: [ "main" ]
 
 jobs:
   build:
