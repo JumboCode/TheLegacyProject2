@@ -7,6 +7,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createFile } from "@api/file/route.client";
 import { File as PrismaFile, Prisma } from "@prisma/client";
+import { Checkbox, button } from "@material-tailwind/react";
+import { setActive } from "@material-tailwind/react/components/Tabs/TabsContext";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -14,6 +16,62 @@ type AddFileProps = {
   seniorId: string;
   files: PrismaFile[];
   folder: string;
+};
+
+const TagOptions = ({
+  selectedTags,
+  setSelectedTags,
+}: {
+  selectedTags: TagProps[];
+  setSelectedTags: React.Dispatch<React.SetStateAction<TagProps[]>>;
+}) => {
+  // <div class="flex">
+  //   <input type="checkbox" id="choose-me" class="peer hidden" />
+  //   <label
+  //     for="choose-me"
+  //     class="cursor-pointer select-none rounded-lg border-2 border-gray-200
+  //  px-6 py-3 font-bold text-gray-200 transition-colors duration-200 ease-in-out peer-checked:border-gray-200 peer-checked:bg-gray-200 peer-checked:text-gray-900 "
+  //   >
+  //     {" "}
+  //     Check me{" "}
+  //   </label>
+  // </div>;
+
+  return (
+    <div className="flex grid-flow-row flex-wrap">
+      {tagList.map((tag) => (
+        <div key={tag.name}>
+          <input
+            type="checkbox"
+            id={tag.name}
+            className="size-40 peer my-5 hidden"
+            onClick={() => setSelectedTags([...selectedTags, tag])}
+          />
+          <label
+            htmlFor={tag.name}
+            className="m-2 ml-[-2px] inline-block rounded-full border-2 p-2 hover:bg-white hover:text-[#22555A] peer-checked:bg-white peer-checked:text-[#22555A]"
+          >
+            {tag.name}
+          </label>
+        </div>
+      ))}
+    </div>
+  );
+
+  // return (
+  //   <div className="flex grid-flow-row flex-wrap">
+  //     {tagList.map((tag) => (
+  //       <button
+  //         key={tag.name}
+  //         className="m-1 rounded-full border-2 p-2 hover:bg-white hover:text-[#22555A] active:bg-white active:text-[#22555A]"
+  //         onClick={() => setSelectedTags([...selectedTags, tag])}
+  //         // onClick={}
+  //       >
+  //         {tag.name}
+  //       </button>
+  //     ))}
+  //   </div>
+  // );
 };
 
 const TagSelector = ({
@@ -29,13 +87,17 @@ const TagSelector = ({
         Tags
       </div>
       <div className="text-lg font-thin">Select min of 1, max of 3</div>
-      <FilterDropdown<TagProps>
+      <TagOptions
+        selectedTags={selectedTags}
+        setSelectedTags={setSelectedTags}
+      />
+      {/* <FilterDropdown<TagProps>
         items={tagList}
         filterMatch={(tag, text) => tag.name.indexOf(text) != -1}
         display={(tag) => <Tag name={tag.name} color={tag.color} />}
         selectedItems={selectedTags}
         setSelectedItems={setSelectedTags}
-      />
+      /> */}
     </div>
   );
 };
@@ -82,29 +144,25 @@ const AddFile = ({
         // need to check for all screens
         <div className="absolute z-50 ml-[-350px] mt-[-470px] flex h-screen w-screen flex-row place-content-center items-start justify-center backdrop-blur-[2px] backdrop-brightness-75 ">
           {!confirm && !error ? (
-            <div className="mt-20 flex min-h-[650px] min-w-[750px] flex-col justify-between rounded-[16px] bg-[#22555A] p-10 font-['merriweather'] text-white">
-              <div>
-                <div className="mb-5 mt-4 text-3xl font-bold">
-                  {" "}
-                  Create New File{" "}
-                </div>
-                <div className="text-neutral-600 mb-3 h-[34px] w-full text-2xl font-thin">
-                  Select Date
-                </div>
-                <div className="mb-4 font-['merriweather'] text-2xl text-[#22555A]">
-                  <DatePicker
-                    className="h-[70px] w-[700px] rounded-lg pl-[30px]"
-                    selected={startDate}
-                    onChange={(date) => date && setStartDate(date)}
-                    dateFormat="dd MMMM yyyy"
-                    excludeDates={excludeDates}
-                  />
-                </div>
-                <TagSelector
-                  selectedTags={selectedTags}
-                  setSelectedTags={setSelectedTags}
-                />
+            <div className="mt-20 flex h-2/3 w-2/5 flex-col justify-between rounded-[16px] bg-[#22555A] p-10 font-['merriweather'] text-white">
+              <div className="mb-5 mt-4 text-3xl font-bold">
+                {" "}
+                Create New File{" "}
               </div>
+              <div className="text-neutral-600 mb-3 h-[34px] w-full text-2xl font-thin">
+                Select Date
+              </div>
+              <DatePicker
+                className="mb-4 h-16 w-full rounded-lg pl-[30px] font-['merriweather'] text-2xl text-[#22555A]"
+                selected={startDate}
+                onChange={(date) => date && setStartDate(date)}
+                dateFormat="dd MMMM yyyy"
+                excludeDates={excludeDates}
+              />
+              <TagSelector
+                selectedTags={selectedTags}
+                setSelectedTags={setSelectedTags}
+              />
 
               <div className="flex w-full flex-row justify-center">
                 <button
