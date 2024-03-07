@@ -54,13 +54,7 @@ const Sidebar = ({ buttons }: ISideBar) => {
           <Image src={Logo} alt="logo" className="items-end" />
         </h1>
       </Link>
-<<<<<<< HEAD
-      <div></div>
-
-      <div className="mb-20 w-full px-11">
-=======
       <div className="mb-20 h-full w-full px-11">
->>>>>>> main
         <div className="flex w-full flex-col space-y-6">
           {buttons.map((data) => (
             <Link key={data.name} href={data.link}>
