@@ -9,7 +9,9 @@ const AdminHomePageWrapper = async () => {
   });
 
 
-  return <AdminHomePage chapters={chapters} />;
+  return <AdminHomePage
+  
+  chapters={chapters} />;
 };
 
 export default AdminHomePageWrapper;
