@@ -24,7 +24,7 @@ const PathNav = ({ pathInfo }: PathNavParams) => {
   };
 
   return (
-    <div className="font-merriweather flex flex-row">
+    <div className="flex flex-row">
       {pathInfo.map((currPath, index, array) => (
         <React.Fragment key={index}>
           {index !== 0 && <div className="px-2">&gt;</div>}

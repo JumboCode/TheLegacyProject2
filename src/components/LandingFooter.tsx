@@ -54,11 +54,11 @@ const LandingFooter = () => {
   return (
     <div className="mb-[40px]">
       <FlowerBox>
-        <p className="self-center font-serif text-3xl font-semibold xl:text-4xl">
+        <p className="self-center text-3xl font-semibold xl:text-4xl">
           There are millions of stories waiting to be told. It&apos;s your
           moment to change that.
         </p>
-        <p className="w-3/4 self-center font-serif text-lg">
+        <p className="w-3/4 self-center text-lg">
           Leave a lasting legacy on your college or university campus by
           founding a chapter of The Legacy Project at your school today. Reach
           us at{" "}
@@ -89,7 +89,7 @@ const LandingFooter = () => {
             className={`h-[40px] w-auto ${buttonStyle} rounded duration-150`}
             type="submit"
           >
-            <span className="align-center text-md m-[10px] w-auto font-serif tracking-easy text-white">
+            <span className="align-center text-md m-[10px] w-auto tracking-easy text-white">
               {buttonText}
             </span>
           </button>

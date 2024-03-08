@@ -34,7 +34,7 @@ const UserPage = async ({ params }: Params) => {
       {/* TODO(nickbar01234) - Add pronouns */}
       <CardGrid
         title={
-          <div className="font-merriweather text-2xl font-bold text-[#002]">
+          <div className="text-2xl font-bold text-[#002]">
             {user.name ?? ""}
           </div>
         }

@@ -51,7 +51,7 @@ export function UserTile({
       </div>
       <div className="flex items-center justify-between p-2">
         <div className="overflow-hidden">
-          <p className="overflow-hidden text-ellipsis whitespace-nowrap font-['Merriweather'] text-sm text-dark-teal">
+          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm text-dark-teal">
             {student && student.name
               ? student.name + (student.admin ? " (Admin)" : "")
               : senior && senior.name
@@ -59,7 +59,7 @@ export function UserTile({
               : null}
           </p>
           {/* @TODO: Add pronouns once we add to student field  */}
-          <p className="text-md font-base text-neutral-600 mt-[5px] truncate font-['Merriweather'] text-[10px] text-dark-teal">
+          <p className="text-md font-base text-neutral-600 mt-[5px] truncate text-[10px] text-dark-teal">
             {senior && senior.location}
           </p>
         </div>

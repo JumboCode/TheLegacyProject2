@@ -33,7 +33,7 @@ const SidebarItem = ({
   iconName: IconDefinition;
 }) => {
   return (
-    <div className="flex w-full space-x-4 text-left font-serif duration-150 hover:translate-x-1">
+    <div className="flex w-full space-x-4 text-left duration-150 hover:translate-x-1">
       <div className="flex w-1/6 items-center justify-center">
         <FontAwesomeIcon icon={iconName} size="lg" />
       </div>
@@ -65,20 +65,20 @@ const _Sidebar = ({ buttons }: ISideBar) => {
         <div className="mt-16 w-full px-11">
           {user.Chapter != null && (
             <>
-              <div className="text-md flex items-center gap-x-2 pb-2 pt-20 text-left font-serif text-dark-gray">
+              <div className="text-md flex items-center gap-x-2 pb-2 pt-20 text-left   text-dark-gray">
                 <FontAwesomeIcon icon={faCity} />
                 <span>University</span>
               </div>
-              <div className="text-md flex w-full truncate text-left font-serif text-dark-plum">
+              <div className="text-md flex w-full truncate text-left   text-dark-plum">
                 {user.Chapter.chapterName}
               </div>
             </>
           )}
           <hr className="my-6 h-px w-full rounded border-0 bg-black" />
-          <div className="mb-1 flex w-full truncate text-left font-serif text-lg font-bold">
+          <div className="mb-1 flex w-full truncate text-left   text-lg font-bold">
             {fullName(user)}
           </div>
-          <div className="flex w-full pb-6 pt-0 text-left font-serif text-sm text-med-gray">
+          <div className="flex w-full pb-6 pt-0 text-left   text-sm text-med-gray">
             {RoleAlias[user.role]}
           </div>
           <button onClick={() => signOut({ callbackUrl: "/public/" })}>

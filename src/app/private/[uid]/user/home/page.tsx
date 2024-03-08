@@ -26,7 +26,7 @@ const UserHomePage = async ({ params }: UserHomePageParams) => {
 
   return (
     <div className="mt-6 flex flex-col gap-y-6">
-      <div className="font-merriweather text-2xl font-bold text-[#000022]">
+      <div className="text-2xl font-bold text-[#000022]">
         {chapter.chapterName}
       </div>
       <DisplayChapterInfo
@@ -37,11 +37,7 @@ const UserHomePage = async ({ params }: UserHomePageParams) => {
         dateCreated={chapter.dateCreated}
       />
       <CardGrid
-        title={
-          <div className="font-merriweather text-xl font-bold">
-            Executive Board
-          </div>
-        }
+        title={<div className="text-xl font-bold">Executive Board</div>}
         tiles={chapter.students
           .filter((user) => user.role == "CHAPTER_LEADER")
           .map((user) => (

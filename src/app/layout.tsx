@@ -29,6 +29,7 @@ export const metadata: Metadata = {
 const merriweather = Merriweather({
   weight: "400",
   style: "normal",
+  variable: "--font-merriweather",
   subsets: ["latin"],
 });
 

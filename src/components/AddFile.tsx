@@ -18,9 +18,7 @@ const TagSelector = ({
 }) => {
   return (
     <div>
-      <div className="text-neutral-600 mb-1 h-[34px] w-full font-sans text-lg">
-        Tags
-      </div>
+      <div className="text-neutral-600 mb-1 h-[34px] w-full text-lg">Tags</div>
       <FilterDropdown<TagProps>
         items={tagList}
         filterMatch={(tag, text) => tag.name.indexOf(text) != -1}
@@ -76,11 +74,8 @@ const AddFile = ({
           {!confirm && !error ? (
             <div className="mt-20 flex min-h-[650px] w-1/2 flex-col justify-between rounded-lg bg-white p-10">
               <div>
-                <div className="mb-8 font-serif text-3xl">
-                  {" "}
-                  Create New File{" "}
-                </div>
-                <div className="text-neutral-600 mb-1 h-[34px] w-full font-sans text-lg">
+                <div className="mb-8 text-3xl"> Create New File </div>
+                <div className="text-neutral-600 mb-1 h-[34px] w-full text-lg">
                   File name
                 </div>
                 <input
@@ -129,7 +124,7 @@ const AddFile = ({
                   <span>File added successfully!</span>
                   <div className="flex w-full flex-row justify-center">
                     <button
-                      className="bg-legacy-teal text-md mx-1 w-full max-w-[10rem] rounded p-3 font-serif font-normal text-white hover:bg-dark-teal"
+                      className="bg-legacy-teal text-md mx-1 w-full max-w-[10rem] rounded p-3 font-normal text-white hover:bg-dark-teal"
                       onClick={() => setShowAddFilePopUp(false)}
                     >
                       Confirm
@@ -144,7 +139,7 @@ const AddFile = ({
                   </span>
                   <div className="flex w-full flex-row justify-center">
                     <button
-                      className="bg-legacy-teal text-md mx-1 w-full max-w-[10rem] rounded p-3 font-serif font-normal text-white hover:bg-dark-teal"
+                      className="bg-legacy-teal text-md mx-1 w-full max-w-[10rem] rounded p-3 font-normal text-white hover:bg-dark-teal"
                       onClick={() => setShowAddFilePopUp(false)}
                     >
                       Confirm

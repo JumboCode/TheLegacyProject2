@@ -10,7 +10,7 @@ const DisplayChapterInfo = ({
   dateCreated,
 }: DisplayChapterInfoParams) => {
   return (
-    <div className="font-merriweather flex h-1/5 w-5/6 flex-col justify-between space-y-2 rounded-md bg-white p-8">
+    <div className=" flex h-1/5 w-5/6 flex-col justify-between space-y-2 rounded-md bg-white p-8">
       <div className="flex flex-row text-start">
         <div>Location: </div>
         <div className="ml-2 font-bold">{location}</div>

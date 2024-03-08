@@ -71,13 +71,13 @@ const Navbar = () => {
         }
       >
         <Link href="/public/team" onClick={() => setDropdownVisible(false)}>
-          <div className="font-merriweather m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
+          <div className=" m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
             Meet TLP
           </div>
         </Link>
 
         <Link href="/public/about" onClick={() => setDropdownVisible(false)}>
-          <div className="font-merriweather m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
+          <div className=" m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
             Our Story
           </div>
         </Link>
@@ -86,13 +86,13 @@ const Navbar = () => {
           href="/public/start-chapter"
           onClick={() => setDropdownVisible(false)}
         >
-          <div className="font-merriweather m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
+          <div className=" m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
             Start a Chapter
           </div>
         </Link>
 
         <button onClick={onSignIn}>
-          <div className="font-merriweather m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
+          <div className=" m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
             {status === "authenticated" ? "Home" : "Sign In"}
           </div>
         </button>
