@@ -11,11 +11,6 @@ type IFile = z.infer<typeof File>;
  * Extends the parameters of fetch() function to give types to the RequestBody.
  */
 interface IRequest extends Omit<RequestInit, "body"> {
-
-
-
-
-  
   body: IFile;
 }
 
