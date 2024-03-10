@@ -97,7 +97,20 @@ const AddFile = ({
   files,
   folder,
 }: AddFileProps) => {
-  const [startDate, setStartDate] = useState(new Date());
+  const currFiles = Object.values(files);
+  const excludeDates = currFiles.map((fileObj) => fileObj.date);
+  const excludedDatesString = excludeDates.map((dateObj) =>
+    dateObj.toDateString()
+  );
+
+  const startDate_ = new Date();
+
+  while (excludedDatesString.includes(startDate_.toDateString())) {
+    startDate_.setDate(startDate_.getDate() + 1);
+  }
+
+  const [startDate, setStartDate] = useState(startDate_);
+
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<TagProps[]>([]);
@@ -123,14 +136,12 @@ const AddFile = ({
       setError(true);
     }
   };
-  const currFiles = Object.values(files);
-  const excludeDates = currFiles.map((fileObj) => fileObj.date);
 
   return (
     <>
       {showAddFilePopUp && (
         // need to check for all screens
-        <div className="absolute z-50 ml-[-350px] mt-[-470px] flex h-screen w-screen flex-row place-content-center items-start justify-center backdrop-blur-[2px] backdrop-brightness-75 ">
+        <div className="absolute z-50 ml-[-350px] mt-[-470px] flex h-screen w-screen flex-row place-content-center items-start justify-center backdrop-blur-[2px] backdrop-brightness-75">
           {!confirm && !error ? (
             <div className="mt-20 flex h-2/3 w-2/5 flex-col justify-between rounded-[16px] bg-[#22555A] p-10 font-['merriweather'] text-white">
               <div className="mb-5 mt-4 text-3xl font-bold">
@@ -140,14 +151,24 @@ const AddFile = ({
               <div className="text-neutral-600 mb-3 h-[34px] w-full text-2xl font-thin">
                 Select Date
               </div>
-              <DatePicker
-                className="mb-4 h-16 w-full rounded-lg pl-[30px] font-['merriweather'] text-2xl text-[#22555A]"
-                selected={startDate}
-                onChange={(date) => date && setStartDate(date)}
-                dateFormat="dd MMMM yyyy"
-                excludeDates={excludeDates}
-              />
-              <FontAwesomeIcon icon={faCalendar} />
+              <div className="inline-bl grid w-full grid-cols-8">
+                <div className="col-span-7 text-2xl text-[#22555A]">
+                  <DatePicker
+                    wrapperClassName="w-full"
+                    className="mb-4 h-16 w-full rounded-l-lg pl-[30px] font-['merriweather']"
+                    selected={startDate}
+                    onChange={(date) => date && setStartDate(date)}
+                    dateFormat="dd MMMM yyyy"
+                    excludeDates={excludeDates}
+                  />
+                </div>
+                <div className="col-span-1 inline-block h-16 w-full rounded-r-lg bg-white py-5 text-center">
+                  <FontAwesomeIcon
+                    className="center col-span-1 bg-white align-top text-2xl text-[#22555A]"
+                    icon={faCalendar}
+                  />
+                </div>
+              </div>
               <TagSelector
                 selectedTags={selectedTags}
                 setSelectedTags={setSelectedTags}
