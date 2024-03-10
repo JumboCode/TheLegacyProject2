@@ -1,6 +1,5 @@
 "use client";
 
-import Sidebar, { ISideBar } from "@components/Sidebar";
 import { CollapsableSidebarContainer } from "@components/container";
 import { faHome, faUsers, faUser } from "@fortawesome/free-solid-svg-icons";
 import React, { useContext } from "react";
