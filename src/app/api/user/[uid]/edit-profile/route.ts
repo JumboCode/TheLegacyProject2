@@ -13,7 +13,7 @@ export const PATCH = withSession(async ({ session, req, params }) => {
       return NextResponse.json(
         EditProfileResponse.parse({
           code: "UNAUTHORIZED",
-          message: "The action cannot be performed by the current user"
+          message: "The action cannot be performed by the current user",
         }),
         { status: 400 }
       );
