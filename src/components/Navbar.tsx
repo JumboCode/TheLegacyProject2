@@ -1,31 +1,44 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Link from "next/link";
 import { useAuth } from "@hooks";
+import logoicon from "../../public/landing/newlegacy-logo.svg";
+import Image from "next/image";
 
 const Navbar = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const handleMenuClick: React.MouseEventHandler = () => {
     setDropdownVisible((visible) => !visible);
   };
+
   const { status, onSignIn } = useAuth();
+  useEffect(() => {
+    const dropdownonResize = () => {
+      if (window.innerWidth > 950) {
+        setDropdownVisible(false);
+      }
+    };
+
+    window.addEventListener("resize", dropdownonResize);
+
+    return () => {
+      window.removeEventListener("resize", dropdownonResize);
+    };
+  }, []);
 
   return (
-    <nav
-      className="top-0 z-10 flex h-[60px] w-full flex-row items-center 
-                    justify-between border border-dark-tan bg-med-tan"
-    >
-      <div className="pl-[20px] font-serif text-xl font-medium sm:pl-[40px] md:text-2xl">
-        <Link href="/">The Legacy Project</Link>
-      </div>
+    <nav className="top-0 z-10 flex h-[60px] w-full flex-row items-center justify-between border border-dark-tan bg-med-tan px-24 py-3">
+      <Link href="/public" onClick={() => setDropdownVisible(false)}>
+        <Image src={logoicon} alt="Legacy Logo" className="w-[200px]" />
+      </Link>
 
-      <div className="visible z-10 pr-[20px] sm:pr-[40px]">
+      <div className="visible z-10">
         <span onClick={handleMenuClick}>
           {dropdownVisible ? (
             <svg
-              className="h-8 w-8 text-darkest-tan sm:hidden"
+              className="h-8 w-8 text-darkest-tan md2:hidden"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -36,7 +49,7 @@ const Navbar = () => {
             </svg>
           ) : (
             <svg
-              className="visible h-8 w-8 text-darkest-tan sm:hidden"
+              className="visible h-8 w-8 text-darkest-tan md2:hidden"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -53,18 +66,33 @@ const Navbar = () => {
       <div
         className={
           dropdownVisible
-            ? "absolute right-0 top-[60px] z-20 flex flex-col items-center gap-[20px] border-b border-l            border-r border-dark-tan bg-med-tan p-[20px] sm:hidden "
-            : "align-center hidden flex-row gap-[20px] pr-[40px] sm:flex"
+            ? "absolute right-0 top-[60px] z-20 flex flex-col items-center gap-[20px] border-b border-l border-r border-dark-tan bg-med-tan p-[20px] md2:hidden "
+            : "align-center hidden flex-row gap-[30px] pr-[40px] md2:flex"
         }
       >
-        <Link href="/">
-          <div className="m-auto font-serif text-lg font-medium duration-150 hover:-translate-y-0.5">
-            About Us
+        <Link href="/public/team" onClick={() => setDropdownVisible(false)}>
+          <div className=" m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
+            Meet TLP
+          </div>
+        </Link>
+
+        <Link href="/public/about" onClick={() => setDropdownVisible(false)}>
+          <div className=" m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
+            Our Story
+          </div>
+        </Link>
+
+        <Link
+          href="/public/start-chapter"
+          onClick={() => setDropdownVisible(false)}
+        >
+          <div className=" m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
+            Start a Chapter
           </div>
         </Link>
 
         <button onClick={onSignIn}>
-          <div className="m-auto font-serif text-lg font-medium duration-150 hover:-translate-y-0.5">
+          <div className=" m-auto font-bold text-dark-teal duration-150 hover:-translate-y-0.5">
             {status === "authenticated" ? "Home" : "Sign In"}
           </div>
         </button>

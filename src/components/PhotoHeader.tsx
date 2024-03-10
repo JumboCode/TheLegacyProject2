@@ -34,7 +34,7 @@ const PhotoHeader = ({ admin, name }: IPhotoHeaderProps) => {
             "absolute bottom-0 right-0 flex h-[40px] w-full items-center bg-off-white                            bg-opacity-70 p-2 backdrop-blur-sm"
           }
         >
-          <span className="text-md tracking-normal font-serif text-dark-plum sm:pl-4 xs:pl-2">
+          <span className="text-md tracking-normal text-dark-plum sm:pl-4 xs:pl-2">
             Hello{name == null ? " there" : ", " + name.split(" ").shift()}.
           </span>
         </div>

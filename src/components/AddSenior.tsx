@@ -34,7 +34,7 @@ export const AddSeniorTile = ({
 
   return (
     <button onClick={handlePopUp}>
-      <div className="font-merriweather transition-background flex h-[217px] w-[160px] flex-col items-center justify-center gap-[10px] rounded-[8px] border-[1px] border-solid border-dark-teal bg-tan font-['Merriweather'] text-dark-teal duration-300 hover:bg-[#E5E0DA]">
+      <div className=" transition-background flex h-[217px] w-[160px] flex-col items-center justify-center gap-[10px] rounded-[8px] border-[1px] border-solid border-dark-teal bg-tan text-dark-teal duration-300 hover:bg-[#E5E0DA]">
         <div className="text-4xl font-semibold">+</div>
         <div className="text-lg">New Senior</div>
       </div>
@@ -53,7 +53,7 @@ const StudentSelector = ({
 }) => {
   return (
     <div>
-      <div className="text-neutral-600 font-merriweather mb-1 h-[34px] w-full text-lg">
+      <div className="text-neutral-600  mb-1 h-[34px] w-full text-lg">
         Assign students
       </div>
       <FilterDropdown<User>
@@ -216,7 +216,7 @@ const AddSenior = ({
         >
           <div
             className={cn(
-              "top-5% font-merriweather flex h-[85%] w-[60%] max-w-[495px] flex-col justify-between overflow-auto rounded-lg bg-dark-teal px-6 py-9 text-white",
+              "top-5%  flex h-[85%] w-[60%] max-w-[495px] flex-col justify-between overflow-auto rounded-lg bg-dark-teal px-6 py-9 text-white",
               confirm || error
                 ? "top-[5.5%] w-2/5"
                 : "top-[2.5%] sm:w-4/5 md:w-1/2"
@@ -225,7 +225,7 @@ const AddSenior = ({
             {!confirm && !error ? (
               <>
                 <div>
-                  <div className="mb-5 font-serif text-xl font-extrabold sm:text-center md:text-left">
+                  <div className="mb-5 text-xl font-extrabold sm:text-center md:text-left">
                     {seniorPatch ? "Update" : "Add New"} Senior
                   </div>
                   <div>
@@ -247,7 +247,7 @@ const AddSenior = ({
                   later as seniorData.name propgates to backend*/}
                   <div className="flex">
                     <div className="mr-2 flex-1 flex-col">
-                      <div className="font-merriweather mb-2 h-[19px] w-full text-base text-white">
+                      <div className=" mb-2 h-[19px] w-full text-base text-white">
                         {" "}
                         First name{" "}
                       </div>
@@ -264,7 +264,7 @@ const AddSenior = ({
                     </div>
 
                     <div className="ml-2 flex-1 flex-col">
-                      <div className="font-merriweather mb-2 h-[19px] w-full text-base text-white">
+                      <div className=" mb-2 h-[19px] w-full text-base text-white">
                         {" "}
                         Last name{" "}
                       </div>
@@ -281,7 +281,7 @@ const AddSenior = ({
                     </div>
                   </div>
 
-                  <div className="font-merriweather mb-2 h-5 w-full text-base text-white">
+                  <div className=" mb-2 h-5 w-full text-base text-white">
                     {" "}
                     Location{" "}
                   </div>
@@ -338,7 +338,7 @@ const AddSenior = ({
               <>
                 {confirm ? (
                   <div className="flex flex-col items-center">
-                    <div className="mb-8 text-center font-serif text-3xl">
+                    <div className="mb-8 text-center text-3xl">
                       {seniorPatch ? "Updated" : "Added"} successfully!
                     </div>
                     <button
@@ -350,7 +350,7 @@ const AddSenior = ({
                   </div>
                 ) : (
                   <div className="flex flex-col items-center break-words">
-                    <div className="mb-8 text-center font-serif text-xl">
+                    <div className="mb-8 text-center text-xl">
                       There was an error adding your senior. Please reach out to
                       your club administrator for help.
                     </div>

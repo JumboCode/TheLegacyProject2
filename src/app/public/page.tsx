@@ -24,10 +24,10 @@ const HomePage = () => {
           {/* Hero Section and Action Items Buttons */}
           <div className="flex w-full flex-row items-center md:px-[40px] lg:px-[60px]">
             <div className="flex flex-col items-center gap-[20px] lg:mr-[20px] lg:items-start">
-              <h1 className="mb-[10px] text-center font-serif text-3xl font-semibold lg:text-left lg:text-4xl">
+              <h1 className="mb-[10px] text-center text-3xl font-semibold lg:text-left lg:text-4xl">
                 Everyone has a story that&apos;s worth preserving.
               </h1>
-              <p className="text-md text-center font-serif tracking-easy md:text-lg lg:text-left xl:text-xl">
+              <p className="text-md text-center tracking-easy md:text-lg lg:text-left xl:text-xl">
                 The Legacy Project, Inc. (TLP) connects college students with
                 local elders in their community with the purpose of building
                 strong intergenerational relationships and documenting the life
@@ -35,7 +35,7 @@ const HomePage = () => {
                 for years to come.
               </p>
 
-              <p className="text-md text-center font-serif tracking-easy md:text-lg lg:text-left xl:text-xl">
+              <p className="text-md text-center tracking-easy md:text-lg lg:text-left xl:text-xl">
                 Join an ever-growing network of college students across the
                 country passionate about telling stories, and form a Legacy
                 Project chapter at your school or university today. Fill out the
@@ -79,10 +79,10 @@ const HomePage = () => {
           </div>
         </FlowerBox>
         <div className="flex w-full flex-col justify-center gap-y-4 px-[40px] py-[20px]">
-          <span className="text-center font-serif text-3xl font-semibold sm:text-left sm:text-4xl">
+          <span className="text-center text-3xl font-semibold sm:text-left sm:text-4xl">
             About Us
           </span>
-          <p className="font-serif leading-7">
+          <p className="leading-7">
             The concept of The Legacy Project (TLP) began in 2018, when Arielle
             Galinsky, a high school junior at the time, spent her time working
             at a local senior community in her Massachusetts hometown. Her role
@@ -103,7 +103,7 @@ const HomePage = () => {
             life accounts, both for the seniors themselves and their families.
           </p>
 
-          <p className="font-serif leading-7">
+          <p className="leading-7">
             Little did she know that, in the state right next over, Katie Furey,
             a sophomore in college home for the pandemic, started a similar
             project of her own. Katie had always been close with her
@@ -125,7 +125,7 @@ const HomePage = () => {
           </p>
 
           <div className="flex flex-col gap-y-4 bg-light-moss p-[20px]">
-            <p className="font-serif leading-7">
+            <p className="leading-7">
               Arielle and Katie met in 2020, quickly connecting over their
               aligned passions to build intergenerational connections provide a
               platform for local seniors to share their stories, and preserve
@@ -143,7 +143,7 @@ const HomePage = () => {
               with the platform to amplify their stories.
             </p>
 
-            <p className="font-serif leading-7">
+            <p className="leading-7">
               Having watched the Tufts chapter grow over the past two years,
               Arielle, Katie, and Wanda decided to establish TLP as a nonprofit
               organization with the goal of spreading TLP’s mission across the

@@ -16,7 +16,7 @@ const Button = ({ text, color, hover, action, link }: ButtonProps) => {
         <button
           className={`h-[40px] w-auto ${color} rounded duration-150 ${hover} hover:-translate-y-0.5`}
         >
-          <span className="align-center text-md m-[10px] w-auto font-serif tracking-easy text-white">
+          <span className="align-center text-md m-[10px]  w-auto tracking-easy text-white">
             {text}
           </span>
         </button>
@@ -28,7 +28,7 @@ const Button = ({ text, color, hover, action, link }: ButtonProps) => {
         className={`h-[40px] w-auto ${color} rounded duration-150 ${hover} hover:-translate-y-0.5`}
         onClick={action ?? undefined}
       >
-        <span className="align-center text-md m-[10px] w-auto font-serif tracking-easy text-white">
+        <span className="align-center text-md m-[10px]  w-auto tracking-easy text-white">
           {text}
         </span>
       </button>
