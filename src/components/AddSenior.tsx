@@ -6,6 +6,8 @@ import { Senior, User } from "@prisma/client";
 import ImageIcon from "../../public/icons/icon_add_photo.png";
 import { patchSenior } from "src/app/api/senior/[id]/route.client";
 import { postSenior } from "src/app/api/senior/route.client";
+import { seniorPostResponse } from "@api/senior/route.schema";
+import z from "zod/lib";
 
 type AddSeniorProps = {
   seniors: Senior[];
@@ -84,13 +86,10 @@ const StudentSelector = ({
   );
 };
 
-type SeniorData = {
-  firstname: string;
-  lastname: string;
-  name: string;
-  location: string;
-  description: string;
-};
+type SeniorData = Omit<
+  Extract<z.infer<typeof seniorPostResponse>, { code: "SUCCESS" }>["data"],
+  "StudentIDs"
+>;
 
 const AddSenior = ({
   seniors,
@@ -107,6 +106,9 @@ const AddSenior = ({
     name: "",
     location: "",
     description: "",
+    id: "",
+    folder: "",
+    ChapterID: "",
   };
   const [seniorData, setSeniorData] = useState<SeniorData>(emptySenior);
   const [selectedStudents, setSelectedStudents] = useState<User[]>([]);

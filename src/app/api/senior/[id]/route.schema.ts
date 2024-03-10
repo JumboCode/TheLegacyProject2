@@ -18,6 +18,7 @@ export const seniorDeleteResponse = z.discriminatedUnion("code", [
 export const patchSeniorSchema = z.object({
   firstname: z.string(),
   lastname: z.string(),
+  name: z.string(),
   location: z.string(),
   description: z.string(),
   StudentIDs: z.array(z.string()),

@@ -5,6 +5,7 @@ import { seniorSchema } from "@server/model";
 export const postSeniorSchema = z.object({
   firstname: z.string(),
   lastname: z.string(),
+  name: z.string(),
   location: z.string(),
   description: z.string(),
   StudentIDs: z.array(z.string()),

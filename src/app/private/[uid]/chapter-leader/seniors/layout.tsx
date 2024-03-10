@@ -20,22 +20,22 @@ const AdminLayout = ({ children }: IAdminLayout) => {
     () => [
       {
         name: "Home",
-        link: `/private/${user.id}/admin/home`,
+        link: `/private/${user.id}/chapter-leader/home`,
         icon: faHome,
       },
       {
         name: "Pending Chapters",
-        link: `/private/${user.id}/admin/pending-chapters`,
+        link: `/private/${user.id}/chapter-leader/pending-chapters`,
         icon: faHouseLock,
       },
       {
         name: "E-list",
-        link: `/private/${user.id}/admin/elist`,
+        link: `/private/${user.id}/chapter-leader/elist`,
         icon: faEnvelope,
       },
       {
         name: "Profile",
-        link: `/private/${user.id}/admin/edit-profile`,
+        link: `/private/${user.id}/chapter-leader/edit-profile`,
         icon: faUser,
       },
     ],

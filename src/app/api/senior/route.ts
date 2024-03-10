@@ -49,7 +49,9 @@ export const POST = withSessionAndRole(
       }
       const baseFolder = "1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a"; // TODO: make env variable
       const fileMetadata = {
-        name: [`${seniorBody.firstname}${seniorBody.lastname}-${randomUUID()}`],
+        name: [
+          `${seniorBody.firstname}_${seniorBody.lastname}-${randomUUID()}`,
+        ],
         mimeType: "application/vnd.google-apps.folder",
         parents: [baseFolder],
       };

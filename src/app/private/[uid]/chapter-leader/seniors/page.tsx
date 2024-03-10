@@ -14,12 +14,11 @@ const UserSeniorsPage = async ({ params }: { params: { uid: string } }) => {
   if (!user) {
     return <div>User not found</div>;
   }
-  // TODO: Maybe check if the user is actually a chapter leader
-  if (user.ChapterID === null) return <div>Does not belong to a chapter</div>;
+
   // Fetch the seniors too
   const chapter = await prisma.chapter.findFirst({
     where: {
-      id: user.ChapterID,
+      id: user.ChapterID ?? undefined,
     },
     include: {
       seniors: {},

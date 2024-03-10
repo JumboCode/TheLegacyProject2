@@ -20,6 +20,7 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
     <SearchableContainer<Senior>
       addElementComponent={
         <AddSenior
+          key="add-senior"
           seniors={seniorsState}
           students={students}
           setSeniors={setSeniorsState}
