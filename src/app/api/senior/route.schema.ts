@@ -3,7 +3,8 @@ import { unauthorizedErrorSchema, unknownErrorSchema } from "../route.schema";
 import { seniorSchema } from "@server/model";
 
 export const postSeniorSchema = z.object({
-  name: z.string(),
+  firstname: z.string(),
+  lastname: z.string(),
   location: z.string(),
   description: z.string(),
   StudentIDs: z.array(z.string()),

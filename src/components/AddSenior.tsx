@@ -5,6 +5,7 @@ import FilterDropdown from "@components/FilterDropdown";
 import { Senior, User } from "@prisma/client";
 import ImageIcon from "../../public/icons/icon_add_photo.png";
 import { patchSenior } from "src/app/api/senior/[id]/route.client";
+import { postSenior } from "src/app/api/senior/route.client";
 
 type AddSeniorProps = {
   seniors: Senior[];
@@ -84,6 +85,8 @@ const StudentSelector = ({
 };
 
 type SeniorData = {
+  firstname: string;
+  lastname: string;
   name: string;
   location: string;
   description: string;
@@ -99,6 +102,8 @@ const AddSenior = ({
   setSeniorPatch,
 }: AddSeniorProps) => {
   const emptySenior: SeniorData = {
+    firstname: "",
+    lastname: "",
     name: "",
     location: "",
     description: "",
@@ -164,29 +169,19 @@ const AddSenior = ({
     };
 
     // POST new senior model to database
-    const currRes = await fetch("/api/seniors/add", {
-      method: "POST",
-      body: JSON.stringify(seniorModel),
+    postSenior({ body: seniorModel }).then((res) => {
+      if (res.code === "SUCCESS") {
+        // PATCH students models previously and newly associated with senior model
+        setConfirm(true);
+        setSeniors([...seniors, res.data]);
+      } else {
+        console.log(res.code);
+        setError(true);
+      }
+      setSeniorData(emptySenior);
+      setSelectedStudents([]);
+      return null;
     });
-    const newSeniorObj = await currRes.json();
-
-    if (currRes.status === 200) {
-      // PATCH students models previously and newly associated with senior model
-      setConfirm(true);
-      setSeniors([...seniors, newSeniorObj]);
-    }
-    // check after both API calls
-    if (currRes.status != 200) {
-      console.log(
-        currRes.text().then((text) => {
-          console.log(text);
-        })
-      );
-      setError(true);
-    }
-
-    setSeniorData(emptySenior);
-    setSelectedStudents([]);
   };
 
   const handleImageReplace = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -257,7 +252,7 @@ const AddSenior = ({
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData({
                             ...seniorData,
-                            name: e.target.value,
+                            firstname: e.target.value,
                           })
                         }
                       />
@@ -271,10 +266,10 @@ const AddSenior = ({
                       <input
                         className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
                         type="text"
-                        onBlur={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData((seniorData) => ({
                             ...seniorData,
-                            name: seniorData.name + " " + e.target.value,
+                            lastname: e.target.value,
                           }))
                         }
                       />
