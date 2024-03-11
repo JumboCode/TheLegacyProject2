@@ -34,7 +34,7 @@ const UserSeniorsPage = async ({ params }: { params: { uid: string } }) => {
       showHorizontalLine={true}
       headerIcon={faUsers}
     >
-      <div className="mb-5 text-2xl">Seniors {`(${seniors.length})`}</div>
+      <div className="mb-6 text-2xl">Seniors {`(${seniors.length})`}</div>
       <SeniorView seniors={seniors} students={students} />
     </HeaderContainer>
   );

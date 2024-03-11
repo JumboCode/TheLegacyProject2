@@ -15,13 +15,13 @@ export const seniorDeleteResponse = z.discriminatedUnion("code", [
   unauthorizedErrorSchema,
 ]);
 
-export const patchSeniorSchema = z.object({
-  firstname: z.string(),
-  lastname: z.string(),
-  name: z.string(),
-  location: z.string(),
-  description: z.string(),
-  StudentIDs: z.array(z.string()),
+export const patchSeniorSchema = seniorSchema.pick({
+  firstname: true,
+  lastname: true,
+  name: true, // TODO(nickbar01234) - Remove name
+  location: true,
+  StudentIDs: true,
+  description: true,
 });
 
 export type ISeniorSchema = z.infer<typeof seniorSchema>;

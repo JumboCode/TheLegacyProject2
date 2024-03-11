@@ -32,7 +32,8 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
       }
       elements={seniorsState ? seniorsState : []}
       display={(senior, index) => (
-        <UserTile senior={senior} link="bleh" key={index} />
+        // TODO(nickbar01234) - Fix link
+        <UserTile senior={senior} link="bleh" key={senior.id} />
       )}
       search={(senior, key) =>
         (senior.firstname + " " + senior.lastname)

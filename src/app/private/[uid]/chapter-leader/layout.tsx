@@ -29,6 +29,12 @@ const UserLayout = ({ children }: IUserLayout) => {
         link: `/private/${user.id}/chapter-leader/users`,
         icon: faUserGroup,
       },
+      // @TODO(nickbar01234) - Fix icon
+      {
+        name: "Seniors",
+        link: `/private/${user.id}/chapter-leader/seniors`,
+        icon: faUserGroup,
+      },
       {
         name: "Pending",
         link: `/private/${user.id}/chapter-leader/pending`,

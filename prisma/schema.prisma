@@ -89,7 +89,6 @@ model Senior {
   name        String   @default("")   
   firstname   String
   lastname    String
-  name        String
   location    String
   description String
   StudentIDs  String[] @db.ObjectId
