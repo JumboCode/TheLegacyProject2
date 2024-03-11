@@ -164,6 +164,7 @@ const AddSenior = ({
     // put accumulated students into senior model data
     const seniorModel = {
       ...seniorData,
+      name: `${seniorData.firstname} ${seniorData.lastname}`,
       StudentIDs: selectedStudents.map((usr) => usr.id),
     };
 

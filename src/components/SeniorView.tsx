@@ -31,7 +31,9 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
         />
       }
       elements={seniorsState ? seniorsState : []}
-      display={(senior) => <UserTile senior={senior} link="bleh" />}
+      display={(senior, index) => (
+        <UserTile senior={senior} link="bleh" key={index} />
+      )}
       search={(senior, key) =>
         (senior.firstname + " " + senior.lastname)
           .toLowerCase()
