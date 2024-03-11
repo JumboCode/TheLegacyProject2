@@ -13,13 +13,15 @@ const Layout = async ({ children }: LayoutProps) => {
       headerIcon={faHouse}
       showHorizontalLine={false}
     >
-      <TabButtons
-        queries={[
-          { segment: "home", name: "My Chapter" },
-          { segment: "home/resources", name: "resources" },
-        ]}
-      />
-      {children}
+      <div className="flex flex-col gap-y-6">
+        <TabButtons
+          queries={[
+            { segment: "home", name: "My Chapter" },
+            { segment: "home/resources", name: "resources" },
+          ]}
+        />
+        {children}
+      </div>
     </HeaderContainer>
   );
 };

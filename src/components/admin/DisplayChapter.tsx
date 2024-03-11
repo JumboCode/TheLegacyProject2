@@ -66,8 +66,7 @@ const DisplayChapter = (props: DisplayChapterProps) => {
         dateCreated={chapter.dateCreated}
       />
       <CardGrid
-        column_count={2}
-        title={<div className=" text-xl font-bold">Executive Board</div>}
+        title={<div className="text-xl font-bold">Executive Board</div>}
         tiles={eboardMembers.map((user) => (
           <UserTile
             key={user.id}
