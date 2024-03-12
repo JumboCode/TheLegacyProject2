@@ -3,6 +3,7 @@
 import { UserTile } from "@components/TileGrid";
 import { Senior, User } from "@prisma/client";
 import SearchableContainer from "@components/SearchableContainer";
+import { seniorFullName } from "@utils";
 
 type SeniorsHomePageProps = {
   seniors: Senior[];
@@ -32,7 +33,7 @@ const SeniorsHomePage = ({ seniors, user }: SeniorsHomePageProps) => {
           </h1>
         }
         search={(senior: Senior, filter: string) =>
-          senior.name.toLowerCase().includes(filter.toLowerCase())
+          seniorFullName(senior).toLowerCase().includes(filter.toLowerCase())
         }
       />
     </>

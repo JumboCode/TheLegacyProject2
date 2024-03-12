@@ -24,7 +24,7 @@ const PendingHomePage = ({ users }: MembersHomePageProps) => {
         />
       ) : (
         <h1 className="text-2xl font-light">
-          {"This chapter has no members."}
+          {"This chapter has no pending members."}
         </h1>
       )}
     </>

@@ -5,7 +5,6 @@ import { seniorSchema } from "@server/model";
 export const postSeniorSchema = seniorSchema.pick({
   firstname: true,
   lastname: true,
-  name: true, // TODO(nickbar01234) - Remove name
   location: true,
   StudentIDs: true,
   description: true,

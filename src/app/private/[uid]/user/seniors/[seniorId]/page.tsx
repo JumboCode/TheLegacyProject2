@@ -38,7 +38,7 @@ const Page = async ({ params }: PageProps) => {
           },
         ]}
       />
-      <DisplaySenior editable={false} senior={senior} />
+      <DisplaySenior editable={false} canAddFile senior={senior} />
     </div>
   );
 };

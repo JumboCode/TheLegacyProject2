@@ -5,7 +5,6 @@ export const seniorSchema = z.object({
   id: z.string(),
   firstname: z.string(),
   lastname: z.string(),
-  name: z.string(),
   location: z.string(),
   description: z.string(),
   StudentIDs: z.array(z.string()),

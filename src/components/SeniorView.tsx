@@ -4,7 +4,8 @@ import { Senior, User } from "@prisma/client";
 import SearchableContainer from "./SearchableContainer";
 import { UserTile } from "./TileGrid";
 import AddSenior from "./AddSenior";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "@context/UserProvider";
 
 type SeniorViewProps = {
   seniors: Senior[];
@@ -12,6 +13,7 @@ type SeniorViewProps = {
 };
 
 export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
+  const context = useContext(UserContext);
   const [seniorsState, setSeniorsState] = useState(seniors);
   const [showAddSeniorPopUp, setShowAddSeniorPopUp] = useState(false);
   const [seniorPatch, setSeniorPatch] = useState("");
@@ -32,8 +34,11 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
       }
       elements={seniorsState ? seniorsState : []}
       display={(senior, index) => (
-        // TODO(nickbar01234) - Fix link
-        <UserTile senior={senior} link="bleh" key={senior.id} />
+        <UserTile
+          senior={senior}
+          link={`/private/${context.user.id}/chapter-leader/seniors/${senior.id}`}
+          key={senior.id}
+        />
       )}
       search={(senior, key) =>
         (senior.firstname + " " + senior.lastname)

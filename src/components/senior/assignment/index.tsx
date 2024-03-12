@@ -39,7 +39,6 @@ const Assignment = (props: AssignmentProps) => {
               body: {
                 firstname: senior.firstname,
                 lastname: senior.lastname,
-                name: senior.name,
                 location: senior.location,
                 description: senior.description,
                 StudentIDs: assigned.map((user) => user.id),

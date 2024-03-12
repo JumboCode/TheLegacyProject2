@@ -86,7 +86,6 @@ enum Role {
 
 model Senior {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String   @default("")   
   firstname   String
   lastname    String
   location    String

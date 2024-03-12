@@ -18,7 +18,6 @@ export const seniorDeleteResponse = z.discriminatedUnion("code", [
 export const patchSeniorSchema = seniorSchema.pick({
   firstname: true,
   lastname: true,
-  name: true, // TODO(nickbar01234) - Remove name
   location: true,
   StudentIDs: true,
   description: true,

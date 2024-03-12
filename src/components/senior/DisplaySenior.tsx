@@ -5,13 +5,12 @@ import { File as PrismaFile, Prisma } from "@prisma/client";
 import { formatFileDate } from "@utils";
 import { File } from "@components/file";
 import AddFile from "@components/file/AddFile";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { v4 as uuid } from "uuid";
 import Assigment from "./assignment";
 
 interface DisplayProps {
   editable: boolean;
+  canAddFile: boolean;
   senior: Prisma.SeniorGetPayload<{
     include: { Files: true; chapter: { include: { students: true } } };
   }>;
@@ -46,7 +45,7 @@ const FILES: PrismaFile[] = [
 ];
 
 const DisplaySenior = (props: DisplayProps) => {
-  const { editable, senior } = props;
+  const { editable, canAddFile, senior } = props;
   const addFileId = uuid();
 
   return (
@@ -59,7 +58,10 @@ const DisplaySenior = (props: DisplayProps) => {
         display={(file) => <File key={file.id} file={file} />}
         elements={FILES} // TODO(nickbar01234) - Replace with real data
         search={(file, filter) => formatFileDate(file.date).includes(filter)}
-        addElementComponent={<AddFile key={addFileId} />}
+        addElementComponent={canAddFile && <AddFile key={addFileId} />}
+        emptyNode={
+          <p className="text-2xl font-light text-[#000022]">No files yet.</p>
+        }
       />
     </div>
   );

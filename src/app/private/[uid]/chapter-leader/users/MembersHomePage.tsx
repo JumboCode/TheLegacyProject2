@@ -27,7 +27,9 @@ const MembersHomePage = ({ members, user }: MembersHomePageProps) => {
         display={displayMembers}
         elements={members}
         emptyNode={
-          <h1 className="text-2xl font-light">This chapter has no members.</h1>
+          <h1 className="text-2xl font-light text-[#000022]">
+            This chapter has no members.
+          </h1>
         }
         search={(member: User, filter: string) =>
           (member.firstName + " " + member.lastName)

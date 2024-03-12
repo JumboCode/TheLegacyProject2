@@ -93,7 +93,7 @@ const StudentSelector = ({
 
 type SeniorData = Pick<
   z.infer<typeof seniorSchema>,
-  "firstname" | "lastname" | "name" | "location" | "description"
+  "firstname" | "lastname" | "location" | "description"
 >;
 
 const AddSenior = ({
@@ -108,7 +108,6 @@ const AddSenior = ({
   const emptySenior: SeniorData = {
     firstname: "",
     lastname: "",
-    name: "",
     location: "",
     description: "",
   };
@@ -166,7 +165,6 @@ const AddSenior = ({
     // put accumulated students into senior model data
     const seniorModel = {
       ...seniorData,
-      name: `${seniorData.firstname} ${seniorData.lastname}`,
       StudentIDs: selectedStudents.map((usr) => usr.id),
     };
 

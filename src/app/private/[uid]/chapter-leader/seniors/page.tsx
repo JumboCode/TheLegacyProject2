@@ -1,7 +1,5 @@
 import React from "react";
 import { prisma } from "@server/db/client";
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
-import { HeaderContainer } from "@components/container";
 import { SeniorView } from "@components/SeniorView";
 
 const UserSeniorsPage = async ({ params }: { params: { uid: string } }) => {
@@ -29,14 +27,10 @@ const UserSeniorsPage = async ({ params }: { params: { uid: string } }) => {
   const students = chapter?.students ? chapter.students : [];
 
   return (
-    <HeaderContainer
-      header="Seniors"
-      showHorizontalLine={true}
-      headerIcon={faUsers}
-    >
+    <>
       <div className="mb-6 text-2xl">Seniors {`(${seniors.length})`}</div>
       <SeniorView seniors={seniors} students={students} />
-    </HeaderContainer>
+    </>
   );
 };
 

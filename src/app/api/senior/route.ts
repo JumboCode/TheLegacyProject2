@@ -85,7 +85,6 @@ export const POST = withSessionAndRole(
 
       const senior = await prisma.senior.create({
         data: {
-          name: seniorBody.name,
           firstname: seniorBody.firstname,
           lastname: seniorBody.lastname,
           location: seniorBody.location,
