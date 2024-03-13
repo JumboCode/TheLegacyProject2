@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import Image, { StaticImageData } from "next/legacy/image";
 import cn from "classnames";
 import FilterDropdown from "@components/FilterDropdown";
@@ -86,11 +92,6 @@ const StudentSelector = ({
   );
 };
 
-// type SeniorData = Omit<
-//   Extract<z.infer<typeof seniorPostResponse>, { code: "SUCCESS" }>["data"],
-//   "StudentIDs"
-// >;
-
 type SeniorData = Pick<
   z.infer<typeof seniorSchema>,
   "firstname" | "lastname" | "location" | "description"
@@ -105,12 +106,14 @@ const AddSenior = ({
   seniorPatch,
   setSeniorPatch,
 }: AddSeniorProps) => {
-  const emptySenior: SeniorData = {
-    firstname: "",
-    lastname: "",
-    location: "",
-    description: "",
-  };
+  const emptySenior = useMemo(() => {
+    return {
+      firstname: "",
+      lastname: "",
+      location: "",
+      description: "",
+    };
+  }, []);
   const [seniorData, setSeniorData] = useState<SeniorData>(emptySenior);
   const [selectedStudents, setSelectedStudents] = useState<User[]>([]);
   const [currentImage, setCurrentImage] = useState<string | StaticImageData>(
@@ -118,6 +121,31 @@ const AddSenior = ({
   );
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+
+  const initialSenior: Senior | undefined = useMemo(() => {
+    const senior = seniors.find((senior) => senior.id === seniorPatch);
+    return senior;
+  }, [seniorPatch, seniors]);
+
+  useEffect(() => {
+    if (initialSenior)
+      setSeniorData({
+        firstname: initialSenior.firstname,
+        lastname: initialSenior.lastname,
+        location: initialSenior.location,
+        description: initialSenior.description,
+      });
+  }, [initialSenior, emptySenior]);
+
+  useEffect(() => {
+    if (initialSenior) {
+      setSelectedStudents(
+        students.filter((student) =>
+          initialSenior.StudentIDs.includes(student.id)
+        )
+      );
+    }
+  }, [students, initialSenior]);
 
   const handlePopUp = () => {
     setShowAddSeniorPopUp(!showAddSeniorPopUp);
@@ -248,6 +276,7 @@ const AddSenior = ({
                       <input
                         className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
                         type="text"
+                        value={seniorData.firstname}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData({
                             ...seniorData,
@@ -265,6 +294,7 @@ const AddSenior = ({
                       <input
                         className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
                         type="text"
+                        value={seniorData.lastname}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSeniorData((seniorData) => ({
                             ...seniorData,
@@ -296,6 +326,7 @@ const AddSenior = ({
                   <textarea
                     className="h-25 mb-3 min-h-[20px] w-full rounded-md border-2 border-solid border-tan bg-white p-[10px] text-start text-sm text-black"
                     placeholder="Write a brief description about the senior"
+                    value={seniorData.description}
                     onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                       setSeniorData({
                         ...seniorData,

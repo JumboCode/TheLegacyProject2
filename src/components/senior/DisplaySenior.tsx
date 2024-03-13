@@ -6,7 +6,7 @@ import { formatFileDate } from "@utils";
 import { File } from "@components/file";
 import AddFile from "@components/file/AddFile";
 import { v4 as uuid } from "uuid";
-import Assigment from "./assignment";
+import Assignment from "./assignment";
 
 interface DisplayProps {
   editable: boolean;
@@ -53,7 +53,7 @@ const DisplaySenior = (props: DisplayProps) => {
       {/* @TODO - Firstname + lastname */}
       <h1 className="text-4xl font-bold text-[#000022]">{`${senior.firstname} ${senior.lastname}`}</h1>
       <p>{senior.description}</p>
-      <Assigment editable={editable} senior={senior} />
+      <Assignment editable={editable} senior={senior} />
       <SearchableContainer
         display={(file) => <File key={file.id} file={file} />}
         elements={FILES} // TODO(nickbar01234) - Replace with real data
