@@ -152,6 +152,7 @@ const AddSenior = ({
     setSeniorData(emptySenior);
     setSelectedStudents([]);
     setCurrentImage(ImageIcon);
+    setSeniorPatch(""); // empty string used as falsey value to indicate update or patch
   };
 
   const handleConfirm = () => {
@@ -179,14 +180,9 @@ const AddSenior = ({
       setConfirm(true);
       const newSeniors = seniors.filter((i) => i.id !== newerSeniorObj.id);
       setSeniors([...newSeniors, newerSeniorObj]);
-    }
-    // check after both API calls
-    if (currRes.code != "SUCCESS") {
+    } else {
       setError(true);
     }
-
-    setSeniorData(emptySenior);
-    setSeniorPatch(""); // empty string used as falsey value to indicate update or patch
   };
 
   const postAddSenior = async () => {
@@ -205,9 +201,6 @@ const AddSenior = ({
       } else {
         setError(true);
       }
-      setSeniorData(emptySenior);
-      setSelectedStudents([]);
-      return null;
     });
   };
 
@@ -363,11 +356,11 @@ const AddSenior = ({
               <>
                 {confirm ? (
                   <div className="flex flex-col items-center">
-                    <div className="mb-8 text-center text-3xl">
+                    <div className="mb-8 text-center text-xl">
                       {seniorPatch ? "Updated" : "Added"} successfully!
                     </div>
                     <button
-                      className="font-large mx-1 w-full max-w-[10rem] rounded bg-white p-3 text-lg text-dark-teal drop-shadow-md hover:bg-off-white"
+                      className="mx-1 w-full max-w-[10rem] rounded bg-white p-3 text-lg text-dark-teal drop-shadow-md"
                       onClick={handleConfirm}
                     >
                       Confirm
@@ -380,7 +373,7 @@ const AddSenior = ({
                       your club administrator for help.
                     </div>
                     <button
-                      className="mx-1 w-full max-w-[10rem] rounded bg-off-white p-3 text-lg font-normal drop-shadow-md hover:bg-offer-white"
+                      className="mx-1 w-full max-w-[10rem] rounded bg-white p-3 text-lg text-dark-teal drop-shadow-md"
                       onClick={handleConfirm}
                     >
                       Confirm
