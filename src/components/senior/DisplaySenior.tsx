@@ -48,7 +48,6 @@ const FILES: PrismaFile[] = [
 const DisplaySenior = (props: DisplayProps) => {
   const { editable, senior } = props;
   const addFileId = uuid();
-  senior.folder;
   return (
     <div className="flex flex-col gap-y-6">
       {/* @TODO - Firstname + lastname */}
