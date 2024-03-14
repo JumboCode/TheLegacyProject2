@@ -31,6 +31,18 @@ type AddSeniorTileProps = {
   setSeniorPatch: Dispatch<SetStateAction<string>>;
 };
 
+type SeniorData = Pick<
+  z.infer<typeof seniorSchema>,
+  "firstname" | "lastname" | "location" | "description"
+>;
+
+const EMPTY_SENIOR: SeniorData = {
+  firstname: "",
+  lastname: "",
+  location: "",
+  description: "",
+};
+
 export const AddSeniorTile = ({
   showAddSeniorPopUp,
   setShowAddSeniorPopUp,
@@ -92,11 +104,6 @@ const StudentSelector = ({
   );
 };
 
-type SeniorData = Pick<
-  z.infer<typeof seniorSchema>,
-  "firstname" | "lastname" | "location" | "description"
->;
-
 const AddSenior = ({
   seniors,
   students,
@@ -106,15 +113,7 @@ const AddSenior = ({
   seniorPatch,
   setSeniorPatch,
 }: AddSeniorProps) => {
-  const emptySenior = useMemo(() => {
-    return {
-      firstname: "",
-      lastname: "",
-      location: "",
-      description: "",
-    };
-  }, []);
-  const [seniorData, setSeniorData] = useState<SeniorData>(emptySenior);
+  const [seniorData, setSeniorData] = useState<SeniorData>(EMPTY_SENIOR);
   const [selectedStudents, setSelectedStudents] = useState<User[]>([]);
   const [currentImage, setCurrentImage] = useState<string | StaticImageData>(
     ImageIcon
@@ -135,7 +134,7 @@ const AddSenior = ({
         location: initialSenior.location,
         description: initialSenior.description,
       });
-  }, [initialSenior, emptySenior]);
+  }, [initialSenior]);
 
   useEffect(() => {
     if (initialSenior) {
@@ -149,7 +148,7 @@ const AddSenior = ({
 
   const handlePopUp = () => {
     setShowAddSeniorPopUp(!showAddSeniorPopUp);
-    setSeniorData(emptySenior);
+    setSeniorData(EMPTY_SENIOR);
     setSelectedStudents([]);
     setCurrentImage(ImageIcon);
     setSeniorPatch(""); // empty string used as falsey value to indicate update or patch

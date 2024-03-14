@@ -34,7 +34,7 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
           setSeniorPatch={setSeniorPatch}
         />
       }
-      elements={seniorsState ? seniorsState : []}
+      elements={seniorsState}
       display={(senior) => {
         const options: Parameters<typeof TileEdit>[0]["options"] = [];
 
@@ -43,9 +43,6 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
           onClick: (e) => {
             e.stopPropagation();
             e.preventDefault();
-            if (!setSeniorPatch || !setShowAddSeniorPopUp) {
-              return;
-            }
             setSeniorPatch(senior.id);
             setShowAddSeniorPopUp(true);
           },
