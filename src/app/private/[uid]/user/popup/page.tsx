@@ -27,8 +27,8 @@ const AddFilePage = () => {
         <AddFile
           showAddFilePopUp={showAddFilePopUp}
           setShowAddFilePopUp={setShowAddFilePopUp}
-          seniorId={"65d6a19f5b3cabcd18dbe3b1"}
-          folder={"1d9z-eV5eTCOdiWP_dhIx5-O5NA82lC1_"}
+          seniorId={"65e7815b307c8d1a518df8a8"}
+          folder={"13LqDrrWNMXevAd4so-jaBxk_dUDIbend"}
         />
       ) : null}
       <button

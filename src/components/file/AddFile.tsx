@@ -16,9 +16,9 @@ const AddFile = (files: PrismaFile[]) => {
         <AddFilePopup
           showAddFilePopUp={showAddFilePopUp}
           setShowAddFilePopUp={setShowAddFilePopUp}
-          seniorId={"65d6a19f5b3cabcd18dbe3b1"}
+          seniorId={"65e7815b307c8d1a518df8a8"}
           files={files}
-          folder={"1d9z-eV5eTCOdiWP_dhIx5-O5NA82lC1_"}
+          folder={"13LqDrrWNMXevAd4so-jaBxk_dUDIbend"}
         />
       ) : null}
       <button onClick={handlePopUp}>
