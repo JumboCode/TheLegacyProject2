@@ -48,7 +48,7 @@ const FILES: PrismaFile[] = [
 const DisplaySenior = (props: DisplayProps) => {
   const { editable, senior } = props;
   const addFileId = uuid();
-
+  senior.folder;
   return (
     <div className="flex flex-col gap-y-6">
       {/* @TODO - Firstname + lastname */}
@@ -57,9 +57,16 @@ const DisplaySenior = (props: DisplayProps) => {
       <Assigment editable={editable} senior={senior} />
       <SearchableContainer
         display={(file) => <File key={file.id} file={file} />}
-        elements={FILES} // TODO(nickbar01234) - Replace with real data
+        elements={FILES} // TODO(nickbar01234) - Replace with real data.
         search={(file, filter) => formatFileDate(file.date).includes(filter)}
-        addElementComponent={<AddFile key={addFileId} {...senior.Files} />}
+        addElementComponent={
+          <AddFile
+            seniorId={senior.id}
+            seniorFolder={senior.folder}
+            files={senior.Files}
+            key={addFileId}
+          />
+        }
       />
     </div>
   );

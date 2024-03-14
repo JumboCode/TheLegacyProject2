@@ -5,20 +5,30 @@ import { useState } from "react";
 import AddFilePopup from "@components/user/AddFile";
 import { File as PrismaFile, Prisma } from "@prisma/client";
 
-const AddFile = (files: PrismaFile[]) => {
+const AddFile = ({
+  seniorId,
+  seniorFolder,
+  files,
+}: {
+  seniorId: string;
+  seniorFolder: string;
+  files: PrismaFile[];
+}) => {
   const [showAddFilePopUp, setShowAddFilePopUp] = useState<boolean>(false);
+
   const handlePopUp = () => {
     setShowAddFilePopUp(!showAddFilePopUp);
   };
+
   return (
     <div>
       {showAddFilePopUp ? (
         <AddFilePopup
           showAddFilePopUp={showAddFilePopUp}
           setShowAddFilePopUp={setShowAddFilePopUp}
-          seniorId={"65e7815b307c8d1a518df8a8"}
+          seniorId={seniorId}
           files={files}
-          folder={"13LqDrrWNMXevAd4so-jaBxk_dUDIbend"}
+          folder={seniorFolder}
         />
       ) : null}
       <button onClick={handlePopUp}>

@@ -55,6 +55,7 @@ const SeniorProfile = ({ senior }: any) => {
           setShowAddFilePopUp={setShowAddFilePopUp}
           seniorId={senior.id}
           folder={senior.folder}
+          files={files}
         />
       ) : null}
       <div className="w-full p-8">

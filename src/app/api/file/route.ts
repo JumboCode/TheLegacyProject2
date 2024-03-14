@@ -22,7 +22,6 @@ export const POST = withSession(async (request) => {
       { status: 400 }
     );
   } else {
-    console.log("hello");
     const fileData = fileRequest.data;
 
     // Check that user has this senior assigned to them
@@ -45,7 +44,6 @@ export const POST = withSession(async (request) => {
     if (
       !user.SeniorIDs.some((seniorId: string) => seniorId === fileData.seniorId)
     ) {
-      console.log("filedata.seniorId: ", fileData.seniorId);
       return NextResponse.json(
         FileResponse.parse({
           code: "NOT_AUTHORIZED",
