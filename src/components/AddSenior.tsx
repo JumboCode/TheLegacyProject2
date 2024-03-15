@@ -14,6 +14,7 @@ import { patchSenior } from "src/app/api/senior/[id]/route.client";
 import { postSenior } from "src/app/api/senior/route.client";
 import z from "zod/lib";
 import { seniorSchema } from "@server/model";
+import { fullName } from "@utils";
 
 type AddSeniorProps = {
   seniors: Senior[];
@@ -79,10 +80,10 @@ const StudentSelector = ({
       </div>
       <FilterDropdown<User>
         items={students}
-        filterMatch={(usr, term) => (usr.name ?? "").indexOf(term) != -1}
+        filterMatch={(usr, term) => fullName(usr).indexOf(term) != -1}
         display={(usr: User) => (
           <div className="m-1 flex whitespace-nowrap rounded-full bg-amber-red px-4 py-2 text-white">
-            {usr.name}
+            {fullName(usr)}
             <div className="flex1 ml-3">
               <button
                 type="button"

@@ -37,7 +37,9 @@ const SearchableContainer = <T,>({
           <SearchBar setFilter={setFilter} />
         </div>
       )}
-      {emptyNode != undefined && elements.length === 0 ? (
+      {emptyNode != undefined &&
+      addElementComponent === undefined &&
+      elements.length === 0 ? (
         <>{emptyNode}</>
       ) : (
         <CardGrid
