@@ -29,6 +29,7 @@ export const metadata: Metadata = {
 const merriweather = Merriweather({
   weight: "400",
   style: "normal",
+  variable: "--font-merriweather",
   subsets: ["latin"],
 });
 
@@ -39,7 +40,7 @@ const RootLayout = async ({ children }: IRootLayout) => {
     <html lang="en">
       <SessionProvider session={session}>
         <body
-          className={`${merriweather.className} h-screen w-screen items-center overscroll-none bg-white`}
+          className={`${merriweather.className} h-screen w-screen items-center overscroll-none bg-[#F4F0EB]`}
         >
           {children}
         </body>

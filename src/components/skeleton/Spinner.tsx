@@ -3,7 +3,7 @@ interface SpinnerProps {
   width?: number;
 }
 
-const Spinner = ({ height = 20, width = 20 }: SpinnerProps) => {
+const Spinner = ({ height = 24, width = 24 }: SpinnerProps) => {
   // @TODO - Talk to Fa about spinner style
   return (
     <svg

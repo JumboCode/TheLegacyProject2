@@ -1,0 +1,11 @@
+# Specify reviewers for pull requests
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Add reviewers
+    reviewers:
+      - "nickbar01234"

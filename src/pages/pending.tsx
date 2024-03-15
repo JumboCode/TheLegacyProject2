@@ -14,11 +14,11 @@ export default function Pending() {
       </span>
 
       <div className="py-[10px]">
-        <h1 className="pb-2 text-center font-serif text-2xl font-medium">
+        <h1 className="pb-2 text-center text-2xl font-medium">
           Oh no! It looks like you don&apos;t have access to the Legacy Project
           yet.
         </h1>
-        <h2 className="text-center font-serif text-lg">
+        <h2 className="text-center text-lg">
           Your access to The Legacy Project is pending. Please follow-up with a
           club administrator for more details.
         </h2>

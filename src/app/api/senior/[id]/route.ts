@@ -6,7 +6,6 @@ import {
   patchSeniorSchema,
 } from "./route.schema";
 import { prisma } from "@server/db/client";
-import { seniorSchema } from "@server/model";
 
 /**
  * @TODO - Delete folder belonging to the senior

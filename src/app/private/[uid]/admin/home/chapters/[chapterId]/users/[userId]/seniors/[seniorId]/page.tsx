@@ -41,14 +41,14 @@ const SeniorPage = async ({ params }: Params) => {
           { display: "Chapters", url: "chapters" },
           { display: user.Chapter?.chapterName ?? "", url: chapterId },
           { display: user.name ?? "", url: userId },
-          { display: senior.name, url: seniorId },
+          { display: `${senior.firstname} ${senior.lastname}`, url: seniorId },
         ]}
       />
 
       <CardGrid
         title={
           <>
-            <h1 className="text-2xl font-bold text-[#000022]">{senior.name}</h1>
+            <h1 className="text-2xl font-bold text-[#000022]">{`${senior.firstname} ${senior.lastname}`}</h1>
             {senior.description.length > 0 && (
               <p className="text-[15px]">{senior.description}</p>
             )}

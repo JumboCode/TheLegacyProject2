@@ -2,11 +2,12 @@ import { z } from "zod";
 import { unauthorizedErrorSchema, unknownErrorSchema } from "../route.schema";
 import { seniorSchema } from "@server/model";
 
-export const postSeniorSchema = z.object({
-  name: z.string(),
-  location: z.string(),
-  description: z.string(),
-  StudentIDs: z.array(z.string()),
+export const postSeniorSchema = seniorSchema.pick({
+  firstname: true,
+  lastname: true,
+  location: true,
+  StudentIDs: true,
+  description: true,
 });
 
 export type IPostSeniorRequestSchema = z.infer<typeof postSeniorSchema>;

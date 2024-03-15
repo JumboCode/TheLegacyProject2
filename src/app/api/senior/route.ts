@@ -22,6 +22,7 @@ export const POST = withSessionAndRole(
         { status: 400 }
       );
     } else {
+      const seniorBody = newSenior.data;
       const user = await prisma.user.findFirst({
         where: {
           id: session.user.id,
@@ -48,7 +49,9 @@ export const POST = withSessionAndRole(
       }
       const baseFolder = "1MVyWBeKCd1erNe9gkwBf7yz3wGa40g9a"; // TODO: make env variable
       const fileMetadata = {
-        name: [`${body.name}-${randomUUID()}`],
+        name: [
+          `${seniorBody.firstname}_${seniorBody.lastname}-${randomUUID()}`,
+        ],
         mimeType: "application/vnd.google-apps.folder",
         parents: [baseFolder],
       };
@@ -82,11 +85,12 @@ export const POST = withSessionAndRole(
 
       const senior = await prisma.senior.create({
         data: {
-          name: body.name,
-          location: body.location,
-          description: body.description,
+          firstname: seniorBody.firstname,
+          lastname: seniorBody.lastname,
+          location: seniorBody.location,
+          description: seniorBody.description,
           ChapterID: session.user.ChapterID,
-          StudentIDs: body.StudentIDs,
+          StudentIDs: seniorBody.StudentIDs,
           folder: googleFolderId,
         },
       });

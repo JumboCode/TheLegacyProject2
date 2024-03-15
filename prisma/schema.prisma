@@ -46,7 +46,7 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // https://github.com/nextauthjs/next-auth/blob/v4/packages/next-auth/src/providers/google.ts
   // Fields mappable from PrismaAdapter. We can map the value return from profle() in [...nextauth].
@@ -87,7 +87,7 @@ enum Role {
 model Senior {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   firstname   String
-  lastname   String
+  lastname    String
   location    String
   description String
   StudentIDs  String[] @db.ObjectId
@@ -99,13 +99,13 @@ model Senior {
 }
 
 model File {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  date         DateTime // will zero out the hours
-  filetype     String
-  url          String
-  seniorId     String   @db.ObjectId
-  senior       Senior   @relation(fields: [seniorId], references: [id], onDelete: Cascade)
-  Tags         String[]
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  date     DateTime // will zero out the hours
+  filetype String
+  url      String
+  seniorId String   @db.ObjectId
+  senior   Senior   @relation(fields: [seniorId], references: [id], onDelete: Cascade)
+  Tags     String[]
 
   @@unique([seniorId, date])
 }
@@ -135,20 +135,20 @@ model Chapter {
 }
 
 model Resource {
-    id           String   @id @default(auto()) @map("_id") @db.ObjectId
-    access       Role[]
-    link         String
-    title        String
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  access Role[]
+  link   String
+  title  String
 }
 
 model Email {
-    id          String   @id @default(auto()) @map("_id") @db.ObjectId
-    email       String   @unique
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
 }
 
 model UserRequest {
-  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
-  approved             Approval @default(PENDING)
-  uid                  String   @db.ObjectId @unique                 
-  chapterId            String   @db.ObjectId                 
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  approved  Approval @default(PENDING)
+  uid       String   @unique @db.ObjectId
+  chapterId String   @db.ObjectId
 }

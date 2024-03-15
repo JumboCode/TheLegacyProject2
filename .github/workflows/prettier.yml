@@ -1,0 +1,28 @@
+name: Prettier Action
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+
+      - name: NPM Install
+        run: npm i
+
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.3
+        with:
+          prettier_options: "--write **/*.tsx **/*.ts **/*.mjs"
+          prettier_version: "2.x.x"

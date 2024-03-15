@@ -261,7 +261,7 @@ function SeniorBody({
           );
         }}
         search={(senior: Senior, filter: string) =>
-          !!senior.name?.includes(filter)
+          !!`${senior.firstname} ${senior.lastname}`?.includes(filter)
         }
         elements={seniors}
       />

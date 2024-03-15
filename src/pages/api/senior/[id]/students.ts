@@ -3,7 +3,6 @@ import { prisma } from "@server/db/client";
 import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import { z } from "zod";
 
-
 const students = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
 
@@ -33,7 +32,7 @@ const students = async (req: NextApiRequest, res: NextApiResponse) => {
       admin: true, //return admin boolean field for given user id
     },
   })) ?? { admin: false };
-  
+
   if (!admin) {
     res.status(500).json({
       error:
@@ -60,7 +59,7 @@ const students = async (req: NextApiRequest, res: NextApiResponse) => {
           });
           return;
         }
-        
+
         res.status(200).json({ students: result.Students });
       } catch (error) {
         res.status(500).json({

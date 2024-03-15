@@ -83,29 +83,30 @@ const student = async (req: NextApiRequest, res: NextApiResponse) => {
         })) ?? { admin: false };
 
         const studentSchema = z.object({
-          SeniorIDs: z.array(z.string())
+          SeniorIDs: z.array(z.string()),
         });
         const body = studentSchema.parse(JSON.parse(req.body));
 
         if (admin) {
-          const student = (await prisma.user.update({
-            where : {
+          const student = await prisma.user.update({
+            where: {
               id: studentId,
             },
             data: {
-              ...body
-            }
-          }));
+              ...body,
+            },
+          });
 
-        res.status(200).json(student);
+          res.status(200).json(student);
         } else {
           res.status(500).json({
-            error: "This route is protected. In order to access it, please sign in as admin."
+            error:
+              "This route is protected. In order to access it, please sign in as admin.",
           });
         }
       } catch (error) {
         res.status(500).json({
-          error: `Failed to update student: ${error}`
+          error: `Failed to update student: ${error}`,
         });
       }
       break;
@@ -143,7 +144,7 @@ const student = async (req: NextApiRequest, res: NextApiResponse) => {
         }
       } catch (error) {
         res.status(500).json({
-          error: `Failed to delete student: ${error}`
+          error: `Failed to delete student: ${error}`,
         });
       }
 

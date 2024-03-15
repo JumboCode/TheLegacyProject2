@@ -3,7 +3,8 @@ import { z } from "zod";
 
 export const seniorSchema = z.object({
   id: z.string(),
-  name: z.string(),
+  firstname: z.string(),
+  lastname: z.string(),
   location: z.string(),
   description: z.string(),
   StudentIDs: z.array(z.string()),

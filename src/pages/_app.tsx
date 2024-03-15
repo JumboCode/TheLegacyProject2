@@ -57,7 +57,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   } else {
     return (
       <SessionProvider session={session}>
-        <UserProvider>
+        <UserProvider user={{} as any}>
           <div className="flex flex-col bg-tan md:flex-row">
             <div className="grid grid-cols-12">
               <div className="col-span-2">

@@ -112,7 +112,7 @@ const TestApi = () => {
   return (
     <div className="m-10 flex h-full w-full flex-col gap-5">
       {/* FILE ROUTES */}
-      <span className="text-3xl font-bold tracking-wide text-dark-gray">
+      <span className="tracking-wide text-3xl font-bold text-dark-gray">
         /api/file/
       </span>
       <button
@@ -133,7 +133,7 @@ const TestApi = () => {
       </button>
 
       {/* SENIOR ROUTES */}
-      <span className="text-3xl font-bold tracking-wide text-dark-gray">
+      <span className="tracking-wide text-3xl font-bold text-dark-gray">
         /api/seniors/
       </span>
       <button
@@ -154,7 +154,7 @@ const TestApi = () => {
       </button>
 
       {/* STUDENT ROUTES */}
-      <span className="text-3xl font-bold tracking-wide text-dark-gray">
+      <span className="tracking-wide text-3xl font-bold text-dark-gray">
         /api/students/
       </span>
       <button
