@@ -16,16 +16,7 @@ const PendingChapters = async () => {
       tiles={pendingChapters.map((pendingChapter) => (
         <ChapterRequest
           key={pendingChapter.id}
-          chapterRequestId={pendingChapter.id}
-          universityName={pendingChapter.university}
-          universityAddress={pendingChapter.universityAddress}
-          name={pendingChapter.firstName + " " + pendingChapter.lastName}
-          phoneNumber={pendingChapter.phoneNumber}
-          email={pendingChapter.universityEmail}
-          leadershipExperience={pendingChapter.leadershipExperience}
-          motivation={pendingChapter.motivation}
-          availabilities={pendingChapter.availabilities}
-          questions={pendingChapter.questions}
+          chapterRequest={pendingChapter}
         />
       ))}
     />

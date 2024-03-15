@@ -64,15 +64,14 @@ function TileEditMenu({ visible, setVisible, options, icons }: ITileEditMenu) {
     <div
       className={cn(
         visible ? "flex" : "hidden",
-        "absolute z-10 flex-col rounded bg-white text-center drop-shadow-md"
+        "absolute right-0 z-10 flex-col rounded-[6px] bg-white text-center drop-shadow-md"
       )}
-      style={{ borderRadius: "6px" }}
     >
       <form method="dialog">
         {options.map((option, index) => (
           <React.Fragment key={index}>
             <button
-              className="w-full rounded-md p-2 px-4 hover:bg-offer-white"
+              className="w-full rounded-md px-4 py-2 hover:bg-offer-white"
               style={{
                 color: option.color,
                 display: "flex",
@@ -84,14 +83,7 @@ function TileEditMenu({ visible, setVisible, options, icons }: ITileEditMenu) {
                 setVisible(false);
               }}
             >
-              <span
-                style={{
-                  marginRight: "20px",
-                  fontFamily: "Merriweather",
-                }}
-              >
-                {option.name}
-              </span>
+              <span className="mr-4 whitespace-nowrap">{option.name}</span>
               {option.icon}
             </button>
             {index !== options.length - 1 && <hr />}
@@ -137,18 +129,8 @@ export function TileEdit({ options, icon }: TileEditProps) {
   }, []);
 
   return options.length > 0 ? (
-    <div
-      // className="absolute right-0 top-0 w-auto p-1"
-      // onMouseLeave={() => {
-      //   setVisible(false);
-      // }}
-      ref={tileEditRef}
-    >
-      <button
-        onClick={() => setVisible(true)}
-        type="button"
-        className="relative"
-      >
+    <div ref={tileEditRef}>
+      <button onClick={() => setVisible(!visible)} type="button">
         {icon ?? <TileEditBreadcrumbs />}
       </button>
       <TileEditMenu

@@ -1,14 +1,14 @@
 "use client";
 
-import SearchBar from "@components/SearchBar";
-import { ChapterTile } from "@components/TileGrid/ChapterTile";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Prisma } from "@prisma/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { TileEdit } from "./TileGrid/TileEdit";
 import { UserContext } from "src/context/UserProvider";
-import { CardGrid } from "./container";
+import { InfoTile } from "./TileGrid";
+import { fullName } from "@utils";
+import SearchableContainer from "./SearchableContainer";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -19,67 +19,67 @@ type AdminHomePageProps = {
 };
 
 const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
-  const [filter, setFilter] = useState("");
   const userContext = useContext(UserContext);
 
   return (
-    <>
-      <div className="flex w-full gap-2.5">
-        <SearchBar setFilter={setFilter} />
-      </div>
+    <SearchableContainer
+      elements={chapters}
+      column_count={2}
+      search={(elem, filter) => elem.chapterName.includes(filter)}
+      display={(chapter) => {
+        const prez = chapter.students.find(
+          (user) => user.role == "CHAPTER_LEADER"
+        );
 
-      <CardGrid
-        column_count={2}
-        tiles={chapters
-          .filter((chapter) =>
-            chapter.chapterName.toLowerCase().includes(filter.toLowerCase())
-          )
-          .map((chapter, index) => {
-            let yearsActive =
-              (new Date().getTime() - chapter.dateCreated.getTime()) / 1000;
-            yearsActive /= 60 * 60 * 24;
-            yearsActive = Math.abs(Math.round(yearsActive / 365.25));
+        const options: Parameters<typeof TileEdit>[0]["options"] = [];
 
-            const prez = chapter.students.find(
-              (user) => user.role == "CHAPTER_LEADER"
-            );
+        options.push({
+          name: "Remove Chapter",
+          onClick: () => {
+            console.log("This worked");
+          },
+          color: "#ef6767",
+          icon: <FontAwesomeIcon icon={faTrashCan} />,
+        });
 
-            const options: Parameters<typeof TileEdit>[0]["options"] = [];
-
-            options.push({
-              name: "Remove Chapter",
-              onClick: () => {
-                console.log("This worked");
+        return (
+          <InfoTile
+            key={chapter.id}
+            title={chapter.chapterName}
+            href={`/private/${userContext.user.id}/admin/home/chapters/${chapter.id}`}
+            information={[
+              { key: "Location", value: chapter.location },
+              {
+                key: "Members",
+                value: chapter.students.length,
               },
-              color: "#ef6767",
-              icon: <FontAwesomeIcon icon={faTrashCan} />,
-            });
-
-            return (
-              <ChapterTile
-                key={index}
-                title={chapter.chapterName}
-                president={prez?.name ?? ""}
-                numMembers={chapter.students.length}
-                yearsActive={yearsActive}
-                emailPresident={prez?.email ?? ""}
-                topRightButton={
-                  <TileEdit
-                    options={options}
-                    icon={
-                      <FontAwesomeIcon
-                        className="fa-lg cursor-pointer"
-                        icon={faEllipsis}
-                      />
-                    }
+              {
+                key: "President",
+                value:
+                  prez != undefined
+                    ? fullName(prez)
+                    : "This chapter has no president",
+              },
+              {
+                key: "Email",
+                value: prez?.email ?? "",
+              },
+            ]}
+            topRightButton={
+              <TileEdit
+                options={options}
+                icon={
+                  <FontAwesomeIcon
+                    className="fa-lg cursor-pointer"
+                    icon={faEllipsis}
                   />
                 }
-                href={`/private/${userContext.user.id}/admin/home/chapters/${chapter.id}`}
               />
-            );
-          })}
-      />
-    </>
+            }
+          />
+        );
+      }}
+    />
   );
 };
 

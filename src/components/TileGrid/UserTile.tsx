@@ -5,6 +5,7 @@ import Image from "next/legacy/image";
 import Link from "next/link";
 import React, { ReactNode } from "react";
 import "@fontsource/merriweather";
+import { fullName, seniorFullName } from "@utils";
 
 interface UserTileProps {
   student?: User;
@@ -20,7 +21,7 @@ export function UserTile({
   dropdownComponent,
 }: UserTileProps) {
   return (
-    <div className="w-40 rounded-lg bg-white">
+    <div className="w-40 rounded-lg bg-white shadow-lg">
       <div className="h-40 w-40 rounded-lg bg-white drop-shadow-md hover:bg-off-white">
         <Link
           href={link}
@@ -52,10 +53,10 @@ export function UserTile({
       <div className="flex items-center justify-between p-2">
         <div className="overflow-hidden">
           <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm text-dark-teal before:invisible before:content-['\200B']">
-            {student && student.name
-              ? student.name + (student.admin ? " (Admin)" : "")
-              : senior && `${senior.firstname} ${senior.lastname}`
-              ? `${senior.firstname} ${senior.lastname}`
+            {student
+              ? fullName(student)
+              : senior
+              ? seniorFullName(senior)
               : null}
           </p>
           {/* @TODO: Add pronouns once we add to student field  */}

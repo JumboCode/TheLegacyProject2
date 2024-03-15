@@ -1,29 +1,68 @@
+"use client";
+
+import { Prisma, Resource } from "@prisma/client";
+import { CardGrid } from "./container";
+import { UserTile } from "./TileGrid";
+import DisplayResources from "./DisplayResources";
+import React from "react";
+import { UserContext } from "@context/UserProvider";
+
+type ChapterWithUser = Prisma.ChapterGetPayload<{
+  include: { students: true };
+}>;
+
 interface DisplayChapterInfoParams {
-  location: string;
-  noMembers: number;
-  dateCreated: Date;
+  chapter: ChapterWithUser;
+  resources: Resource[];
 }
 
 const DisplayChapterInfo = ({
-  location,
-  noMembers,
-  dateCreated,
+  chapter,
+  resources,
 }: DisplayChapterInfoParams) => {
+  const userContext = React.useContext(UserContext);
+
   return (
-    <div className=" flex h-1/5 w-5/6 flex-col justify-between space-y-2 rounded-md bg-white p-8">
-      <div className="flex flex-row text-start">
-        <div>Location: </div>
-        <div className="ml-2 font-bold">{location}</div>
+    <div className="w-full">
+      <div className="font-merriweather mb-4 text-2xl font-bold text-[#000022]">
+        {chapter.chapterName}
       </div>
-      <div className="flex flex-row text-start">
-        <div>No. of members: </div>
-        <div className="ml-2 font-bold">{noMembers}</div>
+      <div className="mb-7 flex gap-x-6 overflow-x-auto">
+        {[
+          chapter.location,
+          `${chapter.students.length} members`,
+          `Active since ${chapter.dateCreated.getFullYear()}`,
+        ].map((value) => (
+          <div
+            key={value}
+            className="whitespace-nowrap rounded bg-dark-teal p-2.5 font-light text-white"
+          >
+            {value}
+          </div>
+        ))}
       </div>
-      <div className="flex flex-row text-start">
-        <div>Years Active: </div>
-        <div className="ml-2 font-bold">
-          {new Date().getFullYear() - dateCreated.getFullYear()}
-        </div>
+      <div className="mb-12">
+        <CardGrid
+          title={<div className="text-xl text-[#000022]">Executive Board</div>}
+          tiles={chapter.students
+            .filter((user) => user.role === "CHAPTER_LEADER")
+            .map((user) => (
+              <UserTile
+                key={user.id}
+                student={user}
+                link={`/private/${userContext.user.id}/chapter-leader/users/${user.id}`}
+              />
+            ))}
+        />
+      </div>
+      <div className="flex flex-col gap-y-6">
+        <div className="text-xl text-[#000022]">Resources</div>
+        <DisplayResources
+          resources={resources}
+          showRole={false}
+          editable={false}
+          column={3}
+        />
       </div>
     </div>
   );

@@ -14,11 +14,13 @@ import {
 import { compareResource } from "@utils";
 import { Spinner } from "./skeleton";
 import { createResourceSchema } from "@api/resources/route.schema";
+import { CardGrid } from "./container";
 
 interface IDisplayResources {
   resources: Resource[];
   showRole: boolean;
   editable: boolean;
+  column?: number;
 }
 
 interface ResourceState extends Resource {
@@ -164,8 +166,9 @@ const DisplayResources = (props: IDisplayResources) => {
           <Spinner />
         </div>
       ) : (
-        <div className="grid items-start gap-6 self-stretch md:grid-cols-2 ">
-          {stateResources
+        <CardGrid
+          column_count={props.column ?? 2}
+          tiles={stateResources
             .filter((resource) => resource.state !== "DELETED")
             .map((eachResource) => (
               <ResourceTile
@@ -177,7 +180,7 @@ const DisplayResources = (props: IDisplayResources) => {
                 onEdit={onEdit}
               />
             ))}
-        </div>
+        />
       )}
     </div>
   );

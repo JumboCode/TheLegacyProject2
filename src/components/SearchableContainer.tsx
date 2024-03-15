@@ -10,6 +10,7 @@ interface SearchableContainerProps<T> {
   elements: T[];
   search?: ((elem: T, filter: string) => boolean) | null;
   emptyNode?: ReactNode; // text to display when no elements are supplied
+  column_count?: number;
 }
 
 const SearchableContainer = <T,>({
@@ -19,6 +20,7 @@ const SearchableContainer = <T,>({
   elements,
   search = null,
   emptyNode,
+  column_count,
 }: SearchableContainerProps<T>) => {
   const [filter, setFilter] = useState("");
   const tilesToDisplay = elements
@@ -45,6 +47,7 @@ const SearchableContainer = <T,>({
               : tilesToDisplay
           }
           title={title}
+          column_count={column_count}
         />
       )}
     </div>

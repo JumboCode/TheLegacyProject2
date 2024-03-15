@@ -11,7 +11,9 @@ const CardGrid = ({ title, tiles, column_count }: UserGridProps) => {
     <div className="flex w-full flex-col gap-y-5">
       {title}
       {column_count ? (
-        <div className={`grid grid-cols-1 md:grid-cols-${column_count} gap-10`}>
+        <div
+          className={`gap-10 md:grid grid-cols-${column_count} flex flex-col`}
+        >
           {tiles}
         </div>
       ) : (

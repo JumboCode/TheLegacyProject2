@@ -113,7 +113,7 @@ const ResourceTile = ({
       />
     </div>
   ) : (
-    <div className="flex h-24 w-full flex-col gap-y-2.5 rounded-lg bg-white p-6">
+    <div className="flex h-24 w-full flex-col gap-y-2.5 rounded-lg bg-white p-6 shadow-lg">
       <div className="flex items-center justify-between text-xl font-normal">
         <p className="text-xl">{resource.title}</p>
         <a target="_blank" href={resource.link} rel="noopener noreferrer">

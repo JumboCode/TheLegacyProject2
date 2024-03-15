@@ -1,7 +1,5 @@
-import { UserTile } from "@components/TileGrid";
 import DisplayChapterInfo from "@components/DisplayChapterInfo";
 import { prisma } from "@server/db/client";
-import { CardGrid } from "@components/container";
 
 interface UserHomePageParams {
   params: {
@@ -23,33 +21,9 @@ const UserHomePage = async ({ params }: UserHomePageParams) => {
       students: true,
     },
   });
+  const resources = await prisma.resource.findMany();
 
-  return (
-    <div className="mt-6 flex flex-col gap-y-6">
-      <div className="font-merriweather text-2xl font-bold text-[#000022]">
-        {chapter.chapterName}
-      </div>
-      <DisplayChapterInfo
-        location={chapter.location}
-        noMembers={
-          chapter.students.filter((user) => user.role == "USER").length
-        }
-        dateCreated={chapter.dateCreated}
-      />
-      <CardGrid
-        title={
-          <div className="font-merriweather text-xl font-bold">
-            Executive Board
-          </div>
-        }
-        tiles={chapter.students
-          .filter((user) => user.role == "CHAPTER_LEADER")
-          .map((user) => (
-            <UserTile key={user.id} student={user} link="" />
-          ))}
-      />
-    </div>
-  );
+  return <DisplayChapterInfo chapter={chapter} resources={resources} />;
 };
 
 export default UserHomePage;

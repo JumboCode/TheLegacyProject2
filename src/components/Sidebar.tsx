@@ -45,8 +45,8 @@ const SidebarItem = ({
 const _Sidebar = ({ buttons }: ISideBar) => {
   const { user } = React.useContext(UserContext);
   return (
-    <nav className="h-screen w-full overflow-y-scroll bg-med-tan pb-32 pt-20">
-      <div className="flex h-full flex-col items-center justify-between ">
+    <nav className="h-screen w-full overflow-y-auto bg-med-tan pb-32 pt-20">
+      <div className="flex h-full flex-col items-center justify-between">
         <Link href="/public/" className="flex justify-center">
           <h1 className="h-auto w-full items-center justify-center px-5 duration-150 hover:-translate-y-0.5">
             <Image src={Logo} alt="logo" className="items-end" />
