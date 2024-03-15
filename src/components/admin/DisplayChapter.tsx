@@ -60,11 +60,7 @@ const DisplayChapter = (props: DisplayChapterProps) => {
       <div className=" text-2xl font-bold text-[#000022]">
         {chapter.chapterName}
       </div>
-      <DisplayChapterInfo
-        location={chapter.location}
-        noMembers={chapter.students.length}
-        dateCreated={chapter.dateCreated}
-      />
+      {/* TODO(nickbar01234) - Ask Fa for new Styling changes */}
       <CardGrid
         title={<div className="text-xl font-bold">Executive Board</div>}
         tiles={eboardMembers.map((user) => (
