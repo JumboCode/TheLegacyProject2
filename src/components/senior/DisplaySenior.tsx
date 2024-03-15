@@ -57,7 +57,16 @@ const DisplaySenior = (props: DisplayProps) => {
         display={(file) => <File key={file.id} file={file} />}
         elements={FILES} // TODO(nickbar01234) - Replace with real data.
         search={(file, filter) => formatFileDate(file.date).includes(filter)}
-        addElementComponent={canAddFile && <AddFile key={addFileId} />}
+        addElementComponent={
+          canAddFile && (
+            <AddFile
+              seniorId={senior.id}
+              seniorFolder={senior.folder}
+              files={senior.Files}
+              key={addFileId}
+            />
+          )
+        }
         emptyNode={
           <p className="text-2xl font-light text-[#000022]">No files yet.</p>
         }
