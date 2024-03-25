@@ -10,10 +10,11 @@ interface AssignmentProps {
   senior: Prisma.SeniorGetPayload<{
     include: { Files: true; chapter: { include: { students: true } } };
   }>;
+  multipleChoice?: boolean;
 }
 
 const Assignment = (props: AssignmentProps) => {
-  const { senior } = props;
+  const { senior, multipleChoice } = props;
   const router = useRouter();
   const students = React.useMemo(
     () => senior.chapter.students.sort(compareUser),
@@ -28,31 +29,34 @@ const Assignment = (props: AssignmentProps) => {
   return (
     <div className="flex flex-wrap gap-2">
       {props.editable && (
-        <Dropdown<User>
-          header="Assign student"
-          elements={students}
-          selected={assigned}
-          setSelected={setAssigned}
-          display={(user) => fullName(user)}
-          onSave={async () => {
-            await patchSenior({
-              body: {
-                firstname: senior.firstname,
-                lastname: senior.lastname,
-                location: senior.location,
-                description: senior.description,
-                StudentIDs: assigned.map((user) => user.id),
-              },
-              seniorId: senior.id,
-            });
-            router.refresh();
-          }}
-        />
+        <div className="min-w-[192px]">
+          <Dropdown<User>
+            header="Assign student"
+            elements={students}
+            selected={assigned}
+            setSelected={setAssigned}
+            display={(user) => fullName(user)}
+            onSave={async () => {
+              await patchSenior({
+                body: {
+                  firstname: senior.firstname,
+                  lastname: senior.lastname,
+                  location: senior.location,
+                  description: senior.description,
+                  StudentIDs: assigned.map((user) => user.id),
+                },
+                seniorId: senior.id,
+              });
+              router.refresh();
+            }}
+            multipleChoice={multipleChoice}
+          />
+        </div>
       )}
       {getAssignments().map((student) => (
         <div
           key={student.id}
-          className="rounded-3xl bg-amber-red px-4 py-1.5 text-white"
+          className="rounded-3xl bg-dark-teal px-4 py-1.5 text-white"
         >
           {student.name}
         </div>

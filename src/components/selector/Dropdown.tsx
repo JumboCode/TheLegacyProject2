@@ -12,55 +12,75 @@ interface DropdownProps<T extends IdentifiableObject> {
   selected: T[];
   setSelected: React.Dispatch<React.SetStateAction<T[]>>;
   onSave: () => Promise<any>;
+  multipleChoice?: boolean;
 }
 
 const Dropdown = <T extends IdentifiableObject>(props: DropdownProps<T>) => {
   const { header, display, elements, selected, setSelected } = props;
+  const multipleChoice = props.multipleChoice ?? true;
   const [displayDropdown, setDisplayDropdown] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [_, startTransition] = React.useTransition();
+
+  const onDisplayDropdown = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    setDisplayDropdown(!displayDropdown);
+  };
 
   const onSave = () => {
     setLoading(true);
     props.onSave().then(() => setLoading(false));
   };
 
-  const onCheck = (element: T) => {
+  const onCheck = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    element: T
+  ) => {
+    e.stopPropagation();
     startTransition(() => {
       if (selected.some((other) => element.id === other.id)) {
         setSelected((prev) => prev.filter((other) => element.id !== other.id));
-      } else {
+      } else if (multipleChoice) {
         setSelected((prev) => [...prev, element]);
+      } else {
+        setSelected([element]);
       }
     });
   };
 
   // TODO(nickbar01234) - Handle click outside
   return (
-    <div className="relative min-w-[192px]">
+    <div className="relative w-full">
       <div
-        className="flex cursor-pointer items-center justify-between rounded-lg border border-amber-red px-4 py-1.5"
-        onClick={() => setDisplayDropdown(!displayDropdown)}
+        className="flex cursor-pointer items-center justify-between rounded-lg border border-dark-teal bg-[#F5F0EA] px-4 py-1.5"
+        onClick={onDisplayDropdown}
       >
-        <span className="text-amber-red">{header}</span>
-        <FontAwesomeIcon icon={faCaretDown} className="text-amber-red" />
+        <span className="text-dark-teal">{header}</span>
+        <FontAwesomeIcon icon={faCaretDown} className="text-dark-teal" />
       </div>
       {displayDropdown && (
-        <div className="absolute z-50 mt-2 inline-block w-full rounded border border-amber-red bg-white p-4">
+        <div className="absolute z-50 mt-2 inline-block w-full rounded border border-dark-teal bg-[#F5F0EA] p-4">
           <div className="flex min-h-[128px] flex-col justify-between gap-y-3">
             <div className="flex max-h-[128px] flex-col gap-y-3 overflow-y-auto">
               {elements.map((element, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center gap-1.5 text-amber-red"
+                  className="flex cursor-pointer items-center gap-1.5 text-dark-teal"
+                  onClick={(e) => onCheck(e, element)}
                 >
                   <button
-                    className="flex h-4 w-4 items-center justify-center border-2 border-amber-red bg-white"
-                    onClick={() => onCheck(element)}
+                    className={`flex h-4 w-4 items-center justify-center border-2 border-dark-teal ${
+                      !multipleChoice && "rounded-full"
+                    }`}
                   >
-                    {selected.some((other) => element.id === other.id) && (
-                      <FontAwesomeIcon icon={faCheck} size="xs" />
-                    )}
+                    {selected.some((other) => element.id === other.id) &&
+                      (multipleChoice ? (
+                        <FontAwesomeIcon icon={faCheck} size="xs" />
+                      ) : (
+                        <div className="h-full w-full bg-dark-teal" />
+                      ))}
                   </button>
                   <span className="overflow-hidden truncate">
                     {display(element)}
@@ -74,7 +94,7 @@ const Dropdown = <T extends IdentifiableObject>(props: DropdownProps<T>) => {
               </div>
             ) : (
               <button
-                className="rounded bg-amber-red px-6 py-2.5 text-white"
+                className="rounded bg-dark-teal px-6 py-2.5 text-white"
                 onClick={onSave}
               >
                 Save Changes

@@ -3,22 +3,20 @@ import { prisma } from "@server/db/client";
 import MembersHomePage from "./MembersHomePage";
 
 const MembersPage = async ({ params }: { params: { uid: string } }) => {
-  const user = await prisma.user.findFirstOrThrow({
-    where: {
-      id: params.uid,
-    },
-  });
-
   const chapter = await prisma.chapter.findFirstOrThrow({
     where: {
-      id: user.ChapterID ?? "",
+      students: {
+        some: {
+          id: params.uid,
+        },
+      },
     },
     include: {
       students: true,
     },
   });
 
-  return <MembersHomePage members={chapter.students} user={user} />;
+  return <MembersHomePage members={chapter.students} />;
 };
 
 export default MembersPage;
