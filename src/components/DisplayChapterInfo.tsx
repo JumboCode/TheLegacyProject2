@@ -45,7 +45,9 @@ const DisplayChapterInfo = ({
         <CardGrid
           title={<div className="text-xl text-[#000022]">Executive Board</div>}
           tiles={chapter.students
-            .filter((user) => user.role === "CHAPTER_LEADER")
+            .filter(
+              (user) => user.role === "CHAPTER_LEADER" || user.position !== ""
+            )
             .map((user) => (
               <UserTile
                 key={user.id}

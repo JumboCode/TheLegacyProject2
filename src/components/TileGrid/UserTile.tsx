@@ -50,7 +50,7 @@ export function UserTile({
           </div>
         </Link>
       </div>
-      <div className="flex items-center justify-between p-2">
+      <div className="relative flex items-center justify-between p-2">
         <div className="overflow-hidden">
           <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm text-dark-teal before:invisible before:content-['\200B']">
             {student

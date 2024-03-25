@@ -29,14 +29,7 @@ const UserHomePage = async ({ params }: UserHomePageParams) => {
     },
   });
 
-  return (
-    <div className="mt-6 flex flex-col gap-y-6">
-      <div className="text-2xl font-bold text-[#000022]">
-        {chapter.chapterName}
-      </div>
-      <DisplayChapterInfo chapter={chapter} resources={resources} />
-    </div>
-  );
+  return <DisplayChapterInfo chapter={chapter} resources={resources} />;
 };
 
 export default UserHomePage;

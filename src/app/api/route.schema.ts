@@ -39,4 +39,14 @@ export const invalidFormReponse = invalidFormErrorSchema.parse({
   message: "The form is not valid",
 });
 
+export const invalidRequestSchema = z.object({
+  code: z.literal("INVALID_REQUEST"),
+  message: z.string(),
+});
+
+export const invalidRequestResponse = invalidRequestSchema.parse({
+  code: "INVALID_REQUEST",
+  message: "Request body is invalid",
+});
+
 export type IUnauthorizedErrorSchema = z.infer<typeof unauthorizedErrorSchema>;
