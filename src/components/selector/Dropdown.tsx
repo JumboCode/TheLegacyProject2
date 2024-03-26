@@ -54,14 +54,14 @@ const Dropdown = <T extends IdentifiableObject>(props: DropdownProps<T>) => {
   return (
     <div className="relative w-full">
       <div
-        className="flex cursor-pointer items-center justify-between rounded-lg border border-dark-teal bg-[#F5F0EA] px-4 py-1.5"
+        className="flex cursor-pointer items-center justify-between rounded-lg border border-dark-teal bg-tan px-4 py-1.5"
         onClick={onDisplayDropdown}
       >
         <span className="text-dark-teal">{header}</span>
         <FontAwesomeIcon icon={faCaretDown} className="text-dark-teal" />
       </div>
       {displayDropdown && (
-        <div className="absolute z-50 mt-2 inline-block w-full rounded border border-dark-teal bg-[#F5F0EA] p-4">
+        <div className="absolute z-50 mt-2 inline-block w-full rounded border border-dark-teal bg-tan p-4">
           <div className="flex min-h-[128px] flex-col justify-between gap-y-3">
             <div className="flex max-h-[128px] flex-col gap-y-3 overflow-y-auto">
               {elements.map((element, idx) => (

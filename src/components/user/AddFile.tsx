@@ -6,6 +6,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createFile } from "@api/file/route.client";
 import { File as PrismaFile } from "@prisma/client";
+import { Popup } from "@components/container";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -133,9 +136,9 @@ const AddFile = ({
   return (
     <>
       {showAddFilePopUp && (
-        <div className="absolute left-0 top-0 z-50 flex h-screen w-screen flex-row place-content-center items-start justify-center backdrop-blur-[2px] backdrop-brightness-75">
+        <Popup className="h-fit w-[36rem]">
           {!confirm && !error ? (
-            <div className="mt-20 flex h-2/3 w-2/5 flex-col justify-between rounded-[16px] bg-[#22555A] p-10 font-['merriweather'] text-white">
+            <div className="flex flex-col justify-between rounded-[16px] text-white">
               <div className="mb-5 mt-4 text-3xl font-bold">
                 {" "}
                 Create New File{" "}
@@ -147,9 +150,15 @@ const AddFile = ({
                 <div className="text-2xl text-[#22555A]">
                   <DatePicker
                     showIcon
+                    icon={
+                      <FontAwesomeIcon
+                        icon={faCalendar}
+                        className="text-dark-teal"
+                      />
+                    }
                     wrapperClassName="w-full relative"
                     calendarIconClassname="text-3xl text-blue-600 mt-[7px] absolute right-2"
-                    className="mb-4 h-16 w-full rounded-lg pl-[50px] font-['merriweather']"
+                    className="mb-4 h-16 w-full cursor-pointer rounded-lg pl-4"
                     selected={startDate}
                     onChange={(date) => date && setStartDate(date)}
                     dateFormat="dd MMMM yyyy"
@@ -209,7 +218,7 @@ const AddFile = ({
               )}
             </>
           )}
-        </div>
+        </Popup>
       )}
     </>
   );

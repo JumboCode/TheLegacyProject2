@@ -6,7 +6,6 @@ import React, {
   useState,
 } from "react";
 import Image, { StaticImageData } from "next/legacy/image";
-import cn from "classnames";
 import FilterDropdown from "@components/FilterDropdown";
 import { Senior, User } from "@prisma/client";
 import ImageIcon from "../../public/icons/icon_add_photo.png";
@@ -15,6 +14,7 @@ import { postSenior } from "src/app/api/senior/route.client";
 import z from "zod/lib";
 import { seniorSchema } from "@server/model";
 import { fullName } from "@utils";
+import { Popup } from "./container";
 
 type AddSeniorProps = {
   seniors: Senior[];
@@ -75,7 +75,7 @@ const StudentSelector = ({
 }) => {
   return (
     <div>
-      <div className="text-neutral-600  mb-1 h-[34px] w-full text-lg">
+      <div className="text-neutral-600 h-[34px] w-full text-lg">
         Assign students
       </div>
       <FilterDropdown<User>
@@ -84,7 +84,7 @@ const StudentSelector = ({
         display={(usr: User) => (
           <div className="m-1 flex whitespace-nowrap rounded-full bg-amber-red px-4 py-2 text-white">
             {fullName(usr)}
-            <div className="flex1 ml-3">
+            <div className="ml-3 flex-1">
               <button
                 type="button"
                 onClick={() =>
@@ -225,165 +225,145 @@ const AddSenior = ({
   return (
     <>
       {showAddSeniorPopUp && (
-        <div
-          className="absolute left-1/2 top-1/2 z-50 flex w-screen -translate-x-1/2 -translate-y-1/2 transform
-                        flex-row items-center justify-center text-left md:w-full"
-        >
-          <div
-            className={cn(
-              "top-5%  flex h-[85%] w-[60%] max-w-[495px] flex-col justify-between overflow-auto rounded-lg bg-dark-teal px-6 py-9 text-white",
-              confirm || error
-                ? "top-[5.5%] w-2/5"
-                : "top-[2.5%] sm:w-4/5 md:w-1/2"
-            )}
-          >
-            {!confirm && !error ? (
-              <>
-                <div>
-                  <div className="mb-5 text-xl font-extrabold sm:text-center md:text-left">
-                    {seniorPatch ? "Update" : "Add New"} Senior
-                  </div>
-                  <div>
-                    <div className=" relative mb-4 flex h-2 w-2 flex-col items-center justify-center gap-10 rounded bg-white p-10">
-                      <Image
-                        src={currentImage}
-                        alt="Description"
-                        layout="fill"
-                      />
-                      <input
-                        type="file"
-                        className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
-                        onChange={handleImageReplace}
-                      />
-                    </div>
-                  </div>
+        <Popup className="h-fit w-[36rem]">
+          {!confirm && !error ? (
+            <div className="text-white">
+              <div className="mb-5 text-xl font-extrabold sm:text-center md:text-left">
+                {seniorPatch ? "Update" : "Add New"} Senior
+              </div>
+              <div>
+                <div className=" relative mb-4 flex h-2 w-2 flex-col items-center justify-center gap-10 rounded bg-white p-10">
+                  <Image src={currentImage} alt="Description" layout="fill" />
+                  <input
+                    type="file"
+                    className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
+                    onChange={handleImageReplace}
+                  />
+                </div>
+              </div>
 
-                  {/* Todo: First and Last name values are stored into the seniorData.name field. Seperate into two fields
+              {/* Todo: First and Last name values are stored into the seniorData.name field. Seperate into two fields
                   later as seniorData.name propgates to backend*/}
-                  <div className="flex">
-                    <div className="mr-2 flex-1 flex-col">
-                      <div className=" mb-2 h-[19px] w-full text-base text-white">
-                        {" "}
-                        First name{" "}
-                      </div>
-                      <input
-                        className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
-                        type="text"
-                        value={seniorData.firstname}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setSeniorData({
-                            ...seniorData,
-                            firstname: e.target.value,
-                          })
-                        }
-                      />
-                    </div>
-
-                    <div className="ml-2 flex-1 flex-col">
-                      <div className=" mb-2 h-[19px] w-full text-base text-white">
-                        {" "}
-                        Last name{" "}
-                      </div>
-                      <input
-                        className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
-                        type="text"
-                        value={seniorData.lastname}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setSeniorData((seniorData) => ({
-                            ...seniorData,
-                            lastname: e.target.value,
-                          }))
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div className=" mb-2 h-5 w-full text-base text-white">
-                    {" "}
-                    Location{" "}
+              <div className="flex">
+                <div className="mr-2 flex-1 flex-col">
+                  <div className=" mb-2 h-[19px] w-full text-base text-white">
+                    First name
                   </div>
                   <input
-                    className="mb-3 h-9 w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-black"
+                    className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-dark-teal placeholder:text-dark-teal"
                     type="text"
-                    value={seniorData.location}
-                    placeholder="Where are you and your senior meeting?"
+                    value={seniorData.firstname}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setSeniorData({ ...seniorData, location: e.target.value })
-                    }
-                  />
-
-                  <div className="mb-5 h-2 w-full text-base text-white">
-                    {" "}
-                    Description{" "}
-                  </div>
-                  <textarea
-                    className="h-25 mb-3 min-h-[20px] w-full rounded-md border-2 border-solid border-tan bg-white p-[10px] text-start text-sm text-black"
-                    placeholder="Write a brief description about the senior"
-                    value={seniorData.description}
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                       setSeniorData({
                         ...seniorData,
-                        description: e.target.value,
+                        firstname: e.target.value,
                       })
                     }
                   />
-
-                  <StudentSelector
-                    students={students}
-                    selectedStudents={selectedStudents}
-                    setSelectedStudents={setSelectedStudents}
-                  />
-
-                  <div className="top-0 flex max-h-[36px] w-full flex-row justify-center">
-                    <button
-                      className=" mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
-                                  px-4 py-2 text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
-                      onClick={handlePopUp}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      className=" mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
-                      px-4 py-2 text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
-                      onClick={seniorPatch ? patchAddSenior : postAddSenior}
-                    >
-                      {seniorPatch ? "Update" : "Save"}
-                    </button>
-                  </div>
                 </div>
-              </>
-            ) : (
-              <>
-                {confirm ? (
-                  <div className="flex flex-col items-center">
-                    <div className="mb-8 text-center text-xl">
-                      {seniorPatch ? "Updated" : "Added"} successfully!
-                    </div>
-                    <button
-                      className="mx-1 w-full max-w-[10rem] rounded bg-white p-3 text-lg text-dark-teal drop-shadow-md"
-                      onClick={handleConfirm}
-                    >
-                      Confirm
-                    </button>
+
+                <div className="ml-2 flex-1 flex-col">
+                  <div className="mb-2 h-[19px] w-full text-base text-white">
+                    Last name
                   </div>
-                ) : (
-                  <div className="flex flex-col items-center break-words">
-                    <div className="mb-8 text-center text-xl">
-                      There was an error adding your senior. Please reach out to
-                      your club administrator for help.
-                    </div>
-                    <button
-                      className="mx-1 w-full max-w-[10rem] rounded bg-white p-3 text-lg text-dark-teal drop-shadow-md"
-                      onClick={handleConfirm}
-                    >
-                      Confirm
-                    </button>
+                  <input
+                    className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-dark-teal placeholder:text-dark-teal"
+                    type="text"
+                    value={seniorData.lastname}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setSeniorData((seniorData) => ({
+                        ...seniorData,
+                        lastname: e.target.value,
+                      }))
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="mb-2 h-5 w-full text-base text-white">
+                {" "}
+                Location{" "}
+              </div>
+              <input
+                className="mb-3 h-9 w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-dark-teal placeholder:text-dark-teal"
+                type="text"
+                value={seniorData.location}
+                placeholder="Where are you and your senior meeting?"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setSeniorData({ ...seniorData, location: e.target.value })
+                }
+              />
+
+              <div className="mb-5 h-2 w-full text-base text-white">
+                {" "}
+                Description{" "}
+              </div>
+              <textarea
+                className="h-25 mb-3 min-h-[20px] w-full resize-none rounded-md border-2 border-solid border-tan bg-white p-[10px] text-start text-sm text-dark-teal placeholder:text-dark-teal"
+                placeholder="Write a brief description about the senior"
+                value={seniorData.description}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setSeniorData({
+                    ...seniorData,
+                    description: e.target.value,
+                  })
+                }
+              />
+
+              <StudentSelector
+                students={students}
+                selectedStudents={selectedStudents}
+                setSelectedStudents={setSelectedStudents}
+              />
+
+              <div className="top-0 mt-6 flex max-h-[36px] w-full flex-row justify-center">
+                <button
+                  className=" mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
+                                  px-4 py-2 text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
+                  onClick={handlePopUp}
+                >
+                  Cancel
+                </button>
+                <button
+                  className=" mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
+                      px-4 py-2 text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
+                  onClick={seniorPatch ? patchAddSenior : postAddSenior}
+                >
+                  {seniorPatch ? "Update" : "Save"}
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              {confirm ? (
+                <div className="flex flex-col items-center">
+                  <div className="mb-8 text-center text-xl text-white">
+                    {seniorPatch ? "Updated" : "Added"} successfully!
                   </div>
-                )}
-              </>
-            )}
-          </div>
-        </div>
+                  <button
+                    className="mx-1 w-full max-w-[10rem] rounded bg-white p-3 text-lg text-dark-teal drop-shadow-md"
+                    onClick={handleConfirm}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center break-words">
+                  <div className="mb-8 text-center text-xl text-white">
+                    There was an error adding your senior. Please reach out to
+                    your club administrator for help.
+                  </div>
+                  <button
+                    className="mx-1 w-full max-w-[10rem] rounded bg-white p-3 text-lg text-dark-teal drop-shadow-md"
+                    onClick={handleConfirm}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </Popup>
       )}
       <AddSeniorTile
         showAddSeniorPopUp={showAddSeniorPopUp}
