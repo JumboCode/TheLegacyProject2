@@ -4,7 +4,7 @@ import React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import {
   handleManageChapterRequest,
   handleAcceptChapterRequest,
@@ -16,18 +16,17 @@ interface IPendingCard {
 }
 
 const PendingCard = (props: IPendingCard) => {
-  // TODO(nickbar01234) - Link in functionality for accepting / rejecting user
   return (
-    <div className="h-[10.5rem] w-40 space-y-2 rounded-lg border-[1.5px] border-dark-teal px-2.5 py-2 text-center">
-      <div className="mt-3">
+    <div className="flex w-full items-center justify-between rounded bg-white p-6 shadow-lg">
+      <div className="flex items-center gap-x-4">
         <FontAwesomeIcon className="h-6 w-4 text-dark-teal" icon={faUser} />
+        <span className="max-w-[164px] grow-0 overflow-hidden text-ellipsis whitespace-nowrap text-lg">
+          {props.name}
+        </span>
       </div>
-      <div className="my-4 overflow-hidden text-ellipsis whitespace-nowrap text-lg text-dark-teal">
-        {props.name}
-      </div>
-      <div className="flex flex-col gap-2 text-white">
+      <div className="flex items-center gap-x-4">
         <button
-          className="rounded-2xl bg-dark-teal py-1 text-sm transition duration-300 ease-in-out hover:-translate-y-1"
+          className="rounded bg-dark-teal px-5 py-2 text-sm text-white transition duration-300 ease-in-out hover:-translate-y-1"
           onClick={() => {
             handleAcceptChapterRequest({
               body: {
@@ -40,10 +39,11 @@ const PendingCard = (props: IPendingCard) => {
         >
           Accept
         </button>
-        <button
-          className="rounded-2xl bg-sunset-orange py-1 text-sm transition duration-300 ease-in-out hover:-translate-y-1"
+        <FontAwesomeIcon
+          icon={faXmark}
+          className="cursor-pointer text-[#65696C] transition duration-300 ease-in-out hover:-translate-y-1"
+          size="xl"
           onClick={() => {
-            console.log(props.uid);
             handleManageChapterRequest({
               body: {
                 userId: props.uid,
@@ -52,9 +52,7 @@ const PendingCard = (props: IPendingCard) => {
               window.location.reload();
             });
           }}
-        >
-          Reject
-        </button>
+        />
       </div>
     </div>
   );
