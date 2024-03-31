@@ -1,3 +1,8 @@
+import Link from "next/link";
+import Image from "next/legacy/image";
+import LivesReflected from "@public/landing/about/their_lives_reflected.png";
+import SundaesSundays from "@public/landing/about/sundaes_sundays.png";
+
 const AboutLayout = async () => {
   return (
     <div className="flex w-full flex-col justify-center gap-y-4 py-6">
@@ -6,15 +11,25 @@ const AboutLayout = async () => {
       </span>
       <p className="mt-8 font-bold leading-7">The Legacy Project’s Origin</p>
       <p className="leading-7">
-        The concept of The Legacy Project (TLP) began in 2018, when Arielle
-        Galinsky, a high school junior at the time, spent her time working at a
-        local senior community in her Massachusetts hometown. Her role allowed
-        her to interact with the residents, which she greatly enjoyed, yet she
-        always left her shift with a strong desire to learn more about the
-        stories of the seniors she met. With this strong curiosity, paired with
-        a deep sense of regret she felt having lost her own grandfathers at a
-        young age, Arielle decided to spearhead TLP as a personal project.{" "}
-        <br />
+        The concept of{" "}
+        <strong>
+          <span style={{ color: "#742B1A" }}>The Legacy Project (TLP)</span>
+        </strong>{" "}
+        began in 2018, when{" "}
+        <strong>
+          <span style={{ color: "#742B1A" }}>Arielle Galinsky</span>
+        </strong>
+        , a high school junior at the time, spent her time working at a local
+        senior community in her Massachusetts hometown. Her role allowed her to
+        interact with the residents, which she greatly enjoyed, yet she always
+        left her shift with a strong desire to learn more about the stories of
+        the seniors she met. With this strong curiosity, paired with a deep
+        sense of regret she felt having lost her own grandfathers at a young
+        age, Arielle decided to spearhead{" "}
+        <strong>
+          <span style={{ color: "#742B1A" }}>TLP</span>
+        </strong>{" "}
+        as a personal project. <br />
         <br />
         The initiative encompassed conducting thorough interviews of 18
         residents living in the community, with the intention to hold a ceremony
@@ -24,6 +39,29 @@ const AboutLayout = async () => {
         preserve the 18 captivating stories of the seniors she interviewed was
         through prose.{" "}
       </p>
+      <div className="flex h-80 justify-between gap-x-12">
+        <div className="aspect-w-16 aspect-h-9 flex flex-col">
+          <Image
+            src={LivesReflected}
+            alt="Their Lives Reflected"
+            className="flex p-12"
+          />{" "}
+          <p className="text-center">
+            Their Lives Reflected: A Treasury of Life Stories Captured Through
+            The Legacy Project was published 2021 to showcase and celebrate
+            their life accounts, both for the seniors and their families.
+          </p>
+        </div>
+        <div className="flex flex-col">
+          <Image src={SundaesSundays} alt="Sundaes & Sundays" />
+          <p className="text-center">
+            Sundaes & Sundays: A Collection of Life Histories as captured by The
+            Legacy Project at Tufts: Volume 1 is a collection of twelve life
+            stories of older adults residing in a Massachusetts senior living
+            community.
+          </p>
+        </div>
+      </div>
       <p className="mt-8 font-bold leading-7">Parallel Stories Unite</p>
       <p className="leading-7">
         Little did she know that, in the state over from her,{" "}
