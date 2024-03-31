@@ -21,8 +21,8 @@ export function UserTile({
   dropdownComponent,
 }: UserTileProps) {
   return (
-    <div className="w-40 rounded-lg bg-white shadow-lg">
-      <div className="h-40 w-40 rounded-lg bg-white drop-shadow-md hover:bg-off-white">
+    <div className="w-48 rounded-lg bg-white shadow-lg">
+      <div className="h-40 w-full rounded-lg bg-white drop-shadow-md hover:bg-off-white">
         <Link
           href={link}
           className={
@@ -32,8 +32,7 @@ export function UserTile({
           <div className="h-full w-full object-cover">
             {student ? (
               <Image
-                src={
-                  (student && student.image) ?? "/profile/genericprofile.png"
+                src={gi?? "/profile/genericprofile.png"
                 }
                 alt="Placeholder profile image"
                 layout="fill"
@@ -50,19 +49,33 @@ export function UserTile({
           </div>
         </Link>
       </div>
-      <div className="relative flex items-center justify-between p-2">
+      <div className="relative flex items-center justify-between px-3 py-4">
         <div className="overflow-hidden">
-          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm text-dark-teal before:invisible before:content-['\200B']">
+          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold before:invisible before:content-['\200B']">
             {student
               ? fullName(student)
               : senior
               ? seniorFullName(senior)
               : null}
           </p>
+          {student ? (
+            <p
+              className={
+                (student.position === ""
+                  ? "bg-med-tan text-dark-teal "
+                  : "bg-[#AE583C] font-bold text-white  ") +
+                "mt-5 inline-block text-ellipsis whitespace-nowrap rounded-3xl px-3.5 py-1.5 text-center text-sm"
+              }
+            >
+              {student.position === "" ? "Member" : student.position}
+            </p>
+          ) : null}
           {/* @TODO: Add pronouns once we add to student field  */}
-          <p className="text-md font-base text-neutral-600 mt-[5px] truncate text-[10px] text-dark-teal before:invisible before:content-['\200B']">
-            {senior && senior.location}
-          </p>
+          {senior ? (
+            <p className="text-md font-base text-neutral-600 mt-[5px] truncate text-[10px] text-dark-teal before:invisible before:content-['\200B']">
+              {senior.location}
+            </p>
+          ) : null}
         </div>
         {dropdownComponent}
       </div>
