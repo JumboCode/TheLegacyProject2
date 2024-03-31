@@ -13,7 +13,9 @@ const PublicLayout = async () => {
         passionate about telling stories, and form a Legacy Project chapter at
         your school today.
       </p>
-      <div className="rounded-full "></div>
+      <div className="relative flex justify-center">
+        <div className="mt-4 h-20 w-20 rounded-full bg-[#D9D9D9]"></div>
+      </div>
       <span className="pt-6 text-center text-3xl font-semibold sm:text-left sm:text-4xl">
         Our Team
       </span>
