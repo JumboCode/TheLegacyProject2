@@ -16,6 +16,7 @@ const PendingHomePage = ({ users }: MembersHomePageProps) => {
       </h1>
       {users.length > 0 ? (
         <CardGrid
+          column_count={2}
           tiles={users.map((user, index) => {
             return (
               <PendingCard key={index} name={user.name ?? ""} uid={user.id} />

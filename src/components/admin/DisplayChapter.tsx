@@ -1,7 +1,6 @@
 "use client";
 
 import { editRole } from "@api/user/[uid]/edit-role/route.client";
-import DisplayChapterInfo from "@components/DisplayChapterInfo";
 import PathNav, { PathInfoType } from "@components/PathNav";
 import PendingCard from "@components/PendingCard";
 import { UserTile } from "@components/TileGrid";

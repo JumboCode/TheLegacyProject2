@@ -70,6 +70,8 @@ model User {
   approved  Approval  @default(PENDING)
   ChapterID String?   @db.ObjectId
   Chapter   Chapter?  @relation(fields: [ChapterID], references: [id])
+  
+  userRequest UserRequest?
 }
 
 enum Approval {
@@ -151,4 +153,5 @@ model UserRequest {
   approved  Approval @default(PENDING)
   uid       String   @unique @db.ObjectId
   chapterId String   @db.ObjectId
+  user      User     @relation(fields: [uid], references: [id])
 }

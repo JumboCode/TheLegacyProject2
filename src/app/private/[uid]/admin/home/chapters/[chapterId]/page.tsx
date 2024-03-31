@@ -1,5 +1,5 @@
 import { prisma } from "@server/db/client";
-import { DisplayChapter } from "@components/admin";
+import { DisplayChapterInfo } from "@components/DisplayChapterInfo";
 
 interface ChapterPageParams {
   params: {
@@ -26,7 +26,7 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
   });
 
   return (
-    <DisplayChapter
+    <DisplayChapterInfo
       chapter={chapter}
       uid={params.uid}
       requestUsers={requestUsers}
