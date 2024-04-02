@@ -13,6 +13,11 @@ const UserHomePage = async ({ params }: UserHomePageParams) => {
       id: params.uid,
     },
   });
+
+  if (user.ChapterID == null) {
+    return null;
+  }
+
   const chapter = await prisma.chapter.findFirstOrThrow({
     where: {
       id: user.ChapterID ?? "",
