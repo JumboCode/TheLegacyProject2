@@ -5,7 +5,6 @@ import { UserJoinRequest } from "@components/user";
 
 interface LayoutProps {
   children: React.ReactNode;
-  joinChapter: React.ReactNode;
   params: {
     uid: string;
   };
