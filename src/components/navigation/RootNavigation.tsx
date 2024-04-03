@@ -9,9 +9,6 @@ interface RootNavigationProps {
   children?: React.ReactNode;
 }
 
-/**
- * Dummy wrapper to check for route protection. Expected to be use in a layout.tsx component.
- */
 const RootNavigation = ({ children }: RootNavigationProps) => {
   const userContext = React.useContext(UserContext);
   const { role, id } = userContext.user;
