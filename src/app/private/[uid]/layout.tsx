@@ -1,3 +1,4 @@
+import { RoleNavigation } from "@components/navigation";
 import UserProvider from "@context/UserProvider";
 import { prisma } from "@server/db/client";
 
@@ -15,7 +16,11 @@ const PrivateLayout = async ({ children, params }: IPrivateLayout) => {
       Chapter: true,
     },
   });
-  return <UserProvider user={user}>{children}</UserProvider>;
+  return (
+    <UserProvider user={user}>
+      <RoleNavigation>{children}</RoleNavigation>
+    </UserProvider>
+  );
 };
 
 export default PrivateLayout;
