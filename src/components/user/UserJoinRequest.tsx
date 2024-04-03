@@ -49,35 +49,6 @@ const UserJoinRequest = (props: UserJoinRequestProps) => {
             (user) => user.role === "CHAPTER_LEADER"
           );
 
-          // const options: Parameters<typeof TileEdit>[0]["options"] = [];
-
-          // if (joinRequest == null) {
-          //   options.push({
-          //     name: "Join Chapter",
-          //     onClick: () =>
-          //       handleJoinChapterRequest({
-          //         body: { chapterId: chapter.id },
-          //       }).then(() => router.refresh()),
-          //     color: "#22555A",
-          //     icon: <FontAwesomeIcon icon={faCheck} />,
-          //   });
-          // } else if (joinRequest.chapterId === chapter.id) {
-          //   options.push({
-          //     name: "Undo request",
-          //     onClick: () => {
-          //       handleManageChapterRequest({
-          //         body: {
-          //           userId: userContext.user.id,
-          //         },
-          //       }).then(() => {
-          //         router.refresh();
-          //       });
-          //     },
-          //     color: "#22555A",
-          //     icon: <FontAwesomeIcon icon={faRotateLeft} />,
-          //   });
-          // }
-
           return (
             <InfoTile
               key={chapter.id}
