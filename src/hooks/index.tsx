@@ -1,2 +1,2 @@
 export { default as useAuth } from "./useAuth";
-export { default as useRole } from "./useRole";
+export { default as useUserRedirect } from "./useUserRedirect";

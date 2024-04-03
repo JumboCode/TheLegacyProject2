@@ -1,1 +1,1 @@
-export { default as RoleNavigation } from "./RoleNavigation";
+export { default as RootNavigation } from "./RootNavigation";

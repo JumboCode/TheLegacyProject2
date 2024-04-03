@@ -2,20 +2,20 @@
 
 import { Spinner } from "@components/skeleton";
 import { UserContext } from "@context/UserProvider";
-import { useRole } from "@hooks";
+import { useUserRedirect } from "@hooks";
 import React from "react";
 
-interface RoleNavigatorProps {
+interface RootNavigationProps {
   children?: React.ReactNode;
 }
 
 /**
  * Dummy wrapper to check for route protection. Expected to be use in a layout.tsx component.
  */
-const RoleNavigation = ({ children }: RoleNavigatorProps) => {
+const RootNavigation = ({ children }: RootNavigationProps) => {
   const userContext = React.useContext(UserContext);
   const { role, id } = userContext.user;
-  const { valid } = useRole({ uid: id, role: role });
+  const { valid } = useUserRedirect({ uid: id, role: role });
 
   if (!valid) {
     return (
@@ -28,4 +28,4 @@ const RoleNavigation = ({ children }: RoleNavigatorProps) => {
   return <>{children}</>;
 };
 
-export default RoleNavigation;
+export default RootNavigation;
