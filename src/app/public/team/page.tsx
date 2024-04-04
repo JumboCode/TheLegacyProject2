@@ -13,7 +13,7 @@ const PublicLayout = async () => {
   const press2 =
     "https://generations.asaging.org/accurate-legacies-left-intergenerational-work";
   return (
-    <div className="justify-center4 flex w-full flex-col">
+    <div className="flex w-full flex-col">
       <span className="pt-6 text-center text-3xl font-semibold sm:text-left sm:text-4xl">
         Meet TLP
       </span>
@@ -38,21 +38,24 @@ const PublicLayout = async () => {
       <span className="pt-6 text-center text-3xl font-semibold sm:text-left sm:text-4xl">
         Press
       </span>
-      <div className="mb-10 mt-6 flex gap-x-12">
-        <div>
-          <Image src={PRESS_1} className="h-48 w-96" alt="press_1" />
-          <Link className="hover:underline" href={press1}>
-            Tufts Legacy Project builds intergenerational connections, one story
-            at a time
-          </Link>
+      <div className="mb-10 mt-6 gap-y-4">
+        <div className="flex gap-x-4">
+          <Image src={PRESS_1} alt="press_1" />
+          <Image src={PRESS_2} alt="press_2" />
         </div>
-        <div>
-          <Image src={PRESS_2} className="h-48 w-96" alt="press_2" />
-          <Link className="hover:underline" href={press2}>
-            Intergenerational Connection Key to Leaving Accurate Legacies
-          </Link>
+        <div className="mt-1 flex gap-x-4">
+          <div>
+            <Link className="hover:underline" href={press1}>
+              Tufts Legacy Project builds intergenerational connections, one
+              story at a time
+            </Link>
+          </div>
+          <div>
+            <Link className="hover:underline" href={press2}>
+              Intergenerational Connection Key to Leaving Accurate Legacies
+            </Link>
+          </div>
         </div>
-        <div />
       </div>
     </div>
   );

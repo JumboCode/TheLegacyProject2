@@ -2,6 +2,9 @@ import Link from "next/link";
 import Image from "next/legacy/image";
 import LivesReflected from "@public/landing/about/their_lives_reflected.png";
 import SundaesSundays from "@public/landing/about/sundaes_sundays.png";
+import PS1 from "@public/landing/about/parallel_stories1.png";
+import PS2 from "@public/landing/about/parallel_stories2.png";
+import PS3 from "@public/landing/about/parallel_stories3.png";
 
 const AboutLayout = async () => {
   return (
@@ -39,26 +42,45 @@ const AboutLayout = async () => {
         preserve the 18 captivating stories of the seniors she interviewed was
         through prose.{" "}
       </p>
-      <div className="flex h-80 justify-between gap-x-12">
+      <div className="mt-6 flex h-80 justify-between gap-x-20">
         <div className="aspect-w-16 aspect-h-9 flex flex-col">
           <Image
             src={LivesReflected}
             alt="Their Lives Reflected"
-            className="flex p-12"
+            className="flex aspect-auto object-contain p-12"
           />{" "}
-          <p className="text-center">
-            Their Lives Reflected: A Treasury of Life Stories Captured Through
-            The Legacy Project was published 2021 to showcase and celebrate
-            their life accounts, both for the seniors and their families.
+          <p className="mt-5 h-20 text-center text-sm">
+            <span>
+              <Link
+                href="https://www.amazon.com/Their-Lives-Reflected-Treasury-Captured/dp/B08SYTBDGC"
+                className="italic text-[#742B1A] hover:underline"
+              >
+                Their Lives Reflected: A Treasury of Life Stories Captured
+                Through The Legacy Project
+              </Link>
+            </span>{" "}
+            was published 2021 to showcase and celebrate their life accounts,
+            both for the seniors and their families.
           </p>
         </div>
         <div className="flex flex-col">
-          <Image src={SundaesSundays} alt="Sundaes & Sundays" />
-          <p className="text-center">
-            Sundaes & Sundays: A Collection of Life Histories as captured by The
-            Legacy Project at Tufts: Volume 1 is a collection of twelve life
-            stories of older adults residing in a Massachusetts senior living
-            community.
+          <Image
+            src={SundaesSundays}
+            alt="Sundaes & Sundays"
+            className="flex aspect-auto object-contain p-12"
+          />
+          <p className="mt-5 h-20 text-center text-sm">
+            <span>
+              <Link
+                href="https://www.amazon.com/Sundaes-Sundays-Collection-Histories-captured/dp/B0CPKP2TX2/ref=sr_1_1?crid=1FVJFMUPSDRQC&keywords=sundaes+and+sundays&qid=1707221197&sprefix=sundaes+and+sundays%2Caps%2C187&sr=8-1"
+                className="italic text-[#742B1A] hover:underline"
+              >
+                Sundaes & Sundays: A Collection of Life Histories as captured by
+                The Legacy Project at Tufts: Volume 1
+              </Link>
+            </span>{" "}
+            is a collection of twelve life stories of older adults residing in a
+            Massachusetts senior living community.
           </p>
         </div>
       </div>
@@ -87,6 +109,11 @@ const AboutLayout = async () => {
         life stories, which she is working on compiling as a series of
         vignettes.
       </p>
+      <div className="mt-6 flex justify-between gap-x-12">
+        <Image src={PS1} alt="parallel stories 1" className="flex" />
+        <Image src={PS2} alt="parallel stories 2" className="flex" />
+        <Image src={PS3} alt="parallel stories 3" className="flex" />
+      </div>
       <p className="mt-8 font-bold leading-7">Collaboration and Expansion</p>
       <p className="leading-7">
         Arielle and Katie met in 2020, quickly connecting over their aligned
