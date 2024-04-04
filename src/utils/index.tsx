@@ -3,6 +3,10 @@ import { Session } from "next-auth";
 import { Resource, Senior, User } from "@prisma/client";
 import moment from "moment";
 
+type PositionOrder = {
+  [position: string]: number;
+};
+
 export const formatUserHomeRoute = (user: NonNullable<Session["user"]>) => {
   return `/private/${user.id}/${RoleToUrlSegment[user.role]}/home`;
 };
@@ -41,3 +45,24 @@ export const fullName = (user: User) => `${user.firstName} ${user.lastName}`;
 
 export const seniorFullName = (senior: Senior) =>
   `${senior.firstname} ${senior.lastname}`;
+
+export const sortedStudents = (students: User[]) => {
+  const positionOrder: PositionOrder = {
+    President: 0,
+    "Social Coordinator": 1,
+    "Senior Outreach Coordinator": 2,
+    "Head of Media": 3,
+    Secretary: 4,
+    Treasurer: 5,
+    "Match Coordinator": 6,
+  };
+
+  const comparePositions = (a: User, b: User) => {
+    const orderA = positionOrder[a.position] || Infinity;
+    const orderB = positionOrder[b.position] || Infinity;
+
+    return orderA - orderB;
+  };
+
+  return students.sort(comparePositions);
+};

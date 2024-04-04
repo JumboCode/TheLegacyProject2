@@ -9,6 +9,7 @@ import { UserContext } from "@context/UserProvider";
 import PendingCard from "@components/PendingCard";
 import { fullName } from "@utils";
 import { RoleToUrlSegment } from "@constants/RoleAlias";
+import { sortedStudents } from "@utils";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -91,7 +92,7 @@ const DisplayChapterInfo = ({
                 : "Executive Board"}
             </div>
           }
-          tiles={students.map((student) => {
+          tiles={sortedStudents(students).map((student) => {
             const link =
               user.role === "USER"
                 ? ""

@@ -11,6 +11,7 @@ import { faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "@components/selector";
 import { Popup } from "@components/container";
 import { useRouter } from "next/navigation";
+import { sortedStudents } from "@utils";
 
 type MembersHomePageProps = {
   members: User[];
@@ -96,7 +97,7 @@ const MembersHomePage = ({ members }: MembersHomePageProps) => {
       )}
       <SearchableContainer
         display={displayMembers}
-        elements={members}
+        elements={sortedStudents(members)}
         emptyNode={
           <h1 className="text-2xl font-light text-[#000022]">
             This chapter has no members.
