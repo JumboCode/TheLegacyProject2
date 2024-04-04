@@ -66,13 +66,17 @@ export function UserTile({
           {student ? (
             <p
               className={
-                (student.position === ""
+                (student.position === "" && student.role !== "CHAPTER_LEADER"
                   ? "bg-med-tan text-dark-teal "
                   : "bg-[#AE583C] font-bold text-white  ") +
                 "mt-5 inline-block text-ellipsis whitespace-nowrap rounded-3xl px-3.5 py-1.5 text-center text-xs"
               }
             >
-              {student.position === "" ? "Member" : student.position}
+              {student.role === "CHAPTER_LEADER"
+                ? "Chapter Leader"
+                : student.position === ""
+                ? "Member"
+                : student.position}
             </p>
           ) : null}
           {/* @TODO: Add pronouns once we add to student field  */}

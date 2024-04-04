@@ -48,16 +48,22 @@ export const seniorFullName = (senior: Senior) =>
 
 export const sortedStudents = (students: User[]) => {
   const positionOrder: PositionOrder = {
-    President: 0,
-    "Social Coordinator": 1,
-    "Senior Outreach Coordinator": 2,
-    "Head of Media": 3,
-    Secretary: 4,
-    Treasurer: 5,
-    "Match Coordinator": 6,
+    "Social Coordinator": 0,
+    "Senior Outreach Coordinator": 1,
+    "Head of Media": 2,
+    Secretary: 3,
+    Treasurer: 4,
+    "Match Coordinator": 5,
   };
 
   const comparePositions = (a: User, b: User) => {
+    if (a.role === "CHAPTER_LEADER" && b.role !== "CHAPTER_LEADER") {
+      return -1;
+    }
+    if (b.role === "CHAPTER_LEADER" && a.role !== "CHAPTER_LEADER") {
+      return 1;
+    }
+
     const orderA = positionOrder[a.position] || Infinity;
     const orderB = positionOrder[b.position] || Infinity;
 
