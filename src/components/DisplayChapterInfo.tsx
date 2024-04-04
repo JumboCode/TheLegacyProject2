@@ -60,12 +60,10 @@ const DisplayChapterInfo = ({
       </div>
       {userRequests && (
         <div className="mb-12">
+          <h1 className="mb-6 text-xl">{`Pending (${userRequests.length})`}</h1>
           {userRequests.length > 0 ? (
             <CardGrid
               column_count={2}
-              title={
-                <h1 className="text-xl">{`Pending (${userRequests.length})`}</h1>
-              }
               tiles={userRequests.map((user, index) => {
                 return (
                   <PendingCard
@@ -77,7 +75,7 @@ const DisplayChapterInfo = ({
               })}
             />
           ) : (
-            <h1 className="text-2xl font-light">
+            <h1 className="font-light">
               {"This chapter has no pending members."}
             </h1>
           )}

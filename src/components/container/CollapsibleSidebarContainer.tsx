@@ -1,12 +1,12 @@
 import Sidebar, { ISideBar } from "@components/Sidebar";
 import React from "react";
 
-interface CollapsableSidebarContainerProps extends ISideBar {
+interface CollapsibleSidebarContainerProps extends ISideBar {
   children?: React.ReactNode;
 }
 
-const CollapsableSidebarContainer = (
-  props: CollapsableSidebarContainerProps
+const CollapsibleSidebarContainer = (
+  props: CollapsibleSidebarContainerProps
 ) => {
   const { buttons, children } = props;
 
@@ -22,4 +22,4 @@ const CollapsableSidebarContainer = (
   );
 };
 
-export default CollapsableSidebarContainer;
+export default CollapsibleSidebarContainer;

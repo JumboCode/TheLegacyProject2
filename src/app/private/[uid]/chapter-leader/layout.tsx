@@ -1,7 +1,7 @@
 "use client";
 
 import Sidebar, { ISideBar } from "@components/Sidebar";
-import { CollapsableSidebarContainer } from "@components/container";
+import { CollapsibleSidebarContainer } from "@components/container";
 import {
   faHome,
   faUser,
@@ -50,9 +50,9 @@ const UserLayout = ({ children }: IUserLayout) => {
   );
 
   return (
-    <CollapsableSidebarContainer buttons={buttons}>
+    <CollapsibleSidebarContainer buttons={buttons}>
       {children}
-    </CollapsableSidebarContainer>
+    </CollapsibleSidebarContainer>
   );
 };
 

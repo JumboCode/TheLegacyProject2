@@ -18,7 +18,13 @@ const UserHomePage = async ({ params }: UserHomePageParams) => {
       id: user.ChapterID ?? "",
     },
     include: {
-      students: true,
+      students: {
+        where: {
+          position: {
+            not: "",
+          },
+        },
+      },
     },
   });
   const resources = await prisma.resource.findMany({

@@ -1,6 +1,6 @@
 "use client";
 
-import { CollapsableSidebarContainer } from "@components/container";
+import { CollapsibleSidebarContainer } from "@components/container";
 import {
   faEnvelope,
   faHome,
@@ -43,9 +43,9 @@ const AdminLayout = ({ children }: IAdminLayout) => {
   );
 
   return (
-    <CollapsableSidebarContainer buttons={buttons}>
+    <CollapsibleSidebarContainer buttons={buttons}>
       {children}
-    </CollapsableSidebarContainer>
+    </CollapsibleSidebarContainer>
   );
 };
 

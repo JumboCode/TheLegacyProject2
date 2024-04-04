@@ -1,5 +1,5 @@
 import { prisma } from "@server/db/client";
-import { DisplayChapterInfo } from "@components/DisplayChapterInfo";
+import DisplayChapterInfo from "@components/DisplayChapterInfo";
 
 interface ChapterPageParams {
   params: {
@@ -18,18 +18,19 @@ const ChapterPage = async ({ params }: ChapterPageParams) => {
     },
   });
 
-  const chapterRequests = await prisma.userRequest.findMany({
-    where: { chapterId: params.chapterId, approved: "PENDING" },
+  const userRequests = await prisma.userRequest.findMany({
+    where: {
+      approved: "PENDING",
+    },
+    include: { user: true },
   });
-  const requestUsers = await prisma.user.findMany({
-    where: { id: { in: chapterRequests.map((req) => req.uid) } },
-  });
+  const resources = await prisma.resource.findMany();
 
   return (
     <DisplayChapterInfo
       chapter={chapter}
-      uid={params.uid}
-      requestUsers={requestUsers}
+      userRequests={userRequests}
+      resources={resources}
     />
   );
 };

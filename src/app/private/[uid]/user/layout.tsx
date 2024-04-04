@@ -1,6 +1,6 @@
 "use client";
 
-import { CollapsableSidebarContainer } from "@components/container";
+import { CollapsibleSidebarContainer } from "@components/container";
 import { faHome, faUsers, faUser } from "@fortawesome/free-solid-svg-icons";
 import React, { useContext } from "react";
 import { UserContext } from "src/context/UserProvider";
@@ -33,9 +33,9 @@ const UserLayout = ({ children }: IUserLayout) => {
   );
 
   return (
-    <CollapsableSidebarContainer buttons={buttons}>
+    <CollapsibleSidebarContainer buttons={buttons}>
       {children}
-    </CollapsableSidebarContainer>
+    </CollapsibleSidebarContainer>
   );
 };
 
