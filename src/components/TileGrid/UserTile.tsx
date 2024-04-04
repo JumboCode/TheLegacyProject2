@@ -32,7 +32,8 @@ export function UserTile({
           <div className="h-full w-full object-cover">
             {student ? (
               <Image
-                src={gi?? "/profile/genericprofile.png"
+                src={
+                  (student && student.image) ?? "/profile/genericprofile.png"
                 }
                 alt="Placeholder profile image"
                 layout="fill"
@@ -49,7 +50,7 @@ export function UserTile({
           </div>
         </Link>
       </div>
-      <div className="relative flex items-center justify-between px-3 py-4">
+      <div className="relative flex items-start justify-between px-3 py-4">
         <div className="overflow-hidden">
           <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold before:invisible before:content-['\200B']">
             {student
@@ -64,7 +65,7 @@ export function UserTile({
                 (student.position === ""
                   ? "bg-med-tan text-dark-teal "
                   : "bg-[#AE583C] font-bold text-white  ") +
-                "mt-5 inline-block text-ellipsis whitespace-nowrap rounded-3xl px-3.5 py-1.5 text-center text-sm"
+                "mt-5 inline-block text-ellipsis whitespace-nowrap rounded-3xl px-3.5 py-1.5 text-center text-xs"
               }
             >
               {student.position === "" ? "Member" : student.position}
