@@ -21,8 +21,16 @@ export function UserTile({
   dropdownComponent,
 }: UserTileProps) {
   return (
-    <div className="w-48 rounded-lg bg-white shadow-lg">
-      <div className="h-40 w-full rounded-lg bg-white drop-shadow-md hover:bg-off-white">
+    <div
+      className={
+        (student ? "w-48 " : "w-40 ") + "rounded-lg bg-white shadow-lg"
+      }
+    >
+      <div
+        className={
+          "h-40 w-full rounded-lg bg-white drop-shadow-md hover:bg-off-white"
+        }
+      >
         <Link
           href={link}
           className={
