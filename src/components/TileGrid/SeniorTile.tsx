@@ -59,12 +59,6 @@ export function SeniorTile({
     },
   ];
 
-  console.log(
-    `${senior.firstname} ${senior.lastname}` +
-      "'s Students: " +
-      senior.StudentIDs.toString()
-  );
-
   return (
     <div className="relative flex aspect-square w-auto flex-col items-center rounded bg-white font-medium drop-shadow-md hover:bg-off-white">
       <TileEdit options={options} />

@@ -36,11 +36,6 @@ const UserLayout = ({ children }: IUserLayout) => {
         icon: faUserGroup,
       },
       {
-        name: "Pending",
-        link: `/private/${user.id}/chapter-leader/pending`,
-        icon: faUserPlus,
-      },
-      {
         name: "Profile",
         link: `/private/${user.id}/chapter-leader/edit-profile`,
         icon: faUser,

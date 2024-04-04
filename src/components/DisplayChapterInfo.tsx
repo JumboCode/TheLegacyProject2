@@ -97,7 +97,9 @@ const DisplayChapterInfo = ({
               user.role === "USER"
                 ? ""
                 : `/private/${user.id}/${RoleToUrlSegment[user.role]}` +
-                  `${user.role === "ADMIN" && `/home/chapters/${chapter.id}`}` +
+                  `${
+                    user.role === "ADMIN" ? `/home/chapters/${chapter.id}` : ""
+                  }` +
                   `/users/${student.id}`;
             return <UserTile key={student.id} student={student} link={link} />;
           })}
