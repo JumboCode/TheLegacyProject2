@@ -1,6 +1,7 @@
 interface PopupProps {
   children?: React.ReactNode;
   className?: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 const Popup = (props: PopupProps) => {
@@ -10,6 +11,7 @@ const Popup = (props: PopupProps) => {
         className={`flex h-48 w-[30rem] flex-col gap-y-6 rounded-[16px] bg-dark-teal px-6 py-9 ${
           props.className ?? ""
         }`}
+        onClick={props.onClick}
       >
         {props.children}
       </div>

@@ -1,11 +1,8 @@
-import { roleSchema } from "@server/schema";
 import { z } from "zod";
 
 export const EditRoleRequest = z.object({
-  role: roleSchema.refine(
-    (value): value is "CHAPTER_LEADER" | "USER" =>
-      value === "CHAPTER_LEADER" || value === "USER"
-  ),
+  chapterLeaders: z.array(z.string()),
+  users: z.array(z.string()),
 });
 
 export const EditRoleResponse = z.discriminatedUnion("code", [

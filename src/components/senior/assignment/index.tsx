@@ -10,7 +10,7 @@ interface AssignmentProps<T extends IdentifiableObject> {
   display: (ele: T) => React.ReactNode;
   elements: T[];
   selected: T[];
-  setSelected: (ele: T) => void;
+  setSelected: React.Dispatch<React.SetStateAction<T[]>>;
   onSave: () => Promise<any>;
   multipleChoice?: boolean;
 }

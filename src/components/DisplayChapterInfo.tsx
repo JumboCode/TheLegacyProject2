@@ -1,7 +1,7 @@
 "use client";
 
-import { Prisma, Resource, User, UserRequest } from "@prisma/client";
-import { CardGrid } from "./container";
+import { Prisma, Resource } from "@prisma/client";
+import { CardGrid, Popup } from "./container";
 import { UserTile } from "./TileGrid";
 import DisplayResources from "./DisplayResources";
 import React from "react";
@@ -10,6 +10,9 @@ import PendingCard from "@components/PendingCard";
 import { fullName } from "@utils";
 import { RoleToUrlSegment } from "@constants/RoleAlias";
 import { sortedStudents } from "@utils";
+import { Dropdown } from "./selector";
+import { editRole } from "@api/admin/edit-role/route.client";
+import { useRouter } from "next/navigation";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -32,6 +35,7 @@ const DisplayChapterInfo = ({
 }: DisplayChapterInfoParams) => {
   const userContext = React.useContext(UserContext);
   const { user } = userContext;
+  const router = useRouter();
 
   const students =
     user.role === "ADMIN"
@@ -40,8 +44,48 @@ const DisplayChapterInfo = ({
           (user) => user.role === "CHAPTER_LEADER" || user.position !== ""
         );
 
+  const currentPresidents = chapter.students.filter(
+    (user) => user.role === "CHAPTER_LEADER"
+  );
+  const [displayAssignPresident, setDisplayAssignPresident] =
+    React.useState(false);
+  const [assignedPresidents, setAssignedPresidents] =
+    React.useState(currentPresidents);
+
+  const onSaveNewPresidents = async () => {
+    const previousPresidents = currentPresidents.filter(
+      (student) =>
+        assignedPresidents.find((other) => student.id === other.id) == undefined
+    );
+    await editRole({
+      body: {
+        chapterLeaders: assignedPresidents.map((student) => student.id),
+        users: previousPresidents.map((student) => student.id),
+      },
+    });
+    router.refresh();
+  };
+
+  const resetAssignment = () => {
+    setDisplayAssignPresident(false);
+    setAssignedPresidents(currentPresidents);
+  };
+
   return (
-    <div className="w-full">
+    <div className="w-full" onClick={resetAssignment}>
+      {displayAssignPresident && (
+        <Popup onClick={(e) => e.stopPropagation()}>
+          <div className="text-3xl font-bold text-white">Assign President</div>
+          <Dropdown
+            header="Select student"
+            elements={chapter.students}
+            display={(student) => fullName(student)}
+            selected={assignedPresidents}
+            setSelected={setAssignedPresidents}
+            onSave={onSaveNewPresidents}
+          />
+        </Popup>
+      )}
       <div className="font-merriweather mb-4 text-2xl font-bold text-[#000022]">
         {chapter.chapterName}
       </div>
@@ -86,10 +130,23 @@ const DisplayChapterInfo = ({
       <div className="mb-12">
         <CardGrid
           title={
-            <div className="text-xl text-[#000022]">
-              {user.role === "ADMIN"
-                ? `Members (${chapter.students.length})`
-                : "Executive Board"}
+            <div className="flex justify-between">
+              <span className="text-xl text-[#000022]">
+                {user.role === "ADMIN"
+                  ? `Members (${chapter.students.length})`
+                  : "Executive Board"}
+              </span>
+              {user.role === "ADMIN" && (
+                <div
+                  className="cursor-pointer rounded-lg bg-dark-teal px-4 py-3 text-white"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDisplayAssignPresident(true);
+                  }}
+                >
+                  Assign President
+                </div>
+              )}
             </div>
           }
           tiles={sortedStudents(students).map((student) => {

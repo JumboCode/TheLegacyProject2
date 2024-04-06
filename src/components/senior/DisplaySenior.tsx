@@ -60,15 +60,7 @@ const DisplaySenior = (props: DisplayProps) => {
         display={(user: User) => fullName(user)}
         elements={students}
         selected={assigned}
-        setSelected={(element) => {
-          if (assigned.some((other) => element.id === other.id)) {
-            setAssigned((prev) =>
-              prev.filter((other) => element.id !== other.id)
-            );
-          } else {
-            setAssigned((prev) => [...prev, element]);
-          }
-        }}
+        setSelected={setAssigned}
         onSave={onSave}
       />
       <SearchableContainer

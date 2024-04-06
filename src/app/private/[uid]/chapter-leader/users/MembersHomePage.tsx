@@ -73,22 +73,14 @@ const MembersHomePage = ({ members }: MembersHomePageProps) => {
         {`Members (${members.length})`}
       </h1>
       {uidToEdit != null && (
-        <Popup>
+        <Popup onClick={(e) => e.stopPropagation()}>
           <div className="text-3xl font-bold text-white">Assign to E-board</div>
           <Dropdown
             header="Select position"
             elements={EBOARD_POSITIONS}
             display={(element) => <>{element.position}</>}
             selected={selectedPosition}
-            setSelected={(element) => {
-              if (selectedPosition.some((other) => element.id === other.id)) {
-                setSelectedPosition((prev) =>
-                  prev.filter((other) => element.id !== other.id)
-                );
-              } else {
-                setSelectedPosition([element]);
-              }
-            }}
+            setSelected={setSelectedPosition}
             onSave={async () => {
               await editPosition(
                 {

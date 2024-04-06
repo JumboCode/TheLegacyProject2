@@ -56,15 +56,7 @@ const DisplayUserSenior = (props: DisplayProps) => {
         display={(senior: Senior) => seniorFullName(senior)}
         elements={seniors}
         selected={assigned}
-        setSelected={(element) => {
-          if (assigned.some((other) => element.id === other.id)) {
-            setAssigned((prev) =>
-              prev.filter((other) => element.id !== other.id)
-            );
-          } else {
-            setAssigned((prev) => [...prev, element]);
-          }
-        }}
+        setSelected={setAssigned}
         onSave={onSave}
       />
 
