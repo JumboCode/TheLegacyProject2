@@ -4,14 +4,14 @@ import NewChapterForm from "@components/NewChapterForm";
 
 const StartChapter = () => {
   return (
-    <div className="min-h-screen bg-med-tan px-64">
+    <div className="mb-8 min-h-screen">
       <div className="py-3">
         <div className="py-2 text-4xl font-bold">Start a Chapter</div>
         <div className="pt-6 text-2xl font-semibold">
           Start a chapter of the Legacy Project, Inc. on your campus today!
         </div>
       </div>
-      <div className="gap-y-3 text-xl">
+      <div className="mb-8 gap-y-3 text-xl">
         <p className="py-3">
           This form serves to identify student leaders who are interested in
           starting a chapter of The Legacy Project, Inc. (TLP) at their US-based

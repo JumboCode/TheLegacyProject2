@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,7 +10,17 @@ import { createChapterRequest } from "@api/chapter-request/route.client";
 
 type ValidationSchema = z.infer<typeof ChapterRequest>;
 
+enum FormSubmission {
+  NOT_SUBMITTED = 0,
+  SUBMITTED = 1,
+  ERROR = 2,
+}
+
 const NewChapterForm = () => {
+  const [formSubmitted, setFormSubmitted] = useState<FormSubmission>(
+    FormSubmission.NOT_SUBMITTED
+  );
+
   const {
     register,
     handleSubmit,
@@ -23,12 +35,17 @@ const NewChapterForm = () => {
   ) => {
     event?.preventDefault();
     console.log(data);
-    await createChapterRequest({ body: data });
+    const response = await createChapterRequest({ body: data });
+    if (response.code === "SUCCESS") {
+      setFormSubmitted(FormSubmission.SUBMITTED);
+    } else {
+      setFormSubmitted(FormSubmission.ERROR);
+    }
     //TODO: revisit all possible return/calls
   };
 
   return (
-    <div className="grid place-items-center px-10 py-5">
+    <div className="grid place-items-center">
       <div className="w-full rounded-md bg-dark-teal px-9 py-10 text-lg text-white">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-2 gap-x-10 gap-y-5">
@@ -228,6 +245,16 @@ const NewChapterForm = () => {
               type="submit"
               className="cursor-pointer items-center rounded-xl bg-white px-4 py-2.5 text-center text-dark-teal"
             />
+            {formSubmitted === FormSubmission.SUBMITTED ? (
+              <div className="pt-5 text-sm">
+                Your form has been submitted. Our admin will be in touch with
+                you soon!
+              </div>
+            ) : formSubmitted === FormSubmission.ERROR ? (
+              <div className="pt-5 text-sm">
+                There was an error processing your form. Please try again.
+              </div>
+            ) : null}
           </div>
         </form>
       </div>
