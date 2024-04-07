@@ -11,7 +11,7 @@ const PublicLayout = ({ children }: IPublicLayout) => {
     <div className="flex h-full flex-col justify-between">
       <div>
         <Navbar />
-        <div className="px-[93px] pb-[105px] pt-[88px]">
+        <div className="pb-[105px] pt-[88px] sm:px-[50px] md:px-[93px] xs:px-[30px]">
           {children} <LandingFooter />
         </div>
       </div>

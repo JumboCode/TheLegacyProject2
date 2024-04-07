@@ -8,11 +8,13 @@ import PS3 from "@public/landing/about/parallel_stories3.png";
 
 const AboutLayout = async () => {
   return (
-    <div className="flex w-full flex-col justify-center gap-y-4 py-6">
-      <span className="pt-6 text-center text-3xl font-semibold sm:text-left sm:text-4xl">
+    <div className="sm: flex flex-col justify-center gap-y-4 py-6 sm:w-full sm:px-0">
+      <span className="pt-6 text-center text-3xl font-semibold sm:text-left sm:text-lg">
         Our Story
       </span>
-      <p className="mt-8 font-bold leading-7">The Legacy Project’s Origin</p>
+      <p className="mt-8 font-bold leading-7">
+        The Legacy Project&apos;s Origin
+      </p>
       <p className="leading-7">
         The concept of{" "}
         <strong>
@@ -42,12 +44,12 @@ const AboutLayout = async () => {
         preserve the 18 captivating stories of the seniors she interviewed was
         through prose.{" "}
       </p>
-      <div className="mt-6 flex h-80 justify-between gap-x-20">
-        <div className="aspect-w-16 aspect-h-9 flex flex-col">
+      <div className="mt-4 flex flex-col sm:mt-6 sm:h-80 sm:flex-row sm:justify-between sm:gap-x-20">
+        <div className="aspect-w-16 aspect-h-9 flex flex-col sm:w-1/2">
           <Image
             src={LivesReflected}
             alt="Their Lives Reflected"
-            className="flex aspect-auto object-contain p-12"
+            className="flex aspect-auto object-contain p-6 sm:p-12"
           />{" "}
           <p className="mt-5 h-20 text-center text-sm">
             <span>
@@ -63,11 +65,11 @@ const AboutLayout = async () => {
             both for the seniors and their families.
           </p>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col sm:w-1/2">
           <Image
             src={SundaesSundays}
             alt="Sundaes & Sundays"
-            className="flex aspect-auto object-contain p-12"
+            className="flex aspect-auto object-contain p-6 sm:p-12"
           />
           <p className="mt-5 h-20 text-center text-sm">
             <span>
@@ -101,15 +103,15 @@ const AboutLayout = async () => {
         <br />
         <em>The United Nations Millennium Fellowship</em> being hosted through
         Tufts University presented a perfect opportunity for Katie to put her
-        idea into action. Using the program’s framework, Katie partnered with
-        the
+        idea into action. Using the program&apos;s framework, Katie partnered
+        with the
         <em>Little Sisters of the Poor home</em> in{" "}
         <em>Enfield, Connecticut</em>. Katie met around ten older adults from
         the home on Zoom, connecting with them and learning tidbits of their
         life stories, which she is working on compiling as a series of
         vignettes.
       </p>
-      <div className="mt-6 flex justify-between gap-x-12">
+      <div className="mt-6 flex justify-between sm:gap-x-12">
         <Image src={PS1} alt="parallel stories 1" className="flex" />
         <Image src={PS2} alt="parallel stories 2" className="flex" />
         <Image src={PS3} alt="parallel stories 3" className="flex" />
@@ -137,7 +139,7 @@ const AboutLayout = async () => {
         students passionate about empowering local seniors with the platform to
         amplify their stories.
       </p>
-      <p className="mt-8 font-bold leading-7">TLP’s National Vision</p>
+      <p className="mt-8 font-bold leading-7">TLP&apos;s National Vision</p>
       <p className="leading-7">
         Having watched the Tufts chapter grow over the past two years, Arielle,
         Katie, and Wanda decided to found TLP as a nonprofit organization with

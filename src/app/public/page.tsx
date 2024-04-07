@@ -21,14 +21,14 @@ const HomePage = () => {
 
   return (
     <main className="flex flex-col">
-      <div className="relative z-10 flex flex-col content-center items-center gap-y-6 overflow-hidden rounded bg-[#E7DCD0] px-12 py-[80px]">
+      <div className="relative z-10 flex flex-col content-center items-center gap-y-6 overflow-hidden rounded bg-[#E7DCD0] px-6 py-[80px] sm:px-12">
         {/* Hero Section and Action Items Buttons */}
         <div className="h-28 w-72 self-start">
           <Image src={Logo} alt="logo" className="object-contain" />
         </div>
-        <div className="flex w-full flex-row items-center">
+        <div className="flex w-full flex-row items-center self-start">
           <div className="flex flex-col items-center gap-[24px] lg:mr-[20px] lg:items-start">
-            <h1 className="mb-[10px] text-left text-6xl/[75px] font-semibold">
+            <h1 className="mb-[10px] text-left text-4xl font-semibold sm:text-6xl">
               Everyone has a story that&apos;s worth preserving.
             </h1>
             <p className="text-md text-left tracking-easy md:text-lg lg:text-left xl:text-xl">
