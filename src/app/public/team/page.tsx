@@ -1,11 +1,14 @@
 import Link from "next/link";
 import Image from "next/legacy/image";
-import MEET_TLP_1 from "@public/icons/team/meet_tlp1.png";
-import MEET_TLP_2 from "@public/icons/team/meet_tlp2.png";
-import MEET_TLP_3 from "@public/icons/team/meet_tlp3.png";
-import OUR_TEAM from "@public/icons/team/our_team.png";
-import PRESS_1 from "@public/icons/team/press1.png";
-import PRESS_2 from "@public/icons/team/press2.png";
+import MEET_TLP_1 from "@public/landing/team/meet_tlp1.png";
+import MEET_TLP_2 from "@public/landing/team/meet_tlp2.png";
+import MEET_TLP_3 from "@public/landing/team/meet_tlp3.png";
+import OUR_TEAM from "@public/landing/team/our_team.png";
+// import ARIELLE from "@public/landing/team/arielle.png";
+// import KATIE from "@public/landing/team/katie.png";
+// import WANDA from "@public/landing/team/wanda.png";
+import PRESS_1 from "@public/landing/team/press1.png";
+import PRESS_2 from "@public/landing/team/press2.png";
 
 const PublicLayout = async () => {
   const press1 =
@@ -26,7 +29,7 @@ const PublicLayout = async () => {
         passionate about telling stories, and form a Legacy Project chapter at
         your school today.
       </p>
-      <div className="mt-6 flex gap-x-12">
+      <div className="mt-6 flex sm:gap-x-4 md:gap-x-8 lg:gap-x-12">
         <Image src={MEET_TLP_1} alt="meet_tlp_1" className="flex" />
         <Image src={MEET_TLP_2} alt="meet_tlp_2" className="flex" />
         <Image src={MEET_TLP_3} alt="meet_tlp_3" className="flex" />
@@ -38,24 +41,16 @@ const PublicLayout = async () => {
       <span className="pt-6 text-center text-3xl font-semibold sm:text-left sm:text-4xl">
         Press
       </span>
-      <div className="mb-10 mt-6 gap-y-4">
-        <div className="flex gap-x-4">
-          <Image src={PRESS_1} alt="press_1" />
-          <Image src={PRESS_2} alt="press_2" />
-        </div>
-        <div className="mt-1 flex gap-x-4">
-          <div>
-            <Link className="hover:underline" href={press1}>
-              Tufts Legacy Project builds intergenerational connections, one
-              story at a time
-            </Link>
-          </div>
-          <div>
-            <Link className="hover:underline" href={press2}>
-              Intergenerational Connection Key to Leaving Accurate Legacies
-            </Link>
-          </div>
-        </div>
+      <div className="mb-10 mt-6 grid grid-cols-2 grid-rows-2 gap-4">
+        <Image src={PRESS_1} alt="press_1" />
+        <Image src={PRESS_2} alt="press_2" />
+        <Link className="hover:underline" href={press1}>
+          Tufts Legacy Project builds intergenerational connections, one story
+          at a time
+        </Link>
+        <Link className="hover:underline" href={press2}>
+          Intergenerational Connection Key to Leaving Accurate Legacies
+        </Link>
       </div>
     </div>
   );
