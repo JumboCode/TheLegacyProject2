@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React from "react";
+import DropDownContainer from "@components/container/DropDownContainer";
 
 interface Information {
   key: string;
@@ -54,17 +55,15 @@ const InfoTile = (params: InfoTileProps) => {
           </div>
         ))}
       </div>
-      {moreInformation != undefined ? (
-        <div>
-          <p
-            className="mb-6 w-fit cursor-pointer text-dark-teal underline"
-            onClick={onToggleShouldShowMore}
-          >
+      <DropDownContainer
+        title={
+          <p className="mb-6 w-fit cursor-pointer text-dark-teal underline">
             {!shouldShowMore ? "Show more" : "Show less"}
           </p>
-          {shouldShowMore ? moreInformation : null}
-        </div>
-      ) : null}
+        }
+      >
+        {moreInformation}
+      </DropDownContainer>
     </div>
   );
 };

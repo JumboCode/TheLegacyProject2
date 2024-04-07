@@ -13,6 +13,7 @@ import { sortedStudents } from "@utils";
 import { Dropdown } from "./selector";
 import { editRole } from "@api/admin/edit-role/route.client";
 import { useRouter } from "next/navigation";
+import DropDownContainer from "@components/container/DropDownContainer";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -103,73 +104,77 @@ const DisplayChapterInfo = ({
           </div>
         ))}
       </div>
-      {userRequests && (
-        <div className="mb-12">
-          <h1 className="mb-6 text-xl">{`Pending (${userRequests.length})`}</h1>
-          {userRequests.length > 0 ? (
-            <CardGrid
-              column_count={2}
-              tiles={userRequests.map((user, index) => {
-                return (
-                  <PendingCard
-                    key={index}
-                    name={fullName(user.user)}
-                    uid={user.user.id}
-                  />
-                );
-              })}
-            />
-          ) : (
-            <h1 className="font-light">
-              {"This chapter has no pending members."}
-            </h1>
-          )}
-        </div>
-      )}
-
-      <div className="mb-12">
-        <CardGrid
+      <div className="flex flex-col gap-y-12">
+        {userRequests && (
+          <DropDownContainer
+            title={
+              <div className="mb-6 text-xl">{`Pending (${userRequests.length})`}</div>
+            }
+          >
+            {userRequests.length > 0 ? (
+              <CardGrid
+                column_count={2}
+                tiles={userRequests.map((user, index) => {
+                  return (
+                    <PendingCard
+                      key={index}
+                      name={fullName(user.user)}
+                      uid={user.id}
+                    />
+                  );
+                })}
+              />
+            ) : (
+              <h1 className="font-light">
+                {"This chapter has no pending members."}
+              </h1>
+            )}
+          </DropDownContainer>
+        )}
+        <DropDownContainer
           title={
-            <div className="flex justify-between">
-              <span className="text-xl text-[#000022]">
-                {user.role === "ADMIN"
-                  ? `Members (${chapter.students.length})`
-                  : "Executive Board"}
-              </span>
-              {user.role === "ADMIN" && (
-                <div
-                  className="cursor-pointer rounded-lg bg-dark-teal px-4 py-3 text-white"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setDisplayAssignPresident(true);
-                  }}
-                >
-                  Assign President
-                </div>
-              )}
+            <div className="mb-6 flex justify-between text-xl text-[#000022]">
+              {user.role === "ADMIN"
+                ? `Members (${chapter.students.length})`
+                : "Executive Board"}
             </div>
           }
-          tiles={sortedStudents(students).map((student) => {
-            const link =
-              user.role === "USER"
-                ? ""
-                : `/private/${user.id}/${RoleToUrlSegment[user.role]}` +
-                  `${
-                    user.role === "ADMIN" ? `/home/chapters/${chapter.id}` : ""
-                  }` +
-                  `/users/${student.id}`;
-            return <UserTile key={student.id} student={student} link={link} />;
-          })}
-        />
-      </div>
-      <div className="flex flex-col gap-y-6">
-        <div className="text-xl text-[#000022]">Resources</div>
-        <DisplayResources
-          resources={resources}
-          showRole={false}
-          editable={false}
-          column={3}
-        />
+        >
+          <div className="flex flex-col gap-y-6">
+            {user.role === "ADMIN" && (
+              <div
+                className="w-fit cursor-pointer rounded-lg bg-dark-teal px-4 py-3 text-white"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDisplayAssignPresident(true);
+                }}
+              >
+                Assign President
+              </div>
+            )}
+            <CardGrid
+              tiles={sortedStudents(students).map((student) => (
+                <UserTile
+                  key={student.id}
+                  student={student}
+                  link={`/private/${user.id}/${
+                    RoleToUrlSegment[user.role]
+                  }/users/${student.id}`}
+                />
+              ))}
+            />
+          </div>
+        </DropDownContainer>
+        <DropDownContainer
+          title={<div className="mb-6 text-xl">Resources</div>}
+        >
+          <DisplayResources
+            resources={resources}
+            showRole={false}
+            editable={false}
+            column={3}
+          />
+        </DropDownContainer>
       </div>
     </div>
   );
