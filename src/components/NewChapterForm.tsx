@@ -34,7 +34,6 @@ const NewChapterForm = () => {
     event
   ) => {
     event?.preventDefault();
-    console.log(data);
     const response = await createChapterRequest({ body: data });
     if (response.code === "SUCCESS") {
       setFormSubmitted(FormSubmission.SUBMITTED);
@@ -243,7 +242,7 @@ const NewChapterForm = () => {
           <div className="grid place-items-center pt-8">
             <input
               type="submit"
-              className="cursor-pointer items-center rounded-xl bg-white px-4 py-2.5 text-center text-dark-teal"
+              className="cursor-pointer items-center rounded-xl bg-white  px-4 py-2.5 text-center text-dark-teal hover:bg-[#E2E2E2]"
             />
             {formSubmitted === FormSubmission.SUBMITTED ? (
               <div className="pt-5 text-sm">
