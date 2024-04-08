@@ -1,16 +1,18 @@
 "use client";
 
 import { UserTile } from "@components/TileGrid";
-import { Senior, User } from "@prisma/client";
+import { Prisma, Senior, User } from "@prisma/client";
 import SearchableContainer from "@components/SearchableContainer";
 import { seniorFullName } from "@utils";
 
+type UserWithSeniors = Prisma.UserGetPayload<{ include: { Seniors: true } }>;
+
 type SeniorsHomePageProps = {
-  seniors: Senior[];
-  user: User;
+  user: UserWithSeniors;
 };
 
-const SeniorsHomePage = ({ seniors, user }: SeniorsHomePageProps) => {
+const SeniorsHomePage = ({ user }: SeniorsHomePageProps) => {
+  console.log(user);
   const displaySeniors = (elem: Senior, index: number) => (
     <UserTile
       key={elem.id}
@@ -22,11 +24,11 @@ const SeniorsHomePage = ({ seniors, user }: SeniorsHomePageProps) => {
   return (
     <>
       <h1 className="font-merriweather pb-6 text-3xl">
-        {`My Assigned Seniors (${seniors.length})`}
+        {`My Assigned Seniors (${user.Seniors.length})`}
       </h1>
       <SearchableContainer
         display={displaySeniors}
-        elements={seniors}
+        elements={user.Seniors}
         emptyNode={
           <h1 className="text-2xl font-light">
             {"You haven't been assigned a Senior yet."}

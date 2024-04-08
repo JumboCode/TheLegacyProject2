@@ -31,7 +31,6 @@ const DisplaySenior = (props: DisplayProps) => {
     students.filter((student) => senior.StudentIDs.includes(student.id));
 
   const [assigned, setAssigned] = React.useState(() => getAssignments());
-  console.log(assigned);
   const onSave = async () => {
     await patchSenior({
       body: {
@@ -62,7 +61,9 @@ const DisplaySenior = (props: DisplayProps) => {
       />
       <SearchableContainer
         display={(file) => <File key={file.id} file={file} />}
-        elements={senior.Files}
+        elements={senior.Files.sort(
+          (fileA, fileB) => fileA.date.getTime() - fileB.date.getTime()
+        )}
         search={(file, filter) => formatFileDate(file.date).includes(filter)}
         addElementComponent={
           canAddFile ? (
