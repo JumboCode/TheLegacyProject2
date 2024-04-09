@@ -1,19 +1,14 @@
 import PathNav from "@components/PathNav";
 import DisplayUserSenior from "@components/user/DisplayUserSeniors";
 import { prisma } from "@server/db/client";
+import { getServerSessionOrRedirect } from "@server/utils";
 import { fullName } from "@utils";
 
-interface Params {
-  params: {
-    userId: string;
-  };
-}
-
-const Page = async ({ params }: Params) => {
-  const { userId } = params;
+const Page = async () => {
+  const session = await getServerSessionOrRedirect();
   const user = await prisma.user.findUniqueOrThrow({
     where: {
-      id: userId,
+      id: session.user?.id,
     },
     include: {
       Chapter: {
