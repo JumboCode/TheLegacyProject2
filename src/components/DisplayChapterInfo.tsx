@@ -114,10 +114,10 @@ const DisplayChapterInfo = ({
             {userRequests.length > 0 ? (
               <CardGrid
                 column_count={2}
-                tiles={userRequests.map((user, index) => {
+                tiles={userRequests.map((user) => {
                   return (
                     <PendingCard
-                      key={index}
+                      key={user.id}
                       name={fullName(user.user)}
                       uid={user.id}
                     />
