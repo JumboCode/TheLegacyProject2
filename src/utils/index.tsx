@@ -8,7 +8,7 @@ type PositionOrder = {
 };
 
 export const formatUserHomeRoute = (user: NonNullable<Session["user"]>) => {
-  return `/private/${user.id}/${RoleToUrlSegment[user.role]}/home`;
+  return `/private/${RoleToUrlSegment[user.role]}/home`;
 };
 
 /**

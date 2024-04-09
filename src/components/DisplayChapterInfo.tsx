@@ -153,15 +153,20 @@ const DisplayChapterInfo = ({
               </div>
             )}
             <CardGrid
-              tiles={sortedStudents(students).map((student) => (
-                <UserTile
-                  key={student.id}
-                  student={student}
-                  link={`/private/${user.id}/${
-                    RoleToUrlSegment[user.role]
-                  }/users/${student.id}`}
-                />
-              ))}
+              tiles={sortedStudents(students).map((student) => {
+                let link = `/private/${RoleToUrlSegment[user.role]}`;
+                if (user.role === "ADMIN") {
+                  link += `/home/chapters/${student.ChapterID}`;
+                }
+                link += `/users/${student.id}`;
+                return (
+                  <UserTile
+                    key={student.id}
+                    student={student}
+                    link={user.role === "USER" ? "" : link}
+                  />
+                );
+              })}
             />
           </div>
         </DropDownContainer>

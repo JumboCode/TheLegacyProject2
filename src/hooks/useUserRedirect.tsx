@@ -23,7 +23,7 @@ const useUserRedirect = (props: UseRoleProps) => {
       return;
     }
 
-    const protectedSegment = `/private/${uid}/${RoleToUrlSegment[role]}`;
+    const protectedSegment = `/private/${RoleToUrlSegment[role]}`;
     if (!path.startsWith(protectedSegment)) {
       router.replace(`${protectedSegment}/home`);
     }

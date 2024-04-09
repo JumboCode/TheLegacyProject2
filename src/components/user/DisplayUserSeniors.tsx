@@ -30,7 +30,6 @@ const DisplayUserSenior = (props: DisplayProps) => {
     seniors?.filter((senior) => currentUser.SeniorIDs.includes(senior.id));
 
   const [assigned, setAssigned] = React.useState(() => getAssignments());
-  console.log(assigned);
 
   const onSave = async () => {
     await editSeniorIDs(
@@ -63,7 +62,7 @@ const DisplayUserSenior = (props: DisplayProps) => {
           <UserTile
             key={eachSenior.id}
             senior={eachSenior}
-            link={`/private/${user.id}/${RoleToUrlSegment[user.role]}/seniors/${
+            link={`/private/${RoleToUrlSegment[user.role]}/seniors/${
               eachSenior.id
             }`}
           />

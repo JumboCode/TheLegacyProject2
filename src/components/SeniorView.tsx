@@ -4,8 +4,7 @@ import { Senior, User } from "@prisma/client";
 import SearchableContainer from "./SearchableContainer";
 import { UserTile, TileEdit } from "./TileGrid";
 import AddSenior from "./AddSenior";
-import { useContext, useState } from "react";
-import { UserContext } from "@context/UserProvider";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,7 +14,6 @@ type SeniorViewProps = {
 };
 
 export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
-  const context = useContext(UserContext);
   const [seniorsState, setSeniorsState] = useState(seniors);
   const [showAddSeniorPopUp, setShowAddSeniorPopUp] = useState(false);
   const [seniorPatch, setSeniorPatch] = useState("");
@@ -68,7 +66,7 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
           // TODO(nickbar01234) - Fix link
           <UserTile
             senior={senior}
-            link={`/private/${context.user.id}/chapter-leader/seniors/${senior.id}`}
+            link={`/private/chapter-leader/seniors/${senior.id}`}
             key={senior.id}
             dropdownComponent={<TileEdit options={options} />}
           />

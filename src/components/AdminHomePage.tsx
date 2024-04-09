@@ -46,7 +46,7 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
           <InfoTile
             key={chapter.id}
             title={chapter.chapterName}
-            href={`/private/${userContext.user.id}/admin/home/chapters/${chapter.id}`}
+            href={`/private/admin/home/chapters/${chapter.id}`}
             information={[
               { key: "Location", value: chapter.location },
               {
