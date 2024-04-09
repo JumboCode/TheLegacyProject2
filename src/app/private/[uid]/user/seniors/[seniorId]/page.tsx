@@ -10,7 +10,6 @@ interface PageProps {
 }
 
 const Page = async ({ params }: PageProps) => {
-  console.log(params);
   const senior = await prisma.senior.findUniqueOrThrow({
     where: {
       id: params.seniorId,

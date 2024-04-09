@@ -12,8 +12,7 @@ type SeniorsHomePageProps = {
 };
 
 const SeniorsHomePage = ({ user }: SeniorsHomePageProps) => {
-  console.log(user);
-  const displaySeniors = (elem: Senior, index: number) => (
+  const displaySeniors = (elem: Senior) => (
     <UserTile
       key={elem.id}
       senior={elem}
