@@ -9,6 +9,7 @@ import { v4 as uuid } from "uuid";
 import Assignment from "./assignment";
 import { patchSenior } from "@api/senior/[id]/route.client";
 import React from "react";
+import { useApiThrottle } from "@hooks";
 
 interface DisplayProps {
   editable: boolean;
@@ -31,8 +32,10 @@ const DisplaySenior = (props: DisplayProps) => {
     students.filter((student) => senior.StudentIDs.includes(student.id));
 
   const [assigned, setAssigned] = React.useState(() => getAssignments());
+
+  const { fn: throttlePatchSenior } = useApiThrottle({ fn: patchSenior });
   const onSave = async () => {
-    await patchSenior({
+    await throttlePatchSenior({
       body: {
         firstname: senior.firstname,
         lastname: senior.lastname,

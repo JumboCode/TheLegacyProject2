@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 
 import { editProfile } from "@api/user/[uid]/edit-profile/route.client";
 import { UserContext } from "src/context/UserProvider";
+import { useApiThrottle } from "@hooks";
+import { Spinner } from "@components/skeleton";
 
 const EditProfileForm = () => {
   const {
@@ -22,19 +24,23 @@ const EditProfileForm = () => {
     resolver: zodResolver(EditProfileRequest),
   });
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data, event) => {
-    event?.preventDefault();
-    const response = await editProfile({ body: data }, uid);
-    if (response.code == "SUCCESS") {
+  const { fetching, fn: throttleEditProfile } = useApiThrottle({
+    fn: editProfile,
+    callback: () => {
       setEdited(false);
       router.refresh();
-    }
+    },
+  });
+
+  const onSubmit: SubmitHandler<ValidationSchema> = async (data, event) => {
+    event?.preventDefault();
+    throttleEditProfile({ body: data }, uid);
   };
 
   return (
     <>
       <h2 className="mb-12 text-2xl">Edit my profile</h2>
-      <form className="relative w-11/12" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col gap-y-8" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid w-full grid-cols-2 gap-10">
           <div className="flex w-full flex-col gap-3">
             <label htmlFor="firstName">First name</label>
@@ -83,17 +89,24 @@ const EditProfileForm = () => {
             ></input>
           </div>
         </div>
-        <button
-          className="absolute right-0 mt-10 h-8 w-24 rounded-lg bg-dark-teal text-center text-sm text-white duration-300 hover:bg-teal"
-          style={
-            edited
-              ? { visibility: "visible", opacity: 1 }
-              : { visibility: "hidden", opacity: 0 }
-          }
-          type="submit"
-        >
-          Save
-        </button>
+
+        <div className="flex justify-end">
+          {!fetching ? (
+            <button
+              className="rounded-lg bg-dark-teal px-12 py-3 text-center text-sm text-white duration-300 hover:bg-teal"
+              style={
+                edited
+                  ? { visibility: "visible", opacity: 1 }
+                  : { visibility: "hidden", opacity: 0 }
+              }
+              type="submit"
+            >
+              Save
+            </button>
+          ) : (
+            <Spinner height={16} width={16} />
+          )}
+        </div>
       </form>
     </>
   );

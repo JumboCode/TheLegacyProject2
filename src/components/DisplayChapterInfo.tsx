@@ -14,6 +14,7 @@ import { Dropdown } from "./selector";
 import { editRole } from "@api/admin/edit-role/route.client";
 import { useRouter } from "next/navigation";
 import DropDownContainer from "@components/container/DropDownContainer";
+import { useApiThrottle } from "@hooks";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -52,19 +53,22 @@ const DisplayChapterInfo = ({
     React.useState(false);
   const [assignedPresidents, setAssignedPresidents] =
     React.useState(currentPresidents);
+  const { fn: throttleEditRole } = useApiThrottle({
+    fn: editRole,
+    callback: () => router.refresh(),
+  });
 
   const onSaveNewPresidents = async () => {
     const previousPresidents = currentPresidents.filter(
       (student) =>
         assignedPresidents.find((other) => student.id === other.id) == undefined
     );
-    await editRole({
+    await throttleEditRole({
       body: {
         chapterLeaders: assignedPresidents.map((student) => student.id),
         users: previousPresidents.map((student) => student.id),
       },
     });
-    router.refresh();
   };
 
   const resetAssignment = () => {

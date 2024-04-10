@@ -10,6 +10,7 @@ import { Popup } from "@components/container";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
+import { useApiThrottle } from "@hooks";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -97,36 +98,23 @@ const AddFile = ({
   const [startDate, setStartDate] = useState(new Date());
 
   const router = useRouter();
-  const [fetching, setFetching] = React.useState(false);
   const [error, setError] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<TagProps[]>([]);
 
+  const { fetching, fn: throttledCreateFile } = useApiThrottle({
+    fn: createFile,
+    callback: (res) => {
+      if (res.code === "SUCCESS") {
+        setShowAddFilePopUp(false);
+        router.refresh();
+      } else {
+        setError(true);
+      }
+    },
+  });
+
   const handleCancel = () => {
     setShowAddFilePopUp(!showAddFilePopUp);
-  };
-
-  const callAddFile = async () => {
-    if (fetching) {
-      return;
-    }
-
-    setFetching(true);
-    const response = await createFile({
-      body: {
-        date: startDate,
-        filetype: "Google Document",
-        url: "",
-        Tags: selectedTags.map((tagProp) => tagProp.name),
-        seniorId: seniorId,
-      },
-    });
-    setFetching(false);
-
-    if (response.code === "SUCCESS") {
-      router.refresh();
-    } else {
-      setError(true);
-    }
   };
 
   if (!showAddFilePopUp) {
@@ -180,7 +168,17 @@ const AddFile = ({
               selectedTags.length == 0 ||
               excludedDatesString.includes(startDate.toDateString())
             }
-            onClick={callAddFile}
+            onClick={() => {
+              throttledCreateFile({
+                body: {
+                  date: startDate,
+                  filetype: "Google Document",
+                  url: "",
+                  Tags: selectedTags.map((tagProp) => tagProp.name),
+                  seniorId: seniorId,
+                },
+              });
+            }}
           >
             {!fetching ? "Create" : "Loading..."}
           </button>

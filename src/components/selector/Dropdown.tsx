@@ -31,7 +31,10 @@ const Dropdown = <T extends IdentifiableObject>(props: DropdownProps<T>) => {
 
   const onSave = () => {
     setLoading(true);
-    props.onSave().then(() => setLoading(false));
+    props.onSave().then(() => {
+      setLoading(false);
+      setDisplayDropdown(false);
+    });
   };
 
   const onCheck = (
@@ -90,7 +93,7 @@ const Dropdown = <T extends IdentifiableObject>(props: DropdownProps<T>) => {
             </div>
             {loading ? (
               <div className="flex w-full justify-center">
-                <Spinner height={8} width={8} />
+                <Spinner height={12} width={12} />
               </div>
             ) : (
               <button

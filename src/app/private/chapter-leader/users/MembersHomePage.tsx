@@ -11,6 +11,7 @@ import { Dropdown } from "@components/selector";
 import { Popup } from "@components/container";
 import { useRouter } from "next/navigation";
 import { sortedStudents } from "@utils";
+import { useApiThrottle } from "@hooks";
 
 type MembersHomePageProps = {
   members: User[];
@@ -18,7 +19,7 @@ type MembersHomePageProps = {
 
 const EBOARD_POSITIONS = [
   "Social Coordinator",
-  "Senior Outreach Coordinator",
+  "Outreach Coordinator",
   "Head of Media",
   "Secretary",
   "Treasurer",
@@ -36,6 +37,14 @@ const MembersHomePage = ({ members }: MembersHomePageProps) => {
     setUidToEdit(null);
     setSelectedPosition([]);
   };
+
+  const { fn: throttleEditPosition } = useApiThrottle({
+    fn: editPosition,
+    callback: () => {
+      resetAssignment();
+      router.refresh();
+    },
+  });
 
   const displayMembers = (elem: User, index: number) => (
     <UserTile
@@ -79,16 +88,12 @@ const MembersHomePage = ({ members }: MembersHomePageProps) => {
             display={(element) => <>{element.position}</>}
             selected={selectedPosition}
             setSelected={setSelectedPosition}
-            onSave={async () => {
-              await editPosition(
-                {
-                  body: { position: selectedPosition[0]?.position ?? "" },
-                },
+            onSave={async () =>
+              await throttleEditPosition(
+                { body: { position: selectedPosition[0]?.position ?? "" } },
                 uidToEdit
-              );
-              resetAssignment();
-              router.refresh();
-            }}
+              )
+            }
             multipleChoice={false}
           />
         </Popup>

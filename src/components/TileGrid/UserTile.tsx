@@ -54,39 +54,41 @@ export function UserTile({
           </div>
         </Link>
       </div>
-      <div className="relative flex items-start justify-between px-3 py-4">
-        <div className="overflow-hidden">
-          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold before:invisible before:content-['\200B']">
-            {student
-              ? fullName(student)
-              : senior
-              ? seniorFullName(senior)
-              : null}
-          </p>
-          {student ? (
-            <p
-              className={
-                (student.position === "" && student.role !== "CHAPTER_LEADER"
-                  ? "bg-med-tan text-dark-teal "
-                  : "bg-[#AE583C] font-bold text-white  ") +
-                "mt-5 inline-block text-ellipsis whitespace-nowrap rounded-3xl px-3.5 py-1.5 text-center text-xs"
-              }
-            >
-              {student.role === "CHAPTER_LEADER"
-                ? "Chapter Leader"
-                : student.position === ""
-                ? "Member"
-                : student.position}
+      <div className="flex w-full flex-col items-start justify-between gap-y-2 px-3 py-4">
+        <div className="flex w-full justify-between">
+          <div className="overflow-hidden">
+            <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold before:invisible before:content-['\200B']">
+              {student
+                ? fullName(student)
+                : senior
+                ? seniorFullName(senior)
+                : null}
             </p>
-          ) : null}
-          {/* @TODO: Add pronouns once we add to student field  */}
-          {senior ? (
-            <p className="text-md font-base text-neutral-600 mt-[5px] truncate text-[10px] text-dark-teal before:invisible before:content-['\200B']">
-              {senior.location}
-            </p>
-          ) : null}
+          </div>
+          {dropdownComponent}
         </div>
-        {dropdownComponent}
+        {student ? (
+          <p
+            className={
+              (student.position === "" && student.role !== "CHAPTER_LEADER"
+                ? "bg-med-tan text-dark-teal "
+                : "bg-[#AE583C] font-bold text-white  ") +
+              "inline-block text-ellipsis whitespace-nowrap rounded-3xl px-3.5 py-1.5 text-center text-xs"
+            }
+          >
+            {student.role === "CHAPTER_LEADER"
+              ? "Chapter Leader"
+              : student.position === ""
+              ? "Member"
+              : student.position}
+          </p>
+        ) : null}
+        {/* @TODO: Add pronouns once we add to student field  */}
+        {senior ? (
+          <p className="text-md font-base text-neutral-600 truncate text-[10px] text-dark-teal before:invisible before:content-['\200B']">
+            {senior.location}
+          </p>
+        ) : null}
       </div>
     </div>
   );

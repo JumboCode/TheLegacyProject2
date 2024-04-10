@@ -5,6 +5,7 @@ import { UserTile } from "@components/TileGrid";
 import { CardGrid } from "@components/container";
 import Assignment from "@components/senior/assignment";
 import { RoleToUrlSegment } from "@constants/RoleAlias";
+import { useApiThrottle } from "@hooks";
 import { Prisma, Senior } from "@prisma/client";
 import { compareSenior, fullName, seniorFullName } from "@utils";
 import React from "react";
@@ -31,8 +32,10 @@ const DisplayUserSenior = (props: DisplayProps) => {
 
   const [assigned, setAssigned] = React.useState(() => getAssignments());
 
+  const { fn: throttleEditSeniorIds } = useApiThrottle({ fn: editSeniorIDs });
+
   const onSave = async () => {
-    await editSeniorIDs(
+    await throttleEditSeniorIds(
       {
         body: {
           SeniorIDs: assigned.map((senior) => senior.id),
@@ -56,7 +59,6 @@ const DisplayUserSenior = (props: DisplayProps) => {
         setSelected={setAssigned}
         onSave={onSave}
       />
-
       <CardGrid
         tiles={assigned.map((eachSenior) => (
           <UserTile
