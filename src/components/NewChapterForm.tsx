@@ -53,6 +53,7 @@ const NewChapterForm = () => {
               <input
                 {...register("firstName")}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
+                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -73,6 +74,7 @@ const NewChapterForm = () => {
               <input
                 {...register("lastName")}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
+                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -92,6 +94,7 @@ const NewChapterForm = () => {
               <input
                 {...register("universityEmail")}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
+                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -111,6 +114,7 @@ const NewChapterForm = () => {
               <input
                 {...register("phoneNumber")}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
+                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -130,6 +134,7 @@ const NewChapterForm = () => {
               <input
                 {...register("university")}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
+                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -149,6 +154,7 @@ const NewChapterForm = () => {
               <input
                 {...register("universityAddress")}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
+                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -173,6 +179,7 @@ const NewChapterForm = () => {
               <textarea
                 {...register("leadershipExperience")}
                 className="h-18 w-full resize-y rounded-md px-2 py-2 align-top text-black"
+                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -194,6 +201,7 @@ const NewChapterForm = () => {
               <textarea
                 {...register("motivation")}
                 className="h-18 w-full resize-y rounded-md px-2 py-2 align-top text-black"
+                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -217,6 +225,7 @@ const NewChapterForm = () => {
                 {...register("availabilities")}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
                 placeholder="Include the date (mm-dd-yyyy), time (hh:mm am/pm), and your timezone"
+                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -236,6 +245,7 @@ const NewChapterForm = () => {
               <textarea
                 {...register("questions")}
                 className="h-8 w-full resize-y rounded-md px-2 py-1 align-top text-black"
+                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
             </div>
           </div>
