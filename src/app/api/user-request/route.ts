@@ -157,6 +157,7 @@ export const DELETE = withSession(async ({ req, session }) => {
 
 export const PATCH = withSession(async ({ req, session }) => {
   try {
+    console.log("1");
     const approveChapterReq = ManageChapterRequest.safeParse(await req.json());
     if (!approveChapterReq.success) {
       return NextResponse.json(
@@ -168,12 +169,14 @@ export const PATCH = withSession(async ({ req, session }) => {
       );
     }
     const targetUID = approveChapterReq.data.userId;
+    console.log(targetUID);
     const target = await prisma.user.findFirst({
       where: {
         id: targetUID,
       },
     });
     if (target == null) {
+      console.log("2");
       return NextResponse.json(
         ManageChapterRequestResponse.parse({
           code: "INVALID_REQUEST",
@@ -188,6 +191,7 @@ export const PATCH = withSession(async ({ req, session }) => {
       },
     });
     if (approveChapterRequest == null) {
+      console.log("3");
       return NextResponse.json(
         ManageChapterRequestResponse.parse({
           code: "INVALID_REQUEST",
@@ -200,6 +204,7 @@ export const PATCH = withSession(async ({ req, session }) => {
       session.user.role === "ADMIN" ||
       (session.user.role === "CHAPTER_LEADER" &&
         session.user.ChapterID === approveChapterRequest.chapterId);
+    console.log(canApprove);
     if (!canApprove) {
       return NextResponse.json(
         ManageChapterRequestResponse.parse({
@@ -209,12 +214,9 @@ export const PATCH = withSession(async ({ req, session }) => {
         { status: 400 }
       );
     }
-    await prisma.userRequest.update({
+    await prisma.userRequest.delete({
       where: {
         uid: targetUID,
-      },
-      data: {
-        approved: "APPROVED",
       },
     });
     const user = await prisma.user.update({

@@ -62,12 +62,9 @@ export const POST = withSession(async ({ req, session }) => {
             location: chapterRequest.universityAddress,
           },
         });
-        await prisma.chapterRequest.update({
+        await prisma.chapterRequest.delete({
           where: {
             id: body.chapterRequestId,
-          },
-          data: {
-            approved: "APPROVED",
           },
         });
 
