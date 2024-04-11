@@ -63,7 +63,18 @@ const HomePage = () => {
           passionate about telling stories, and form a Legacy Project chapter at
           your school today.
         </p>
-        <PhotoCarousel />
+        <PhotoCarousel
+          imagePaths={[
+            "/gallery/Tufts Legacy-5.jpg",
+            "/gallery/Tufts Legacy-7.jpg",
+            "/gallery/Tufts Legacy-270.jpg",
+            "/gallery/Tufts Legacy-264.jpg",
+            "/gallery/Tufts Legacy-265.jpg",
+            "/gallery/Tufts Legacy-261.jpg",
+            "/gallery/Tufts Legacy-255.jpg",
+            "/gallery/Tufts Legacy-258.jpg",
+          ]}
+        />
         <div className="flex justify-center">
           <Link
             className="w-fit rounded-xl bg-dark-teal px-6 py-4 text-white hover:-translate-y-0.5 hover:bg-dark-teal"
@@ -72,36 +83,6 @@ const HomePage = () => {
             Meet TLP
           </Link>
         </div>
-        <span className="pt-6 text-center text-3xl font-semibold sm:text-left sm:text-4xl">
-          Our Story
-        </span>
-        <p className="leading-7">
-          The concept of{" "}
-          <span className="font-bold text-[#742B1A]">
-            The Legacy Project (TLP)
-          </span>{" "}
-          began in 2018, when{" "}
-          <span className="font-bold text-[#742B1A]">Arielle Galinsky</span>, a
-          high school junior at the time, spent her time working at a local
-          senior community in her Massachusetts hometown. Her role allowed her
-          to interact with the residents, which she greatly enjoyed, yet she
-          always left her shift with a strong desire to learn more about the
-          stories of the seniors she met. With this strong curiosity, paired
-          with a deep sense of regret she felt having lost her own grandfathers
-          at a young age, Arielle decided to spearhead{" "}
-          <span className="font-bold text-[#742B1A]">TLP</span> as a personal
-          project.
-        </p>
-
-        <p className="leading-7">
-          The initiative encompassed conducting thorough interviews of 18
-          residents living in the community, with the intention to hold a
-          ceremony at the finale of the project to provide her older friends
-          with the opportunity to share their stories with their families. When
-          the COVID-19 pandemic hit, Arielle pivoted, and decided the best way
-          to preserve the 18 captivating stories of the seniors she interviewed
-          was through prose.
-        </p>
       </div>
     </main>
   );

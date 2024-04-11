@@ -3,10 +3,13 @@ import Image from "next/legacy/image";
 
 type PhotoProps = {
   filePath: string;
-  caption: string;
 };
 
-const PhotoCarousel = () => {
+interface PhotoCarouselParams {
+  imagePaths: string[];
+}
+
+const PhotoCarousel = ({ imagePaths }: PhotoCarouselParams) => {
   const [photos, setPhotos] = useState<PhotoProps[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [show, setShow] = useState<number>(1);
@@ -32,30 +35,26 @@ const PhotoCarousel = () => {
   const carouselHeight = elemWidth / show;
   const carouselPad = 20;
 
-  useEffect(() => {
-    setPhotos([
-      { filePath: "/gallery/Tufts Legacy-5.jpg", caption: "picture1" },
-      { filePath: "/gallery/Tufts Legacy-7.jpg", caption: "picture2" },
-      { filePath: "/gallery/Tufts Legacy-270.jpg", caption: "picture3" },
-      { filePath: "/gallery/Tufts Legacy-264.jpg", caption: "picture4" },
-      { filePath: "/gallery/Tufts Legacy-265.jpg", caption: "picture5" },
-      { filePath: "/gallery/Tufts Legacy-261.jpg", caption: "picture6" },
-      { filePath: "/gallery/Tufts Legacy-255.jpg", caption: "picture3" },
-      { filePath: "/gallery/Tufts Legacy-258.jpg", caption: "picture4" },
-    ]);
-  }, []);
-
   const nextIndex = () => {
-    setActiveIndex(activeIndex === show - 1 ? 0 : activeIndex - 1);
+    setActiveIndex((prevIndex) => (prevIndex + 1) % photos.length);
   };
 
   const prevIndex = () => {
-    setActiveIndex(activeIndex === 0 ? show - 1 : activeIndex + 1);
+    setActiveIndex(
+      (prevIndex) => (prevIndex - 1 + photos.length) % photos.length
+    );
   };
+
+  useEffect(() => {
+    setPhotos(
+      imagePaths.map((path) => ({
+        filePath: path,
+      }))
+    );
+  }, [imagePaths]);
 
   return (
     <div className="flex w-full flex-col place-content-center gap-y-8 py-6">
-      {/* photo carousel */}
       <div className="relative flex items-center justify-center">
         <svg
           width="64"
@@ -85,16 +84,15 @@ const PhotoCarousel = () => {
               }
               style={{
                 left:
-                  ((index - activeIndex + show) % show) *
+                  ((index - activeIndex + photos.length) % photos.length) *
                   (carouselHeight + carouselPad / 2),
-                height: carouselHeight - carouselPad,
               }}
             >
               <Image
                 className="object-cover"
                 layout="fill"
                 src={photo.filePath}
-                alt={photo.caption}
+                alt={"object cover"}
               />
             </div>
           ))}
