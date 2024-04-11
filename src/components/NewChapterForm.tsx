@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChapterRequest } from "src/app/api/chapter-request/route.schema";
 import { ErrorMessage } from "@hookform/error-message";
 import { createChapterRequest } from "@api/chapter-request/route.client";
+import { useApiThrottle } from "@hooks";
 
 type ValidationSchema = z.infer<typeof ChapterRequest>;
 
@@ -29,19 +30,25 @@ const NewChapterForm = () => {
     resolver: zodResolver(ChapterRequest),
   });
 
+  const { fn: throttleCreateChapterRequest } = useApiThrottle({
+    fn: createChapterRequest,
+    callback: (res) =>
+      setFormSubmitted(
+        res.code === "SUCCESS" ? FormSubmission.SUBMITTED : FormSubmission.ERROR
+      ),
+  });
+
   const onSubmit: SubmitHandler<z.infer<typeof ChapterRequest>> = async (
     data,
     event
   ) => {
     event?.preventDefault();
-    const response = await createChapterRequest({ body: data });
-    if (response.code === "SUCCESS") {
-      setFormSubmitted(FormSubmission.SUBMITTED);
-    } else {
-      setFormSubmitted(FormSubmission.ERROR);
-    }
-    //TODO: revisit all possible return/calls
+    //TODO(nickbar01234): revisit all possible return/calls
+    // i.e - If duplicated email, show a different message.
+    throttleCreateChapterRequest({ body: data });
   };
+
+  const resetForm = () => setFormSubmitted(FormSubmission.NOT_SUBMITTED);
 
   return (
     <div className="grid place-items-center">
@@ -51,9 +58,8 @@ const NewChapterForm = () => {
             <div className="w-full ">
               <div>First Name</div>
               <input
-                {...register("firstName")}
+                {...register("firstName", { onChange: resetForm })}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
-                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -72,9 +78,8 @@ const NewChapterForm = () => {
             <div className="w-full">
               <div>Last Name</div>
               <input
-                {...register("lastName")}
+                {...register("lastName", { onChange: resetForm })}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
-                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -92,9 +97,8 @@ const NewChapterForm = () => {
             <div className="w-full">
               <div>University Email</div>
               <input
-                {...register("universityEmail")}
+                {...register("universityEmail", { onChange: resetForm })}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
-                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -112,9 +116,8 @@ const NewChapterForm = () => {
             <div className="w-full">
               <div>Phone Number</div>
               <input
-                {...register("phoneNumber")}
+                {...register("phoneNumber", { onChange: resetForm })}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
-                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -132,9 +135,8 @@ const NewChapterForm = () => {
             <div className="w-full">
               <div>College / University</div>
               <input
-                {...register("university")}
+                {...register("university", { onChange: resetForm })}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
-                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -152,9 +154,8 @@ const NewChapterForm = () => {
             <div className="w-full">
               <div>College / University Address</div>
               <input
-                {...register("universityAddress")}
+                {...register("universityAddress", { onChange: resetForm })}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
-                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -177,9 +178,8 @@ const NewChapterForm = () => {
                 organization / storytelling?{" "}
               </div>
               <textarea
-                {...register("leadershipExperience")}
+                {...register("leadershipExperience", { onChange: resetForm })}
                 className="h-18 w-full resize-y rounded-md px-2 py-2 align-top text-black"
-                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -199,9 +199,8 @@ const NewChapterForm = () => {
                 What motivates you to start this initiative in your community?{" "}
               </div>
               <textarea
-                {...register("motivation")}
+                {...register("motivation", { onChange: resetForm })}
                 className="h-18 w-full resize-y rounded-md px-2 py-2 align-top text-black"
-                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -222,10 +221,9 @@ const NewChapterForm = () => {
                 the next week{" "}
               </div>
               <input
-                {...register("availabilities")}
+                {...register("availabilities", { onChange: resetForm })}
                 className="h-8 w-full rounded-md px-2 py-2 text-black"
                 placeholder="Include the date (mm-dd-yyyy), time (hh:mm am/pm), and your timezone"
-                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
               <div className="text-sm">
                 <ErrorMessage
@@ -243,9 +241,8 @@ const NewChapterForm = () => {
             <div className="pt-5">
               <div>What questions do you have for us? </div>
               <textarea
-                {...register("questions")}
+                {...register("questions", { onChange: resetForm })}
                 className="h-8 w-full resize-y rounded-md px-2 py-1 align-top text-black"
-                onChange={() => setFormSubmitted(FormSubmission.NOT_SUBMITTED)}
               />
             </div>
           </div>
