@@ -1,5 +1,6 @@
 import React from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ApiCall = (...args: any[]) => Promise<any>;
 
 interface UseApiThrottleProps<T extends ApiCall> {
@@ -11,21 +12,24 @@ interface UseApiThrottleProps<T extends ApiCall> {
  * Prevent additional API call until the most recent one has completed.
  */
 const useApiThrottle = <T extends ApiCall>(props: UseApiThrottleProps<T>) => {
-  const [fetching, setFetching] = React.useState(false);
+  const { fn, callback } = props;
+  const fetchingRef = React.useRef(false);
 
-  const fn: (...args: Parameters<T>) => Promise<void> = React.useCallback(
-    async (...args) => {
-      if (fetching) {
-        return;
-      }
-      setFetching(true);
-      await props.fn(...args).then(props.callback);
-      setFetching(false);
-    },
-    [props, fetching]
-  );
+  const wrapperFn: (...args: Parameters<T>) => Promise<void> =
+    React.useCallback(
+      async (...args) => {
+        if (fetchingRef.current) {
+          return;
+        }
+        console.log("Executing");
+        fetchingRef.current = true;
+        await fn(...args).then(callback);
+        fetchingRef.current = false;
+      },
+      [fn, callback]
+    );
 
-  return { fetching, fn };
+  return { fetching: fetchingRef.current, fn: wrapperFn };
 };
 
 export default useApiThrottle;

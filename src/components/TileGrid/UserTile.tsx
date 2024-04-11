@@ -55,7 +55,7 @@ export function UserTile({
         </Link>
       </div>
       <div className="flex w-full flex-col items-start justify-between gap-y-2 px-3 py-4">
-        <div className="flex w-full justify-between">
+        <div className="relative flex w-full justify-between">
           <div className="overflow-hidden">
             <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold before:invisible before:content-['\200B']">
               {student
