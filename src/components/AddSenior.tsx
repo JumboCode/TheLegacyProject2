@@ -46,13 +46,6 @@ const seniorFormSchema = seniorSchema.pick({
 
 type SeniorData = z.infer<typeof seniorFormSchema>;
 
-const EMPTY_SENIOR: SeniorData = {
-  firstname: "",
-  lastname: "",
-  location: "",
-  description: "",
-};
-
 export const AddSeniorTile = ({
   showAddSeniorPopUp,
   setShowAddSeniorPopUp,
@@ -322,8 +315,7 @@ const AddSenior = ({
               </div>
 
               <div className="mb-2 h-5 w-full text-base text-white">
-                {" "}
-                Location{" "}
+                Location
               </div>
               <input
                 className="mb-3 h-9 w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-dark-teal placeholder:text-dark-teal"
@@ -334,8 +326,7 @@ const AddSenior = ({
               />
 
               <div className="mb-5 h-2 w-full text-base text-white">
-                {" "}
-                Description{" "}
+                Description
               </div>
               <textarea
                 className="h-25 mb-3 min-h-[20px] w-full resize-none rounded-md border-2 border-solid border-tan bg-white p-[10px] text-start text-sm text-dark-teal placeholder:text-dark-teal"
