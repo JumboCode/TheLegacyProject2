@@ -39,7 +39,7 @@ const MembersHomePage = ({ members }: MembersHomePageProps) => {
 
   const displayMembers = (elem: User, index: number) => (
     <UserTile
-      key={index}
+      key={elem.id}
       student={elem}
       link={`/private/chapter-leader/users/${elem.id}`}
       dropdownComponent={
