@@ -55,15 +55,17 @@ const InfoTile = (params: InfoTileProps) => {
           </div>
         ))}
       </div>
-      <DropDownContainer
-        title={
-          <p className="mb-6 w-fit cursor-pointer text-dark-teal underline">
-            {!shouldShowMore ? "Show more" : "Show less"}
-          </p>
-        }
-      >
-        {moreInformation}
-      </DropDownContainer>
+      {moreInformation ? (
+        <DropDownContainer
+          title={
+            <p className="mb-6 w-fit cursor-pointer text-dark-teal underline">
+              {!shouldShowMore ? "Show more" : "Show less"}
+            </p>
+          }
+        >
+          {moreInformation}
+        </DropDownContainer>
+      ) : null}
     </div>
   );
 };
