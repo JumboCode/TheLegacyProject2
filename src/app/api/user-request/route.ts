@@ -157,7 +157,6 @@ export const DELETE = withSession(async ({ req, session }) => {
 
 export const PATCH = withSession(async ({ req, session }) => {
   try {
-    console.log("1");
     const approveChapterReq = ManageChapterRequest.safeParse(await req.json());
     if (!approveChapterReq.success) {
       return NextResponse.json(
@@ -176,7 +175,6 @@ export const PATCH = withSession(async ({ req, session }) => {
       },
     });
     if (target == null) {
-      console.log("2");
       return NextResponse.json(
         ManageChapterRequestResponse.parse({
           code: "INVALID_REQUEST",
@@ -191,7 +189,6 @@ export const PATCH = withSession(async ({ req, session }) => {
       },
     });
     if (approveChapterRequest == null) {
-      console.log("3");
       return NextResponse.json(
         ManageChapterRequestResponse.parse({
           code: "INVALID_REQUEST",
