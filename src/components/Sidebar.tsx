@@ -115,7 +115,7 @@ const Sidebar = (props: ISideBar) => {
           <line x1="4" y1="17" x2="20" y2="17" />
         </svg>
         {sidebarVisible && (
-          <div className="fixed left-0 top-0 z-50 h-full w-64 overflow-y-scroll drop-shadow-lg lg:overflow-y-hidden">
+          <div className="fixed left-0 top-0 z-50 h-full w-64 overflow-y-auto drop-shadow-lg lg:overflow-y-hidden">
             <_Sidebar {...props} />
           </div>
         )}

@@ -26,7 +26,7 @@ const DropDownContainer = (props: DropDownContainerProps) => {
         {props.title}
       </div>
       <div
-        className={`overflow-scroll ${
+        className={`overflow-auto ${
           showItems ? "max-h-[512px] md:max-h-[1024px]" : "max-h-0"
         }`}
         style={

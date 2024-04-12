@@ -122,7 +122,7 @@ const AddFile = ({
   }
 
   return !error ? (
-    <Popup className="h-[32rem] w-full overflow-y-scroll sm:h-[44rem] sm:w-[36rem]">
+    <Popup className="h-[32rem] w-full overflow-y-auto sm:h-[44rem] sm:w-[36rem]">
       <div className="flex-col justify-between rounded-[16px] text-white">
         <div className="mb-5 mt-4 text-3xl font-bold"> Create New File</div>
         <div className="text-neutral-600 mb-3 h-[34px] w-full text-2xl font-thin">
