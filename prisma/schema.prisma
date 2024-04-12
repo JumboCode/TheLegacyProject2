@@ -152,6 +152,7 @@ model Email {
 
 model UserRequest {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  // @deprecated - We ended up not using this anywhere
   approved  Approval @default(PENDING)
   uid       String   @unique @db.ObjectId
   chapterId String   @db.ObjectId
