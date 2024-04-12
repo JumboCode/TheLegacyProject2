@@ -32,6 +32,9 @@ type FilterDropdownProps<T extends Named> = {
   setSelectedItems: Dispatch<SetStateAction<T[]>>;
 };
 
+/**
+ * @deprecated In favour of Dropdown which implements a more generic version.
+ */
 export default function FilterDropdown<T extends Named>({
   items,
   filterMatch,

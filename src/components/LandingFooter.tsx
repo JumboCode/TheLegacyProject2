@@ -1,15 +1,34 @@
 "use client";
 import React, { FormEvent, FocusEvent, useState } from "react";
-import { EmailResponse } from "@api/emails/route.schema";
+import { useApiThrottle } from "@hooks";
+import { createEmailRequest } from "@api/emails/route.client";
+import { Spinner } from "./skeleton";
 
 const LandingFooter = () => {
   const [email, setEmail] = useState<string>("");
-  const [eList, setEList] = useState<Set<string>>(new Set<string>());
 
   const [buttonText, setButtonText] = useState<string>("Join E-List");
   const [buttonStyle, setButtonStyle] = useState<string>(
     "bg-dark-teal hover:-translate-y-0.5"
   );
+
+  const { fetching, fn: throttleCreateEmailRequest } = useApiThrottle({
+    fn: createEmailRequest,
+    callback: (responseObject) => {
+      if (responseObject.code === "INVALID_EMAIL") {
+        setButtonText("Invalid Email");
+        setButtonStyle("bg-tag-rust"); // no hover
+        return;
+      } else if (responseObject.code === "DUPLICATE_EMAIL") {
+        setButtonText("Duplicate Email");
+        setButtonStyle("bg-tag-rust"); // no hover
+        return;
+      }
+
+      setButtonText("Subscribed!");
+      setButtonStyle("bg-dark-teal"); // no hover
+    },
+  });
 
   function resetButton(target: FocusEvent<HTMLInputElement>) {
     setButtonStyle("bg-dark-teal hover:-translate-y-0.5");
@@ -19,31 +38,8 @@ const LandingFooter = () => {
   const onEmailSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    // if box isn't empty and content is a valid email, add it to the set
-
-    if (email) {
-      eList.add(email);
-      setEList(eList);
-
-      // use SendGrid 'subscribe' route to send a test email
-      const res = await fetch("/api/emails", {
-        body: JSON.stringify({ email: email }),
-        method: "POST",
-      });
-
-      const responseObject = EmailResponse.parse(await res.json());
-      if (responseObject.code == "INVALID_EMAIL") {
-        setButtonText("Invalid Email");
-        setButtonStyle("bg-tag-rust"); // no hover
-        return;
-      } else if (responseObject.code == "DUPLICATE_EMAIL") {
-        setButtonText("Duplicate Email");
-        setButtonStyle("bg-tag-rust"); // no hover
-        return;
-      }
-
-      setButtonText("Subscribed!");
-      setButtonStyle("bg-dark-teal"); // no hover
+    if (email !== "") {
+      await throttleCreateEmailRequest({ body: { email: email } });
     } else {
       setButtonText("Invalid Email");
       setButtonStyle("bg-tag-rust"); // no hover
@@ -66,29 +62,33 @@ const LandingFooter = () => {
           is doing:
         </p>
       </div>
-      <form
-        className="mx-auto flex w-3/4 flex-col justify-center gap-[20px] md:flex-row"
-        method="post"
-        onSubmit={onEmailSubmit}
-        autoComplete="off"
-      >
-        <input
-          className="text-gray relative h-[60px] rounded-xl bg-white px-4
-                                 placeholder-dark-gray shadow-md focus:border-dark-teal focus:outline-none md:w-3/4"
-          name="email"
-          placeholder="Enter your e-mail address"
-          onFocus={resetButton}
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-        />
-        <button
-          className={`${buttonStyle} w-auto rounded-xl px-4 py-4 duration-150`}
-          type="submit"
+      {!fetching ? (
+        <form
+          className="mx-auto flex w-3/4 flex-col justify-center gap-[20px] md:flex-row"
+          method="post"
+          onSubmit={onEmailSubmit}
+          autoComplete="off"
         >
-          <span className="align-center text-white">{buttonText}</span>
-        </button>
-      </form>
+          <input
+            className="text-gray relative h-[60px] rounded-xl bg-white px-4
+                                 placeholder-dark-gray shadow-md focus:border-dark-teal focus:outline-none md:w-3/4"
+            name="email"
+            placeholder="Enter your e-mail address"
+            onFocus={resetButton}
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
+          />
+          <button
+            className={`${buttonStyle} w-auto rounded-xl px-4 py-4 duration-150`}
+            type="submit"
+          >
+            <span className="align-center text-white">{buttonText}</span>
+          </button>
+        </form>
+      ) : (
+        <Spinner />
+      )}
     </div>
   );
 };

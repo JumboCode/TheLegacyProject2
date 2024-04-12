@@ -1,3 +1,5 @@
+"use client";
+
 import FileTile from "@components/file/FileTile";
 import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

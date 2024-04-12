@@ -1,7 +1,7 @@
 import PathNav from "@components/PathNav";
-import FileTile from "@components/TileGrid/FileTile";
 import { CardGrid } from "@components/container";
 import { prisma } from "@server/db/client";
+import { File } from "@components/file";
 
 interface Params {
   params: {
@@ -53,13 +53,7 @@ const SeniorPage = async ({ params }: Params) => {
           </>
         }
         tiles={senior.Files.map((file) => (
-          <FileTile
-            key={file.id}
-            id={file.id}
-            date={file.date}
-            url={file.url}
-            Tags={file.Tags}
-          />
+          <File key={file.id} file={file} />
         ))}
       />
     </div>
