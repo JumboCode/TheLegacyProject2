@@ -77,202 +77,146 @@ export const POST = withSession(async ({ req, session }) => {
 });
 
 export const DELETE = withSession(async ({ req, session }) => {
-  try {
-    const denyChapterReq = ManageChapterRequest.safeParse(await req.json());
+  const denyChapterReq = ManageChapterRequest.safeParse(await req.json());
 
-    if (!denyChapterReq.success) {
-      return NextResponse.json(
-        ManageChapterRequestResponse.parse({
-          code: "INVALID_REQUEST",
-          message: "Invalid request body",
-        }),
-        { status: 400 }
-      );
-    }
-
-    const targetUID = denyChapterReq.data.userId;
-    const target = await prisma.user.findFirst({
-      where: {
-        id: targetUID,
-      },
-    });
-    if (target == null) {
-      return NextResponse.json(
-        ManageChapterRequestResponse.parse({
-          code: "INVALID_REQUEST",
-          message: "User doesn't exist",
-        }),
-        { status: 400 }
-      );
-    }
-
-    const joinChapterRequest = await prisma.userRequest.findFirst({
-      where: {
-        uid: session.user.id,
-      },
-    });
-
-    if (joinChapterRequest == null) {
-      return NextResponse.json(
-        ManageChapterRequestResponse.parse({
-          code: "INVALID_REQUEST",
-          message: "User doesn't have any active request",
-        }),
-        { status: 400 }
-      );
-    }
-
-    const canApprove =
-      session.user.role === "ADMIN" ||
-      (session.user.role === "CHAPTER_LEADER" &&
-        session.user.ChapterID === joinChapterRequest.chapterId) ||
-      session.user.id === targetUID;
-
-    if (!canApprove) {
-      return NextResponse.json(
-        ManageChapterRequestResponse.parse({
-          code: "UNAUTHORIZED_REQUEST",
-          message: "User doesn't have permission to deny request",
-        }),
-        { status: 400 }
-      );
-    }
-
-    await prisma.userRequest.delete({
-      where: {
-        uid: targetUID,
-      },
-    });
-
+  if (!denyChapterReq.success) {
     return NextResponse.json(
-      ManageChapterRequestResponse.parse({ code: "SUCCESS" })
-    );
-  } catch (e: any) {
-    return NextResponse.json(
-      ManageChapterRequestResponse.parse({ code: "UNKNOWN" }),
-      { status: 500 }
+      ManageChapterRequestResponse.parse({
+        code: "INVALID_REQUEST",
+        message: "Invalid request body",
+      }),
+      { status: 400 }
     );
   }
+
+  const targetUID = denyChapterReq.data.userId;
+  const joinChapterRequest = await prisma.userRequest.findFirst({
+    where: {
+      uid: targetUID,
+    },
+  });
+
+  if (joinChapterRequest == null) {
+    // An admin have denied or accepted the user
+    return NextResponse.json(
+      ManageChapterRequestResponse.parse({
+        code: "SUCCESS",
+      })
+    );
+  }
+
+  const canApprove =
+    session.user.role === "ADMIN" ||
+    (session.user.role === "CHAPTER_LEADER" &&
+      session.user.ChapterID === joinChapterRequest.chapterId) ||
+    session.user.id === targetUID;
+
+  if (!canApprove) {
+    return NextResponse.json(
+      ManageChapterRequestResponse.parse({
+        code: "UNAUTHORIZED_REQUEST",
+        message: "User doesn't have permission to deny request",
+      }),
+      { status: 400 }
+    );
+  }
+
+  await prisma.userRequest.delete({
+    where: {
+      uid: targetUID,
+    },
+  });
+
+  return NextResponse.json(
+    ManageChapterRequestResponse.parse({ code: "SUCCESS" })
+  );
 });
 
 export const PATCH = withSession(async ({ req, session }) => {
-  try {
-    const approveChapterReq = ManageChapterRequest.safeParse(await req.json());
-    if (!approveChapterReq.success) {
-      return NextResponse.json(
-        ManageChapterRequestResponse.parse({
-          code: "INVALID_REQUEST",
-          message: "Invalid request body",
-        }),
-        { status: 400 }
-      );
-    }
-    const targetUID = approveChapterReq.data.userId;
-    console.log(targetUID);
-    const target = await prisma.user.findFirst({
-      where: {
-        id: targetUID,
-      },
-    });
-    if (target == null) {
-      return NextResponse.json(
-        ManageChapterRequestResponse.parse({
-          code: "INVALID_REQUEST",
-          message: "User doesn't exist",
-        }),
-        { status: 400 }
-      );
-    }
-    const approveChapterRequest = await prisma.userRequest.findFirst({
-      where: {
-        uid: targetUID,
-      },
-    });
-    if (approveChapterRequest == null) {
-      return NextResponse.json(
-        ManageChapterRequestResponse.parse({
-          code: "INVALID_REQUEST",
-          message: "User doesn't have any active request",
-        }),
-        { status: 400 }
-      );
-    }
-    const canApprove =
-      session.user.role === "ADMIN" ||
-      (session.user.role === "CHAPTER_LEADER" &&
-        session.user.ChapterID === approveChapterRequest.chapterId);
-    console.log(canApprove);
-    if (!canApprove) {
-      return NextResponse.json(
-        ManageChapterRequestResponse.parse({
-          code: "UNAUTHORIZED_REQUEST",
-          message: "User doesn't have permission to approve request",
-        }),
-        { status: 400 }
-      );
-    }
-    await prisma.userRequest.delete({
-      where: {
-        uid: targetUID,
-      },
-    });
-    const user = await prisma.user.update({
-      where: {
-        id: targetUID,
-      },
-      data: {
-        ChapterID: approveChapterRequest.chapterId,
-      },
-    });
-    const chapter = await prisma.chapter.findFirst({
-      where: {
-        id: approveChapterRequest.chapterId,
-      },
-    });
-
-    if (chapter == null || user == null || user.email == null) {
-      return NextResponse.json(
-        ManageChapterRequestResponse.parse({
-          code: "INVALID_REQUEST",
-          message: "Chapter or user (or email) doesn't exist",
-        }),
-        { status: 400 }
-      );
-    }
-
-    const folderId = chapter.chapterFolder;
-
-    // Next, share the folder with the user that is accepted
-    const shareFolder = async (folderId: string, userEmail: string) => {
-      const service = await createDriveService(session.user.id);
-
-      try {
-        // Define the permission
-        const permission = {
-          type: "user",
-          role: "writer", // Change role as per your requirement
-          emailAddress: userEmail,
-        };
-
-        // Share the folder
-        await service.permissions.create({
-          fileId: folderId,
-          requestBody: permission,
-        });
-
-        console.log("Folder shared successfully!");
-      } catch (error) {
-        console.error("Error sharing folder:", error);
-      }
-    };
-    await shareFolder(folderId, user.email);
+  const approveChapterReq = ManageChapterRequest.safeParse(await req.json());
+  if (!approveChapterReq.success) {
+    return NextResponse.json(
+      ManageChapterRequestResponse.parse({
+        code: "INVALID_REQUEST",
+        message: "Invalid request body",
+      }),
+      { status: 400 }
+    );
+  }
+  const targetUID = approveChapterReq.data.userId;
+  const chapterRequest = await prisma.userRequest.findUnique({
+    where: { uid: targetUID },
+    include: { user: true },
+  });
+  if (chapterRequest == null || chapterRequest.user.ChapterID != null) {
+    // If chapterRequest doesn't exist, another admin has denied the user / chapter has been deleted / user has been accepted
     return NextResponse.json(
       ManageChapterRequestResponse.parse({ code: "SUCCESS" })
     );
-  } catch (e: any) {
+  }
+
+  const canApprove =
+    session.user.role === "ADMIN" ||
+    (session.user.role === "CHAPTER_LEADER" &&
+      session.user.ChapterID === chapterRequest.chapterId);
+  if (!canApprove) {
     return NextResponse.json(
-      ManageChapterRequestResponse.parse({ code: "UNKNOWN" }),
-      { status: 500 }
+      ManageChapterRequestResponse.parse({
+        code: "UNAUTHORIZED_REQUEST",
+        message: "User doesn't have permission to approve request",
+      }),
+      { status: 400 }
     );
   }
+  await prisma.userRequest.delete({
+    where: {
+      uid: targetUID,
+    },
+  });
+
+  const chapter = await prisma.chapter.findFirst({
+    where: {
+      id: chapterRequest.chapterId,
+    },
+  });
+
+  if (chapter == null) {
+    return NextResponse.json(
+      ManageChapterRequestResponse.parse({
+        code: "INVALID_REQUEST",
+        message: "Chapter or user (or email) doesn't exist",
+      }),
+      { status: 400 }
+    );
+  }
+
+  const folderId = chapter.chapterFolder;
+
+  // Next, share the folder with the user that is accepted
+  const shareFolder = async (folderId: string, userEmail: string) => {
+    const service = await createDriveService(session.user.id);
+    // Define the permission
+    const permission = {
+      type: "user",
+      role: "writer", // Change role as per your requirement
+      emailAddress: userEmail,
+    };
+
+    // Share the folder
+    await service.permissions.create({
+      fileId: folderId,
+      requestBody: permission,
+    });
+  };
+  // Since we use Google login, they must have an email
+  await shareFolder(folderId, chapterRequest.user.email ?? "");
+  // We update the chapter ID second to allow the user to rejoin in the case that shareFolder fails midway
+  await prisma.user.update({
+    where: { id: chapterRequest.uid },
+    data: { ChapterID: chapterRequest.chapterId },
+  });
+
+  return NextResponse.json(
+    ManageChapterRequestResponse.parse({ code: "SUCCESS" })
+  );
 });

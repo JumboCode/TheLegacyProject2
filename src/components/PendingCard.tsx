@@ -9,6 +9,9 @@ import {
   handleManageChapterRequest,
   handleAcceptChapterRequest,
 } from "@api/user-request/route.client";
+import { useApiThrottle } from "@hooks";
+import { useRouter } from "next/navigation";
+import { Spinner } from "./skeleton";
 
 interface IPendingCard {
   name: string;
@@ -16,6 +19,25 @@ interface IPendingCard {
 }
 
 const PendingCard = (props: IPendingCard) => {
+  const router = useRouter();
+  const {
+    fetching: acceptChapterRequestFetching,
+    fn: throttleAcceptChapterRequest,
+  } = useApiThrottle({
+    fn: handleAcceptChapterRequest,
+    callback: () => router.refresh(),
+  });
+  const {
+    fetching: manageChapterRequestFetching,
+    fn: throttleManageChapterRequest,
+  } = useApiThrottle({
+    fn: handleManageChapterRequest,
+    callback: () => router.refresh(),
+  });
+
+  const isFetching =
+    acceptChapterRequestFetching || manageChapterRequestFetching;
+
   return (
     <div className="flex w-full items-center justify-between rounded bg-white p-6 shadow-lg">
       <div className="flex items-center gap-x-4">
@@ -25,34 +47,28 @@ const PendingCard = (props: IPendingCard) => {
         </span>
       </div>
       <div className="flex items-center gap-x-4">
-        <button
-          className="rounded bg-dark-teal px-5 py-2 text-sm text-white transition duration-300 ease-in-out hover:-translate-y-1"
-          onClick={() => {
-            handleAcceptChapterRequest({
-              body: {
-                userId: props.uid,
-              },
-            }).then(() => {
-              window.location.reload();
-            });
-          }}
-        >
-          Accept
-        </button>
-        <FontAwesomeIcon
-          icon={faXmark}
-          className="cursor-pointer text-[#65696C] transition duration-300 ease-in-out hover:-translate-y-1"
-          size="xl"
-          onClick={() => {
-            handleManageChapterRequest({
-              body: {
-                userId: props.uid,
-              },
-            }).then(() => {
-              window.location.reload();
-            });
-          }}
-        />
+        {!isFetching ? (
+          <>
+            <button
+              className="rounded bg-dark-teal px-5 py-2 text-sm text-white transition duration-300 ease-in-out hover:-translate-y-1"
+              onClickCapture={() =>
+                throttleAcceptChapterRequest({ body: { userId: props.uid } })
+              }
+            >
+              Accept
+            </button>
+            <FontAwesomeIcon
+              icon={faXmark}
+              className="cursor-pointer text-[#65696C] transition duration-300 ease-in-out hover:-translate-y-1"
+              size="xl"
+              onClick={() =>
+                throttleManageChapterRequest({ body: { userId: props.uid } })
+              }
+            />
+          </>
+        ) : (
+          <Spinner width={10} height={10} />
+        )}
       </div>
     </div>
   );

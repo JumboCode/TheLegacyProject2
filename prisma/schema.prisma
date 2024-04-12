@@ -114,6 +114,7 @@ model File {
 
 model ChapterRequest {
   id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  // ChapterRequest can only be in pending or accepted state. We don't use DENIED.
   approved             Approval @default(PENDING)
   firstName            String
   lastName             String

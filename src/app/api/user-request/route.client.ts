@@ -5,17 +5,12 @@ import {
   JoinChapterRequestResponse,
   ManageChapterRequestResponse,
 } from "./route.schema";
+import { TypedRequest } from "@server/type";
 
-interface IJoinChapterRequest extends Omit<RequestInit, "body"> {
-  body: z.infer<typeof JoinChapterRequest>;
-}
-
-interface IManageChapterRequest extends Omit<RequestInit, "body"> {
-  body: z.infer<typeof ManageChapterRequest>;
-}
+type AcceptOrDenyRequest = TypedRequest<z.infer<typeof ManageChapterRequest>>;
 
 export const handleJoinChapterRequest = async (
-  request: IJoinChapterRequest
+  request: TypedRequest<z.infer<typeof JoinChapterRequest>>
 ) => {
   const { body, ...options } = request;
   const response = await fetch("/api/user-request", {
@@ -28,10 +23,9 @@ export const handleJoinChapterRequest = async (
 };
 
 export const handleManageChapterRequest = async (
-  request: IManageChapterRequest
+  request: AcceptOrDenyRequest
 ) => {
   const { body, ...options } = request;
-  console.log("body", body);
   const response = await fetch("/api/user-request", {
     method: "DELETE",
     body: JSON.stringify(body),
@@ -42,7 +36,7 @@ export const handleManageChapterRequest = async (
 };
 
 export const handleAcceptChapterRequest = async (
-  request: IManageChapterRequest
+  request: AcceptOrDenyRequest
 ) => {
   const { body, ...options } = request;
   const response = await fetch("/api/user-request", {

@@ -14,14 +14,4 @@ export const HandleChapterRequestResponse = z.discriminatedUnion("code", [
     code: z.literal("INVALID_REQUEST"),
     message: z.literal("Invalid API request"),
   }),
-  z.object({
-    code: z.literal("UNKNOWN"),
-    message: z.literal("Unknown error received"),
-  }),
-  z.object({
-    code: z.literal("CHAPTER_REQUEST_NOT_FOUND"),
-    message: z.literal(
-      "A chapter request associated with the given ID does not exist"
-    ),
-  }),
 ]);
