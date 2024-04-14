@@ -5,7 +5,11 @@ import { prisma } from "@server/db/client";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-const GOOGLE_API_SCOPE = ["openid"];
+const GOOGLE_API_SCOPE = [
+  "openid",
+  "https://www.googleapis.com/auth/userinfo.profile",
+  "https://www.googleapis.com/auth/userinfo.email",
+];
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
