@@ -2,7 +2,7 @@ import { withSessionAndRole } from "@server/decorator";
 import { NextResponse } from "next/server";
 import { seniorPostResponse, postSeniorSchema } from "./route.schema";
 import { prisma } from "@server/db/client";
-import { createDriveService } from "@server/service";
+import { driveV3 } from "@server/service";
 
 // @TODO - Use google drive service to create folder
 export const POST = withSessionAndRole(
@@ -83,11 +83,7 @@ export const POST = withSessionAndRole(
         fields: "id",
       };
 
-      const service = await createDriveService(session.user.id);
-
-      const file = await (service as NonNullable<typeof service>).files.create(
-        fileCreateData
-      );
+      const file = await driveV3.files.create(fileCreateData);
       const googleFolderId = (file as any).data.id;
 
       await prisma.senior.update({

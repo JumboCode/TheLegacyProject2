@@ -19,6 +19,11 @@ export const serverSchema = z.object({
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
   GOOGLE_BASEFOLDER: z.string(),
+
+  GOOGLE_CLIENT_EMAIL: z.string().email(),
+  // https://github.com/orgs/vercel/discussions/219
+  // Parsing \n inserts \\n
+  GOOGLE_PRIVATE_KEY: z.string().transform((key) => key.replace(/\\n/g, "\n")),
 });
 
 /**

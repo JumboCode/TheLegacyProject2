@@ -3,17 +3,14 @@ import { FileResponse } from "./route.schema";
 import { File } from "@server/model";
 import { prisma } from "@server/db/client";
 import { withSession } from "@server/decorator";
-import { createDriveService } from "@server/service";
+import { driveV3 } from "@server/service";
 import moment from "moment";
 
 export const POST = withSession(async (request) => {
-  const service = await createDriveService(request.session.user.id);
-
   const body = await request.req.json();
   const fileRequest = File.safeParse(body);
 
   if (!fileRequest.success) {
-    console.log(fileRequest.error);
     return NextResponse.json(
       FileResponse.parse({
         code: "INVALID_REQUEST",
@@ -83,9 +80,17 @@ export const POST = withSession(async (request) => {
     };
 
     // NOTE: File will still be created on Drive even if it fails on MongoDB
-    const file = await service.files.create(fileCreateData);
-
+    // TOOD(nickbar01234) - Handle failure
+    const file = await driveV3.files.create(fileCreateData);
     const googleFileId = file.data.id;
+    await driveV3.permissions.create({
+      fileId: googleFileId ?? "",
+      requestBody: {
+        type: "user",
+        role: "writer",
+        emailAddress: user.email,
+      },
+    });
 
     // If the data is valid, save it to the database via prisma client
     await prisma.file.create({

@@ -7,7 +7,7 @@ import {
 } from "./route.schema";
 import { prisma } from "@server/db/client";
 import { withSession } from "@server/decorator/index";
-import { createDriveService } from "@server/service";
+import { driveV3 } from "@server/service";
 
 export const POST = withSession(async ({ req, session }) => {
   try {
@@ -194,16 +194,15 @@ export const PATCH = withSession(async ({ req, session }) => {
 
   // Next, share the folder with the user that is accepted
   const shareFolder = async (folderId: string, userEmail: string) => {
-    const service = await createDriveService(session.user.id);
     // Define the permission
     const permission = {
       type: "user",
-      role: "writer", // Change role as per your requirement
+      role: "reader", // Change role as per your requirement
       emailAddress: userEmail,
     };
 
     // Share the folder
-    await service.permissions.create({
+    await driveV3.permissions.create({
       fileId: folderId,
       requestBody: permission,
     });

@@ -4,11 +4,11 @@ import {
   HandleChapterRequestResponse,
 } from "./route.schema";
 import { withSession } from "@server/decorator";
-import { createDriveService } from "@server/service";
+import { driveV3 } from "@server/service";
 import { env } from "@env/server.mjs";
 import { prisma } from "@server/db/client";
 
-export const POST = withSession(async ({ req, session }) => {
+export const POST = withSession(async ({ req }) => {
   const handleChapterRequest = HandleChapterRequest.safeParse(await req.json());
   if (!handleChapterRequest.success) {
     return NextResponse.json(
@@ -73,8 +73,7 @@ export const POST = withSession(async ({ req, session }) => {
       fields: "id",
     };
 
-    const service = await createDriveService(session.user.id);
-    const file = await service.files.create(fileCreateData);
+    const file = await driveV3.files.create(fileCreateData);
     const googleFolderId = file.data.id as string;
 
     await prisma.chapter.update({
