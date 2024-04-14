@@ -19,12 +19,7 @@ const UserSeniorsPage = async () => {
   const seniors = chapter?.seniors.sort(compareSenior) ?? [];
   const students = chapter?.students ?? [];
 
-  return (
-    <>
-      <div className="mb-6 text-2xl">Seniors {`(${seniors.length})`}</div>
-      <SeniorView seniors={seniors} students={students} />
-    </>
-  );
+  return <SeniorView seniors={seniors} students={students} />;
 };
 
 export default UserSeniorsPage;

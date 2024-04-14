@@ -21,11 +21,7 @@ export function UserTile({
   dropdownComponent,
 }: UserTileProps) {
   return (
-    <div
-      className={
-        (student ? "w-48 " : "w-40 ") + "rounded-lg bg-white shadow-lg"
-      }
-    >
+    <div className="w-48 rounded-lg bg-white shadow-lg">
       <div className="h-40 w-full rounded-lg bg-white drop-shadow-md hover:bg-off-white">
         <Link
           href={link}
@@ -54,41 +50,38 @@ export function UserTile({
           </div>
         </Link>
       </div>
-      <div className="flex w-full flex-col items-start justify-between gap-y-2 px-3 py-4">
-        <div className="relative flex w-full justify-between">
-          <div className="overflow-hidden">
-            <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold before:invisible before:content-['\200B']">
-              {student
-                ? fullName(student)
-                : senior
-                ? seniorFullName(senior)
-                : null}
-            </p>
-          </div>
-          {dropdownComponent}
-        </div>
-        {student ? (
+      <div className="relative flex items-start justify-between px-3 py-4">
+        <div className="overflow-hidden">
+          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold before:invisible before:content-['\200B']">
+            {student
+              ? fullName(student)
+              : senior
+              ? seniorFullName(senior)
+              : null}
+          </p>
           <p
             className={
-              (student.position === "" && student.role !== "CHAPTER_LEADER"
+              (student &&
+              student.position === "" &&
+              student.role !== "CHAPTER_LEADER"
                 ? "bg-med-tan text-dark-teal "
                 : "bg-[#AE583C] font-bold text-white  ") +
-              "inline-block text-ellipsis whitespace-nowrap rounded-3xl px-3.5 py-1.5 text-center text-xs"
+              "mt-5 inline-block text-ellipsis whitespace-nowrap rounded-3xl px-3.5 py-1.5 text-center text-xs"
             }
           >
-            {student.role === "CHAPTER_LEADER"
-              ? "Chapter Leader"
-              : student.position === ""
-              ? "Member"
-              : student.position}
+            {student
+              ? student.role === "CHAPTER_LEADER"
+                ? "Chapter Leader"
+                : student.position === ""
+                ? "Member"
+                : student.position
+              : senior
+              ? senior.dateCreated.getFullYear()
+              : null}
           </p>
-        ) : null}
-        {/* @TODO: Add pronouns once we add to student field  */}
-        {senior ? (
-          <p className="text-md font-base text-neutral-600 truncate text-[10px] text-dark-teal before:invisible before:content-['\200B']">
-            {senior.location}
-          </p>
-        ) : null}
+          {/* @TODO: Add pronouns once we add to student field  */}
+        </div>
+        {dropdownComponent}
       </div>
     </div>
   );

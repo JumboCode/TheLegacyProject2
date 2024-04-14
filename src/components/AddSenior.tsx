@@ -56,9 +56,9 @@ export const AddSeniorTile = ({
 
   return (
     <button onClick={handlePopUp}>
-      <div className=" transition-background flex h-[217px] w-[160px] flex-col items-center justify-center gap-[10px] rounded-[8px] border-[1px] border-solid border-dark-teal bg-tan text-dark-teal duration-300 hover:bg-[#E5E0DA]">
-        <div className="text-4xl font-semibold">+</div>
-        <div className="text-lg">New Senior</div>
+      <div className="flex flex-row items-center gap-2.5 rounded-lg bg-dark-teal px-2.5 py-1 text-white">
+        <div className="text-2xl">+</div>
+        <div>Add Senior</div>
       </div>
     </button>
   );

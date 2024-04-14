@@ -91,6 +91,7 @@ model Senior {
   firstname   String
   lastname    String
   location    String
+  dateCreated DateTime @default(now())
   description String
   StudentIDs  String[] @db.ObjectId
   Students    User[]   @relation(fields: [StudentIDs], references: [id])
