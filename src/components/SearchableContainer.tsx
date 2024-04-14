@@ -11,7 +11,7 @@ interface SearchableContainerProps<T> {
   search?: ((elem: T, filter: string) => boolean) | null;
   emptyNode?: ReactNode; // text to display when no elements are supplied
   column_count?: number;
-  seniorYearTag?: ReactNode;
+  filterField?: ReactNode;
 }
 
 const SearchableContainer = <T,>({
@@ -22,7 +22,7 @@ const SearchableContainer = <T,>({
   search = null,
   emptyNode,
   column_count,
-  seniorYearTag,
+  filterField,
 }: SearchableContainerProps<T>) => {
   const [filter, setFilter] = useState("");
   const tilesToDisplay = elements
@@ -39,7 +39,7 @@ const SearchableContainer = <T,>({
           <SearchBar setFilter={setFilter} />
         </div>
       )}
-      {seniorYearTag ?? null}
+      {filterField ?? null}
       {emptyNode !== undefined &&
       addElementComponent === undefined &&
       elements.length === 0 ? (

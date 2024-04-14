@@ -18,7 +18,12 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
   const [showAddSeniorPopUp, setShowAddSeniorPopUp] = useState(false);
   const [seniorPatch, setSeniorPatch] = useState("");
 
-  const years = [2024, 2023, 2022, 2021];
+  const years = [
+    ...new Set(seniors.map((senior) => senior.dateCreated.getFullYear())),
+  ]
+    .sort()
+    .reverse();
+
   const [yearsClicked, setYearsClicked] = useState<number[]>([]);
 
   return (
@@ -86,7 +91,7 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
             .toLowerCase()
             .includes(key.toLowerCase())
         }
-        seniorYearTag={
+        filterField={
           <div className="mb-6 flex flex-row gap-4">
             {years.map((year, key) => (
               <div

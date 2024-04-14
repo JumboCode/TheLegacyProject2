@@ -15,6 +15,8 @@ import z from "zod/lib";
 import { seniorSchema } from "@server/model";
 import { fullName } from "@utils";
 import { Popup } from "./container";
+import { useApiThrottle } from "@hooks";
+import { Spinner } from "./skeleton";
 
 type AddSeniorProps = {
   seniors: Senior[];
@@ -127,6 +129,36 @@ const AddSenior = ({
     return senior;
   }, [seniorPatch, seniors]);
 
+  const { fetching: loadingPostSenior, fn: throttlePostSenior } =
+    useApiThrottle({
+      fn: postSenior,
+      callback: (res) => {
+        if (res.code === "SUCCESS") {
+          // PATCH students models previously and newly associated with senior model
+          setConfirm(true);
+          setSeniors([...seniors, res.data]);
+        } else {
+          setError(true);
+        }
+      },
+    });
+  const { fetching: loadingPatchSenior, fn: throttlePatchSenior } =
+    useApiThrottle({
+      fn: patchSenior,
+      callback: (res) => {
+        if (res.code === "SUCCESS") {
+          const newerSeniorObj = res.data;
+          // PATCH students models previously and newly associated with senior model
+          setConfirm(true);
+          const newSeniors = seniors.filter((i) => i.id !== newerSeniorObj.id);
+          setSeniors([...newSeniors, newerSeniorObj]);
+        } else {
+          setError(true);
+        }
+      },
+    });
+  const fetching = loadingPostSenior || loadingPatchSenior;
+
   useEffect(() => {
     if (initialSenior)
       setSeniorData({
@@ -159,49 +191,6 @@ const AddSenior = ({
     handlePopUp();
     setConfirm(false);
     setError(false);
-  };
-
-  const patchAddSenior = async () => {
-    // put accumulated students into senior model data
-    const seniorModel = {
-      ...seniorData,
-      StudentIDs: selectedStudents.map((usr) => usr.id),
-    };
-
-    // PATCH existing senior model in database
-    const currRes = await patchSenior({
-      seniorId: seniorPatch,
-      body: seniorModel,
-    });
-
-    if (currRes.code === "SUCCESS") {
-      const newerSeniorObj = currRes.data;
-      // PATCH students models previously and newly associated with senior model
-      setConfirm(true);
-      const newSeniors = seniors.filter((i) => i.id !== newerSeniorObj.id);
-      setSeniors([...newSeniors, newerSeniorObj]);
-    } else {
-      setError(true);
-    }
-  };
-
-  const postAddSenior = async () => {
-    // put accumulated students into senior model data
-    const seniorModel = {
-      ...seniorData,
-      StudentIDs: selectedStudents.map((usr) => usr.id),
-    };
-
-    // POST new senior model to database
-    postSenior({ body: seniorModel }).then((res) => {
-      if (res.code === "SUCCESS") {
-        // PATCH students models previously and newly associated with senior model
-        setConfirm(true);
-        setSeniors([...seniors, res.data]);
-      } else {
-        setError(true);
-      }
-    });
   };
 
   const handleImageReplace = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -316,22 +305,43 @@ const AddSenior = ({
                 setSelectedStudents={setSelectedStudents}
               />
 
-              <div className="top-0 mt-6 flex max-h-[36px] w-full flex-row justify-center">
-                <button
-                  className=" mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
+              {!fetching ? (
+                <div className="top-0 mt-6 flex max-h-[36px] w-full flex-row justify-center">
+                  <button
+                    className=" mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
                                   px-4 py-2 text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
-                  onClick={handlePopUp}
-                >
-                  Cancel
-                </button>
-                <button
-                  className=" mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
+                    onClick={handlePopUp}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className=" mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
                       px-4 py-2 text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
-                  onClick={seniorPatch ? patchAddSenior : postAddSenior}
-                >
-                  {seniorPatch ? "Update" : "Save"}
-                </button>
-              </div>
+                    onClick={async (e) => {
+                      e.preventDefault();
+
+                      const seniorModel = {
+                        ...seniorData,
+                        StudentIDs: selectedStudents.map((usr) => usr.id),
+                      };
+                      if (seniorPatch !== "") {
+                        await throttlePatchSenior({
+                          seniorId: seniorPatch,
+                          body: seniorModel,
+                        });
+                      } else {
+                        await throttlePostSenior({ body: seniorModel });
+                      }
+                    }}
+                  >
+                    {seniorPatch ? "Update" : "Save"}
+                  </button>
+                </div>
+              ) : (
+                <div className="mt-6 flex justify-center">
+                  <Spinner width={12} height={12} />
+                </div>
+              )}
             </div>
           ) : (
             <>

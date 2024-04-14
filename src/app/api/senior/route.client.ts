@@ -1,10 +1,9 @@
+import { TypedRequest } from "@server/type";
 import { seniorPostResponse, IPostSeniorRequestSchema } from "./route.schema";
 
-interface IPostSeniorRequest extends Omit<RequestInit, "body"> {
-  body: IPostSeniorRequestSchema;
-}
-
-export const postSenior = async (request: IPostSeniorRequest) => {
+export const postSenior = async (
+  request: TypedRequest<IPostSeniorRequestSchema>
+) => {
   const { body, ...options } = request;
 
   const response = await fetch(`/api/senior/`, {
