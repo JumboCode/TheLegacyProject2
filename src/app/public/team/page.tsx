@@ -3,6 +3,9 @@
 import Link from "next/link";
 import Image from "next/legacy/image";
 import OUR_TEAM from "@public/landing/team/our_team.png";
+import MEET_TLP_1 from "@public/landing/team/meet_tlp1.png";
+import MEET_TLP_2 from "@public/landing/team/meet_tlp2.png";
+import MEET_TLP_3 from "@public/landing/team/meet_tlp3.png";
 import PRESS_1 from "@public/landing/team/press1.png";
 import PRESS_2 from "@public/landing/team/press2.png";
 import PhotoCarousel from "@components/PhotoCarousel";
@@ -38,13 +41,21 @@ const PublicLayout = () => {
         passionate about telling stories, and form a Legacy Project chapter at
         your school today.
       </p>
-      <PhotoCarousel
-        imagePaths={[
-          "/landing/team/meet_tlp1.png",
-          "/landing/team/meet_tlp2.png",
-          "/landing/team/meet_tlp3.png",
-        ]}
-      />
+      {isSmallScreen ? (
+        <PhotoCarousel
+          imagePaths={[
+            "/landing/team/meet_tlp1.png",
+            "/landing/team/meet_tlp2.png",
+            "/landing/team/meet_tlp3.png",
+          ]}
+        />
+      ) : (
+        <div className="mt-6 flex sm:gap-x-4 md:gap-x-8 lg:gap-x-12">
+          <Image src={MEET_TLP_1} alt="meet_tlp_1" className="flex" />
+          <Image src={MEET_TLP_2} alt="meet_tlp_2" className="flex" />
+          <Image src={MEET_TLP_3} alt="meet_tlp_3" className="flex" />
+        </div>
+      )}
       <span className="mb-6 mt-8 pt-6 text-center text-3xl font-semibold sm:text-left sm:text-4xl">
         Our Team
       </span>
