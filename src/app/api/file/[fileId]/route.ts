@@ -6,12 +6,10 @@ import { FileResponse } from "./route.schema";
 import { File } from "@server/model";
 import { prisma } from "@server/db/client";
 import { withSession } from "@server/decorator";
-import { createDriveService } from "@server/service";
+import { driveV3 } from "@server/service";
 import moment from "moment";
 
 export const PATCH = withSession(async (request) => {
-  const service = await createDriveService(request.session.user.id);
-
   const body = await request.req.json();
   const nextParams: { fileId: string } = request.params.params;
   const { fileId } = nextParams;
@@ -97,7 +95,7 @@ export const PATCH = withSession(async (request) => {
       resource: body,
     };
 
-    await service.files.update(fileUpdateData);
+    await driveV3.files.update(fileUpdateData);
 
     const file = await prisma.file.findFirst({
       where: {
@@ -131,8 +129,6 @@ export const PATCH = withSession(async (request) => {
 });
 
 export const DELETE = withSession(async (request) => {
-  const service = await createDriveService(request.session.user.id);
-
   const nextParams: { fileId: string } = request.params.params;
   const { fileId } = nextParams;
 
@@ -192,7 +188,7 @@ export const DELETE = withSession(async (request) => {
     );
   }
 
-  await service.files.delete({
+  await driveV3.files.delete({
     fileId: fileId,
   });
 
