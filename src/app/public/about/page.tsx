@@ -23,21 +23,19 @@ const AboutLayout = () => {
     };
   }, []);
   return (
-    <div className="sm: flex flex-col justify-center gap-y-4 py-6 sm:w-full sm:px-0">
-      <span className="pt-6 text-center text-3xl font-semibold sm:text-left sm:text-lg">
+    <div className="flex-col justify-center gap-y-4 py-6 sm:flex sm:w-full sm:px-0">
+      <span className="pt-6 text-center text-3xl font-semibold sm:text-left">
         Our Story
       </span>
-      <p className="mt-8 font-bold leading-7">
-        The Legacy Project&apos;s Origin
-      </p>
+      <p className="font-bold leading-7">The Legacy Project&apos;s Origin</p>
       <p className="leading-7">
         The concept of{" "}
         <strong>
-          <span style={{ color: "#742B1A" }}>The Legacy Project (TLP)</span>
+          <span className="text-[#742B1A]">The Legacy Project (TLP)</span>
         </strong>{" "}
         began in 2018, when{" "}
         <strong>
-          <span style={{ color: "#742B1A" }}>Arielle Galinsky</span>
+          <span className="text-[#742B1A]">Arielle Galinsky</span>
         </strong>
         , a high school junior at the time, spent her time working at a local
         senior community in her Massachusetts hometown. Her role allowed her to
@@ -47,7 +45,7 @@ const AboutLayout = () => {
         sense of regret she felt having lost her own grandfathers at a young
         age, Arielle decided to spearhead{" "}
         <strong>
-          <span style={{ color: "#742B1A" }}>TLP</span>
+          <span className="text-[#742B1A]">TLP</span>
         </strong>{" "}
         as a personal project. <br />
         <br />
@@ -148,7 +146,9 @@ const AboutLayout = () => {
           </div>
         </div>
       )}
-      <p className="mt-8 font-bold leading-7">Parallel Stories Unite</p>
+      <p className="mt-8 text-3xl font-bold leading-7">
+        Parallel Stories Unite
+      </p>
       <p className="leading-7">
         Little did she know that, in the state over from her,{" "}
         <strong>Katie Furey</strong>- a sophomore in college who was home for

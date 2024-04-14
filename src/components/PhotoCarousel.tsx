@@ -78,7 +78,7 @@ const PhotoCarousel = ({ imagePaths }: PhotoCarouselParams) => {
         >
           {photos.map((photo, index) => (
             <div
-              key={index}
+              key={photo.filePath}
               className={
                 "absolute aspect-square h-full select-none object-cover transition-all"
               }

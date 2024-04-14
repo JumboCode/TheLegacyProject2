@@ -29,7 +29,7 @@ const PublicLayout = () => {
   }, []);
   return (
     <div className="flex w-full flex-col">
-      <span className="pt-6 text-center text-3xl font-semibold sm:text-left sm:text-4xl">
+      <span className="pt-6 text-center text-3xl font-semibold sm:text-left">
         Meet TLP
       </span>
       <p className="mt-7 leading-7">
@@ -56,11 +56,11 @@ const PublicLayout = () => {
           <Image src={MEET_TLP_3} alt="meet_tlp_3" className="flex" />
         </div>
       )}
-      <span className="mb-6 mt-8 pt-6 text-center text-3xl font-semibold sm:text-left sm:text-4xl">
+      <span className="mb-6 mt-8 pt-6 text-center text-3xl font-semibold sm:text-left">
         Our Team
       </span>
       <Image src={OUR_TEAM} alt="our_team" />
-      <span className="pt-6 text-center text-3xl font-semibold sm:text-left sm:text-4xl">
+      <span className="mt-8 pt-6 text-center text-3xl font-semibold sm:text-left">
         Press
       </span>
       {isSmallScreen ? (
