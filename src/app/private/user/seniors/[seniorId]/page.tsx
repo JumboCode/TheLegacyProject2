@@ -32,10 +32,13 @@ const Page = async ({ params }: PageProps) => {
     <div className="flex flex-col gap-y-6">
       <PathNav
         pathInfo={[
-          { display: "Seniors", url: `/private/user/seniors` },
+          {
+            display: "Seniors",
+            url: `seniors`,
+          },
           {
             display: `${senior.firstname} ${senior.lastname}`,
-            url: `/private/seniors/${senior.id}`,
+            url: `seniors/${senior.id}`,
           },
         ]}
       />

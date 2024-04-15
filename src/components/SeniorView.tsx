@@ -62,35 +62,61 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
             icon: <FontAwesomeIcon icon={faPencil} />,
           });
 
-        options.push({
-          name: "Delete",
-          onClick: (e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            fetch(`/api/senior/${senior.id}`, {
-              method: "DELETE",
-            }).then(() => {
-              window.location.reload();
-            });
-          },
-          color: "#EF6767",
-          icon: <FontAwesomeIcon icon={faTrashCan} />,
-        });
-        return (
-          // TODO(nickbar01234) - Fix link
-          <UserTile
-            senior={senior}
-            link={`/private/chapter-leader/seniors/${senior.id}`}
-            key={senior.id}
-            dropdownComponent={<TileEdit options={options} />}
-          />
-        );
-      }}
-      search={(senior, key) =>
-        (senior.firstname + " " + senior.lastname)
-          .toLowerCase()
-          .includes(key.toLowerCase())
-      }
-    />
+          options.push({
+            name: "Delete",
+            onClick: (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              fetch(`/api/senior/${senior.id}`, {
+                method: "DELETE",
+              }).then(() => {
+                window.location.reload();
+              });
+            },
+            color: "#EF6767",
+            icon: <FontAwesomeIcon icon={faTrashCan} />,
+          });
+          return (
+            // TODO(nickbar01234) - Fix link
+            <UserTile
+              senior={senior}
+              link={`/private/chapter-leader/seniors/${senior.id}`}
+              key={senior.id}
+              dropdownComponent={<TileEdit options={options} />}
+            />
+          );
+        }}
+        search={(senior, key) =>
+          (senior.firstname + " " + senior.lastname)
+            .toLowerCase()
+            .includes(key.toLowerCase())
+        }
+        filterField={
+          <div className="mb-6 flex flex-row gap-4">
+            {years.map((year, key) => (
+              <div
+                key={key}
+                className={
+                  (yearsClicked.includes(year)
+                    ? "bg-[#AE583C] text-white"
+                    : "text-[#AE583C]") +
+                  " cursor-pointer rounded-3xl border-2 border-[#AE583C] px-3 py-1"
+                }
+                onClick={() =>
+                  setYearsClicked((oldYears) => {
+                    if (!oldYears.includes(year)) {
+                      return [...oldYears, year];
+                    }
+                    return oldYears.filter((currYear) => currYear !== year);
+                  })
+                }
+              >
+                {year}
+              </div>
+            ))}
+          </div>
+        }
+      />
+    </>
   );
 };
