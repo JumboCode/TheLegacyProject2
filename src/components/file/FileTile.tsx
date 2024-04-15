@@ -4,7 +4,7 @@ interface FileTileProps {
 }
 
 const FileTile = ({ children, className = "" }: FileTileProps) => {
-  return <div className={`h-56 w-48 rounded-lg ${className}`}>{children}</div>;
+  return <div className={`w-48 rounded-lg ${className} h-60`}>{children}</div>;
 };
 
 export default FileTile;

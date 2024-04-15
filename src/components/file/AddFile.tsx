@@ -6,21 +6,32 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import AddFilePopup from "@components/user/AddFile";
 import { File as PrismaFile } from "@prisma/client";
+import React from "react";
 
 const AddFile = ({
   seniorId,
   seniorFolder,
   files,
+  editFile,
+  setEditFile,
 }: {
   seniorId: string;
   seniorFolder: string;
   files: PrismaFile[];
+  editFile?: PrismaFile;
+  setEditFile: React.Dispatch<React.SetStateAction<PrismaFile | undefined>>;
 }) => {
   const [showAddFilePopUp, setShowAddFilePopUp] = useState<boolean>(false);
 
   const handlePopUp = () => {
     setShowAddFilePopUp(!showAddFilePopUp);
   };
+
+  React.useEffect(() => {
+    if (editFile != null) {
+      setShowAddFilePopUp(true);
+    }
+  }, [editFile]);
 
   return (
     <div>
@@ -31,6 +42,8 @@ const AddFile = ({
           seniorId={seniorId}
           files={files}
           folder={seniorFolder}
+          editFile={editFile}
+          setEditFile={setEditFile}
         />
       ) : null}
       <button onClick={handlePopUp}>

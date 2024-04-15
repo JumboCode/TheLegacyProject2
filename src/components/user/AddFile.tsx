@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import { useApiThrottle } from "@hooks";
+import { updateFile } from "@api/file/[fileId]/route.client";
 
 type AddFileProps = {
   showAddFilePopUp: boolean;
@@ -18,6 +19,8 @@ type AddFileProps = {
   seniorId: string;
   files: PrismaFile[];
   folder: string;
+  editFile?: PrismaFile;
+  setEditFile: React.Dispatch<React.SetStateAction<PrismaFile | undefined>>;
 };
 
 const TagOptions = ({
@@ -88,34 +91,63 @@ const AddFile = ({
   setShowAddFilePopUp,
   seniorId,
   files,
+  editFile,
+  setEditFile,
 }: AddFileProps) => {
   const currFiles = Object.values(files);
   const excludeDates = currFiles.map((fileObj) => fileObj.date);
-  const excludedDatesString = excludeDates.map((dateObj) =>
-    dateObj.toDateString()
-  );
+  const excludedDatesString = excludeDates
+    .map((dateObj) => dateObj.toDateString())
+    .filter((date) => editFile?.date.toDateString() !== date ?? true);
 
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(() => new Date());
 
   const router = useRouter();
   const [error, setError] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<TagProps[]>([]);
 
-  const { fetching, fn: throttledCreateFile } = useApiThrottle({
-    fn: createFile,
-    callback: (res) => {
-      if (res.code === "SUCCESS") {
-        setShowAddFilePopUp(false);
-        router.refresh();
-      } else {
-        setError(true);
-      }
-    },
-  });
-
-  const handleCancel = () => {
+  const handleResetState = () => {
+    setStartDate(new Date());
+    setSelectedTags([]);
     setShowAddFilePopUp(!showAddFilePopUp);
+    setEditFile(undefined);
   };
+
+  const { fetching: fetchingCreateFile, fn: throttledCreateFile } =
+    useApiThrottle({
+      fn: createFile,
+      callback: (res) => {
+        if (res.code === "SUCCESS") {
+          handleResetState();
+          router.refresh();
+        } else {
+          setError(true);
+        }
+      },
+    });
+  const { fetching: fetchingUpdateFile, fn: throttleUpdateFile } =
+    useApiThrottle({
+      fn: updateFile,
+      callback: (res) => {
+        if (res.code === "SUCCESS_UPDATE") {
+          handleResetState();
+          router.refresh();
+        } else {
+          setError(true);
+        }
+      },
+    });
+
+  const fetching = fetchingCreateFile || fetchingUpdateFile;
+
+  React.useEffect(() => {
+    if (editFile != undefined) {
+      setStartDate(editFile.date);
+      setSelectedTags(
+        tagList.filter((tag) => editFile.Tags.includes(tag.name))
+      );
+    }
+  }, [editFile]);
 
   if (!showAddFilePopUp) {
     return null;
@@ -158,7 +190,7 @@ const AddFile = ({
         <div className="flex w-full flex-row justify-center">
           <button
             className="mx-2 my-4 w-full max-w-[9rem] rounded-[16px] bg-white p-3 text-2xl font-medium text-[#22555A] drop-shadow-md hover:bg-offer-white"
-            onClick={handleCancel}
+            onClick={handleResetState}
           >
             Cancel
           </button>
@@ -168,19 +200,28 @@ const AddFile = ({
               selectedTags.length == 0 ||
               excludedDatesString.includes(startDate.toDateString())
             }
-            onClick={() => {
-              throttledCreateFile({
-                body: {
-                  date: startDate,
-                  filetype: "Google Document",
-                  url: "",
-                  Tags: selectedTags.map((tagProp) => tagProp.name),
-                  seniorId: seniorId,
-                },
-              });
+            onClick={async () => {
+              editFile == null
+                ? await throttledCreateFile({
+                    body: {
+                      date: startDate,
+                      filetype: "Google Document",
+                      url: "",
+                      Tags: selectedTags.map((tagProp) => tagProp.name),
+                      seniorId: seniorId,
+                    },
+                  })
+                : await throttleUpdateFile({
+                    fileId: editFile.id,
+                    body: {
+                      ...editFile,
+                      date: startDate,
+                      Tags: selectedTags.map((tagProp) => tagProp.name),
+                    },
+                  });
             }}
           >
-            {!fetching ? "Create" : "Loading..."}
+            {fetching ? "Loading..." : editFile == null ? "Create" : "Update"}
           </button>
         </div>
       </div>
@@ -194,7 +235,7 @@ const AddFile = ({
         </span>
         <button
           className="w-full max-w-[10rem] rounded bg-white p-3 font-serif font-normal text-dark-teal"
-          onClick={() => setShowAddFilePopUp(false)}
+          onClick={handleResetState}
         >
           Confirm
         </button>

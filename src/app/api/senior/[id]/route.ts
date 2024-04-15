@@ -106,13 +106,14 @@ export const PATCH = withSessionAndRole(
       );
       const studentIDsToAdd = seniorBody.StudentIDs;
 
+      const { StudentIDs: _, ...other } = seniorBody;
       const senior = await prisma.senior.update({
         where: { id: seniorId },
         data: {
-          ...seniorBody,
+          ...other,
           Students: {
-            connect: studentIDsToAdd.map((id) => ({ id })),
-            disconnect: studentIDsToRemove.map((id) => ({ id })),
+            connect: studentIDsToAdd.map((id) => ({ id: id })),
+            disconnect: studentIDsToRemove.map((id) => ({ id: id })),
           },
         },
       });

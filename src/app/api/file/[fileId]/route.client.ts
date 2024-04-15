@@ -2,14 +2,8 @@ import { z } from "zod";
 import { FileResponse } from "./route.schema";
 import { File } from "@server/model";
 
-/**
- * Describe the interface of SignInRequest.
- */
 type IFile = z.infer<typeof File>;
 
-/**
- * Extends the parameters of fetch() function to give types to the RequestBody.
- */
 interface IUpdateRequest extends Omit<RequestInit, "body"> {
   fileId: string;
   body: IFile;

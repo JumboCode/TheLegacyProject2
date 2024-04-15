@@ -105,7 +105,11 @@ model File {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   date     DateTime // will zero out the hours
   filetype String
+
+  // Use with Google API
+  fileId   String
   url      String
+
   seniorId String   @db.ObjectId
   senior   Senior   @relation(fields: [seniorId], references: [id], onDelete: Cascade)
   Tags     String[]

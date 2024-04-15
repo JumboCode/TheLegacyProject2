@@ -1,6 +1,7 @@
 import PathNav from "@components/PathNav";
 import { DisplaySenior } from "@components/senior";
 import { prisma } from "@server/db/client";
+import { getServerSessionOrRedirect } from "@server/utils";
 import { seniorFullName } from "@utils";
 
 interface LayoutProps {
@@ -10,6 +11,7 @@ interface LayoutProps {
 }
 
 const Page = async ({ params }: LayoutProps) => {
+  const session = await getServerSessionOrRedirect();
   const senior = await prisma.senior.findFirstOrThrow({
     where: { id: params.seniorId },
     include: {
@@ -33,7 +35,11 @@ const Page = async ({ params }: LayoutProps) => {
           },
         ]}
       />
-      <DisplaySenior editable canAddFile={false} senior={senior} />
+      <DisplaySenior
+        editable
+        canAddFile={senior.StudentIDs.includes(session.user?.id ?? "")}
+        senior={senior}
+      />
     </div>
   );
 };

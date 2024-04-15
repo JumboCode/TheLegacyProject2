@@ -78,7 +78,7 @@ const StudentSelector = ({
   return (
     <div>
       <div className="text-neutral-600 h-[34px] w-full text-lg">
-        Assign students
+        Assign members
       </div>
       <FilterDropdown<User>
         items={students}

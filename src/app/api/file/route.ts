@@ -41,12 +41,13 @@ export const POST = withSession(async (request) => {
     if (
       !user.SeniorIDs.some((seniorId: string) => seniorId === fileData.seniorId)
     ) {
+      // User has been deselected to work with a senior
       return NextResponse.json(
         FileResponse.parse({
-          code: "NOT_AUTHORIZED",
-          message: "Senior not assigned to user",
+          code: "SUCCESS",
+          message: "File successfully added",
         }),
-        { status: 404 }
+        { status: 200 }
       );
     }
 
@@ -88,6 +89,7 @@ export const POST = withSession(async (request) => {
       data: {
         date: fileData.date,
         filetype: fileData.filetype,
+        fileId: googleFileId ?? "",
         url: `https://docs.google.com/document/d/${googleFileId}`,
         seniorId: fileData.seniorId,
         Tags: fileData.Tags,

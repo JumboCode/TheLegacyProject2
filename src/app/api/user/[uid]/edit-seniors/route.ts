@@ -31,8 +31,8 @@ export const PATCH = withSession(
       where: { id: uid },
       data: {
         Seniors: {
-          connect: seniorIDsToAdd.map((id) => ({ id })),
-          disconnect: seniorIDsToRemove.map((id) => ({ id })),
+          connect: seniorIDsToAdd.map((id) => ({ id: id })),
+          disconnect: seniorIDsToRemove.map((id) => ({ id: id })),
         },
       },
     });

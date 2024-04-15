@@ -10,6 +10,7 @@ import Assignment from "./assignment";
 import { patchSenior } from "@api/senior/[id]/route.client";
 import React from "react";
 import { useApiThrottle } from "@hooks";
+import { UserContext } from "@context/UserProvider";
 
 interface DisplayProps {
   editable: boolean;
@@ -22,11 +23,14 @@ interface DisplayProps {
 const DisplaySenior = (props: DisplayProps) => {
   const { editable, canAddFile, senior } = props;
   const addFileId = uuid();
+  const userContext = React.useContext(UserContext);
 
   const students = React.useMemo(
     () => senior.chapter.students.sort(compareUser),
     [senior.chapter.students]
   );
+
+  const [editFile, setFileEdit] = React.useState<File | undefined>(undefined);
 
   const getAssignments = () =>
     students.filter((student) => senior.StudentIDs.includes(student.id));
@@ -54,7 +58,7 @@ const DisplaySenior = (props: DisplayProps) => {
       </h1>
       <p>{senior.description}</p>
       <Assignment
-        header="Assign students"
+        header="Assign members"
         editable={editable}
         display={(user: User) => fullName(user)}
         elements={students}
@@ -63,7 +67,13 @@ const DisplaySenior = (props: DisplayProps) => {
         onSave={onSave}
       />
       <SearchableContainer
-        display={(file) => <File key={file.id} file={file} />}
+        display={(file) => (
+          <File
+            key={file.id}
+            file={file}
+            setFileEdit={canAddFile ? setFileEdit : undefined}
+          />
+        )}
         elements={senior.Files.sort(
           (fileA, fileB) => fileA.date.getTime() - fileB.date.getTime()
         )}
@@ -75,6 +85,8 @@ const DisplaySenior = (props: DisplayProps) => {
               seniorFolder={senior.folder}
               files={senior.Files}
               key={addFileId}
+              editFile={editFile}
+              setEditFile={setFileEdit}
             />
           ) : undefined
         }
