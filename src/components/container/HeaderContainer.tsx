@@ -20,7 +20,7 @@ const HeaderContainer = (props: IHeaderContainer) => {
       {showHorizontalLine && (
         <hr className="mt-6 w-full border-t border-black" />
       )}
-      <div className="mt-6">{children}</div>
+      <div className="py-6">{children}</div>
     </div>
   );
 };
