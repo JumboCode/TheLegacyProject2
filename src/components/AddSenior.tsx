@@ -124,18 +124,15 @@ const AddSenior = ({
   const [error, setError] = useState<boolean>(false);
   const [edited, setEdited] = useState<boolean>(false);
 
-  const { register, handleSubmit, reset, setValue } = useForm<SeniorData>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm<SeniorData>({
     resolver: zodResolver(seniorFormSchema),
   });
-
-  const onSubmit: SubmitHandler<SeniorData> = async (data, event) => {
-    event?.preventDefault();
-    if (seniorPatch) {
-      patchAddSenior(data);
-    } else {
-      postAddSenior(data);
-    }
-  };
 
   const initialSenior: Senior | undefined = useMemo(() => {
     const senior = seniors.find((senior) => senior.id === seniorPatch);
@@ -172,6 +169,22 @@ const AddSenior = ({
     });
   const fetching = loadingPostSenior || loadingPatchSenior;
 
+  const onSubmit: SubmitHandler<SeniorData> = async (data, event) => {
+    event?.preventDefault();
+    const seniorModel = {
+      ...data,
+      StudentIDs: selectedStudents.map((usr) => usr.id),
+    };
+    if (seniorPatch) {
+      await throttlePatchSenior({
+        seniorId: seniorPatch,
+        body: seniorModel,
+      });
+    } else {
+      await throttlePostSenior({ body: seniorModel });
+    }
+  };
+
   useEffect(() => {
     if (initialSenior) {
       setValue("firstname", initialSenior.firstname, { shouldValidate: true });
@@ -206,49 +219,6 @@ const AddSenior = ({
     handlePopUp();
     setConfirm(false);
     setError(false);
-  };
-
-  const patchAddSenior = async (seniorData: SeniorData) => {
-    // put accumulated students into senior model data
-    const seniorModel = {
-      ...seniorData,
-      StudentIDs: selectedStudents.map((usr) => usr.id),
-    };
-
-    // PATCH existing senior model in database
-    const currRes = await patchSenior({
-      seniorId: seniorPatch,
-      body: seniorModel,
-    });
-
-    if (currRes.code === "SUCCESS") {
-      const newerSeniorObj = currRes.data;
-      // PATCH students models previously and newly associated with senior model
-      setConfirm(true);
-      const newSeniors = seniors.filter((i) => i.id !== newerSeniorObj.id);
-      setSeniors([...newSeniors, newerSeniorObj]);
-    } else {
-      setError(true);
-    }
-  };
-
-  const postAddSenior = async (seniorData: SeniorData) => {
-    // put accumulated students into senior model data
-    const seniorModel = {
-      ...seniorData,
-      StudentIDs: selectedStudents.map((usr) => usr.id),
-    };
-
-    // POST new senior model to database
-    postSenior({ body: seniorModel }).then((res) => {
-      if (res.code === "SUCCESS") {
-        // PATCH students models previously and newly associated with senior model
-        setConfirm(true);
-        setSeniors([...seniors, res.data]);
-      } else {
-        setError(true);
-      }
-    });
   };
 
   const handleImageReplace = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -294,11 +264,19 @@ const AddSenior = ({
                     First name
                   </div>
                   <input
-                    className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-dark-teal placeholder:text-dark-teal"
+                    className="mb-1 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-dark-teal placeholder:text-dark-teal"
+                    style={{
+                      outline: errors?.firstname ? "2px solid red" : "none",
+                    }}
                     type="text"
                     {...register("firstname")}
                     onChange={() => setEdited(true)}
                   />
+                  {errors?.firstname && (
+                    <div className="text-s mb-1 text-red-500">
+                      {errors.firstname.message}
+                    </div>
+                  )}
                 </div>
 
                 <div className="ml-2 flex-1 flex-col">
@@ -351,24 +329,14 @@ const AddSenior = ({
                     Cancel
                   </button>
                   <button
-                    className=" mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl bg-white 
-                      px-4 py-2 text-[18px] font-normal text-dark-teal drop-shadow-md hover:bg-off-white"
-                    onClick={async (e) => {
-                      e.preventDefault();
-
-                      const seniorModel = {
-                        ...seniorData,
-                        StudentIDs: selectedStudents.map((usr) => usr.id),
-                      };
-                      if (seniorPatch !== "") {
-                        await throttlePatchSenior({
-                          seniorId: seniorPatch,
-                          body: seniorModel,
-                        });
-                      } else {
-                        await throttlePostSenior({ body: seniorModel });
-                      }
-                    }}
+                    className={` mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl 
+                      px-4 py-2 text-[18px] font-normal drop-shadow-md 
+                      ${
+                        edited
+                          ? "bg-white text-dark-teal hover:bg-off-white"
+                          : "cursor-not-allowed bg-gray-300 text-gray-500"
+                      }`}
+                    type="submit"
                   >
                     {seniorPatch ? "Update" : "Save"}
                   </button>
