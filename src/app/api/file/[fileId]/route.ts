@@ -34,10 +34,11 @@ export const PATCH = withSession(async ({ params, session, req }) => {
 
     const otherFiles = await prisma.file.findMany({
       where: {
-        AND: [
-          { NOT: { id: maybeFile?.id } },
-          { date: fileRequest.data.date, seniorId: fileData.seniorId },
-        ],
+        date: fileData.date,
+        seniorId: fileData.seniorId,
+        id: {
+          not: fileId,
+        },
       },
     });
 
