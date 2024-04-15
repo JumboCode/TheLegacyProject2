@@ -29,7 +29,7 @@ const InfoTile = (params: InfoTileProps) => {
 
   return (
     <div className="flex h-fit w-full flex-col gap-y-4 rounded-lg bg-white p-6 shadow-lg">
-      <div className="relative flex justify-between">
+      <div className="relative flex items-center justify-between">
         <Link
           href={href ?? ""}
           className={`href ? "" : "cursor-default" truncate`}

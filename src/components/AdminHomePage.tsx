@@ -1,11 +1,9 @@
 "use client";
 
-import { useContext } from "react";
 import { Prisma } from "@prisma/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { TileEdit } from "./TileGrid/TileEdit";
-import { UserContext } from "src/context/UserProvider";
 import { InfoTile } from "./TileGrid";
 import { fullName } from "@utils";
 import SearchableContainer from "./SearchableContainer";
@@ -19,8 +17,6 @@ type AdminHomePageProps = {
 };
 
 const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
-  const userContext = useContext(UserContext);
-
   return (
     <SearchableContainer
       elements={chapters}
@@ -54,28 +50,18 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
                 value: chapter.students.length,
               },
               {
-                key: "President",
+                key: "Chapter Leader",
                 value:
                   prez != undefined
                     ? fullName(prez)
-                    : "This chapter has no president",
+                    : "This chapter has no chapter leader",
               },
               {
                 key: "Email",
                 value: prez?.email ?? "",
               },
             ]}
-            topRightButton={
-              <TileEdit
-                options={options}
-                icon={
-                  <FontAwesomeIcon
-                    className="fa-lg cursor-pointer"
-                    icon={faEllipsis}
-                  />
-                }
-              />
-            }
+            topRightButton={<TileEdit options={options} />}
           />
         );
       }}

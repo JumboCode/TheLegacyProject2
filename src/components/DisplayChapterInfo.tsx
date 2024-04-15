@@ -55,7 +55,10 @@ const DisplayChapterInfo = ({
     React.useState(currentPresidents);
   const { fn: throttleEditRole } = useApiThrottle({
     fn: editRole,
-    callback: () => router.refresh(),
+    callback: () => {
+      router.refresh();
+      setDisplayAssignPresident(false);
+    },
   });
 
   const onSaveNewPresidents = async () => {
@@ -80,7 +83,9 @@ const DisplayChapterInfo = ({
     <div className="w-full" onClick={resetAssignment}>
       {displayAssignPresident && (
         <Popup onClick={(e) => e.stopPropagation()}>
-          <div className="text-3xl font-bold text-white">Assign President</div>
+          <div className="text-3xl font-bold text-white">
+            Assign Chapter Leader
+          </div>
           <Dropdown
             header="Select student"
             elements={chapter.students}
@@ -153,7 +158,7 @@ const DisplayChapterInfo = ({
                   setDisplayAssignPresident(true);
                 }}
               >
-                Assign President
+                Assign Chapter Leader
               </div>
             )}
             <CardGrid

@@ -1,26 +1,10 @@
 import cn from "classnames";
 import React, { useEffect, useRef, useState } from "react";
-/* @TODO: Add this font globally */
-import "@fontsource/merriweather";
-
-const TileEditBreadcrumbs = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    strokeMiterlimit="10"
-    clipRule="evenodd"
-    viewBox="0 0 1000 1000"
-    style={{
-      transform: "rotate(90deg)",
-      height: "20px",
-    }}
-  >
-    <g fill="#22555A">
-      <path d="M115.104 498.827c0-41.24 33.431-74.672 74.671-74.672 41.24 0 74.672 33.432 74.672 74.672 0 41.24-33.432 74.671-74.672 74.671-41.24 0-74.671-33.431-74.671-74.671zM426.622 498.827c0-41.24 33.431-74.672 74.671-74.672 41.24 0 74.672 33.432 74.672 74.672 0 41.24-33.432 74.671-74.672 74.671-41.24 0-74.671-33.431-74.671-74.671zM738.14 498.827c0-41.24 33.432-74.672 74.672-74.672 41.24 0 74.671 33.432 74.671 74.672 0 41.24-33.431 74.671-74.671 74.671-41.24 0-74.672-33.431-74.672-74.671z"></path>
-    </g>
-  </svg>
-);
+import {
+  FontAwesomeIcon,
+  FontAwesomeIconProps,
+} from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 
 const Icons = [
   {
@@ -34,18 +18,6 @@ const Icons = [
     fill: "#EF6767",
   },
 ];
-
-const Icon = (path: string, fill: string) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 10 11"
-    fill="none"
-  >
-    <path d={path} fill={fill} />
-  </svg>
-);
 
 interface ITileEditMenu {
   visible: boolean;
@@ -101,10 +73,13 @@ export interface TileEditProps {
     color: string;
     icon: React.ReactNode;
   }[];
-  icon?: React.ReactNode;
+  editIconProps?: Omit<FontAwesomeIconProps, "icon">;
 }
 
-export function TileEdit({ options, icon }: TileEditProps) {
+export function TileEdit({
+  options,
+  editIconProps = { className: "cursor-pointer" },
+}: TileEditProps) {
   const [visible, setVisible] = useState(false);
 
   const tileEditRef = useRef<HTMLDivElement>(null);
@@ -129,9 +104,9 @@ export function TileEdit({ options, icon }: TileEditProps) {
   }, []);
 
   return options.length > 0 ? (
-    <div ref={tileEditRef}>
+    <div ref={tileEditRef} className="relative">
       <button onClick={() => setVisible(!visible)} type="button">
-        {icon ?? <TileEditBreadcrumbs />}
+        <FontAwesomeIcon icon={faEllipsisVertical} {...editIconProps} />
       </button>
       <TileEditMenu
         visible={visible}

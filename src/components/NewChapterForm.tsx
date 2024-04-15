@@ -8,6 +8,7 @@ import { ChapterRequest } from "src/app/api/chapter-request/route.schema";
 import { ErrorMessage } from "@hookform/error-message";
 import { createChapterRequest } from "@api/chapter-request/route.client";
 import { useApiThrottle } from "@hooks";
+import { Spinner } from "./skeleton";
 
 type ValidationSchema = z.infer<typeof ChapterRequest>;
 
@@ -30,7 +31,7 @@ const NewChapterForm = () => {
     resolver: zodResolver(ChapterRequest),
   });
 
-  const { fn: throttleCreateChapterRequest } = useApiThrottle({
+  const { fetching, fn: throttleCreateChapterRequest } = useApiThrottle({
     fn: createChapterRequest,
     callback: (res) =>
       setFormSubmitted(
@@ -247,10 +248,14 @@ const NewChapterForm = () => {
             </div>
           </div>
           <div className="grid place-items-center pt-8">
-            <input
-              type="submit"
-              className="cursor-pointer items-center rounded-xl bg-white  px-4 py-2.5 text-center text-dark-teal hover:bg-[#E2E2E2]"
-            />
+            {!fetching ? (
+              <input
+                type="submit"
+                className="cursor-pointer items-center rounded-xl bg-white  px-4 py-2.5 text-center text-dark-teal hover:bg-[#E2E2E2]"
+              />
+            ) : (
+              <Spinner width={12} height={12} />
+            )}
             {formSubmitted === FormSubmission.SUBMITTED ? (
               <div className="pt-5 text-sm">
                 Your form has been submitted. Our admin will be in touch with

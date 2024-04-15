@@ -71,7 +71,7 @@ export default function FilterDropdown<T extends Named>({
           onClick={() => setShowOptions(!showOptions)}
         >
           <div className="flex h-[32px] flex-row items-center justify-between text-sm text-dark-teal">
-            Select student(s)
+            Select member(s)
             <FontAwesomeIcon icon={faCaretDown} className=" text-dark-teal" />
           </div>
         </div>

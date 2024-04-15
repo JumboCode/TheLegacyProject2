@@ -18,6 +18,8 @@ import { UserContext } from "@context/UserProvider";
 import React from "react";
 import { InfoTile } from "@components/TileGrid";
 import { fullName } from "@utils";
+import { useApiThrottle } from "@hooks";
+import { Spinner } from "@components/skeleton";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
   include: { students: true };
@@ -32,6 +34,27 @@ const UserJoinRequest = (props: UserJoinRequestProps) => {
   const { chapters, joinRequest } = props;
   const userContext = React.useContext(UserContext);
   const router = useRouter();
+
+  const [fetchingForChapterId, setFetchingForChapterId] = React.useState("");
+  const {
+    fetching: fetchingHandleJoinChapterRequest,
+    fn: throttleHandleJoinChapterRequest,
+  } = useApiThrottle({
+    fn: handleJoinChapterRequest,
+    callback: () => router.refresh(),
+  });
+  const {
+    fetching: fetchingManageChapterRequest,
+    fn: throttleHandleManageChapterRequest,
+  } = useApiThrottle({
+    fn: handleManageChapterRequest,
+    callback: () => {
+      setFetchingForChapterId("");
+      router.refresh();
+    },
+  });
+  const fetching =
+    fetchingHandleJoinChapterRequest || fetchingManageChapterRequest;
 
   return (
     <div className="flex h-full w-full flex-col gap-y-6  px-7 py-[104px]">
@@ -56,11 +79,11 @@ const UserJoinRequest = (props: UserJoinRequestProps) => {
               information={[
                 { key: "No. of members", value: chapter.students.length },
                 {
-                  key: "President",
+                  key: "Chapter Leader",
                   value:
                     prez != undefined
                       ? fullName(prez)
-                      : "This chapter has no president",
+                      : "This chapter has no chapter leader",
                 },
                 {
                   key: "Years active",
@@ -72,25 +95,29 @@ const UserJoinRequest = (props: UserJoinRequestProps) => {
                 },
               ]}
               topRightButton={
-                joinRequest == null ? (
+                fetching && fetchingForChapterId === chapter.id ? (
+                  <Spinner width={8} height={8} />
+                ) : joinRequest == null ? (
                   <button
                     className="rounded bg-dark-teal px-5 py-2 text-sm text-white transition duration-300 ease-in-out hover:-translate-y-1"
-                    onClick={() =>
-                      handleJoinChapterRequest({
+                    onClick={() => {
+                      setFetchingForChapterId(chapter.id);
+                      throttleHandleJoinChapterRequest({
                         body: { chapterId: chapter.id },
-                      }).then(() => router.refresh())
-                    }
+                      });
+                    }}
                   >
                     Join
                   </button>
                 ) : joinRequest.chapterId === chapter.id ? (
                   <button
                     className="rounded bg-dark-teal px-5 py-2 text-sm text-white transition duration-300 ease-in-out hover:-translate-y-1"
-                    onClick={() =>
-                      handleManageChapterRequest({
+                    onClick={() => {
+                      setFetchingForChapterId(chapter.id);
+                      throttleHandleManageChapterRequest({
                         body: { userId: userContext.user.id },
-                      }).then(() => router.refresh())
-                    }
+                      });
+                    }}
                   >
                     Undo
                   </button>

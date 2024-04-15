@@ -1,21 +1,11 @@
 "use client";
 
-import Head from "next/head";
-
 import PhotoCarousel from "@components/PhotoCarousel";
-
-import Button from "@components/Button";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import Logo from "@public/icons/logo.svg";
 
 const HomePage = () => {
-  // TODO: make env variables
-  const chapterInitForm = "https://forms.gle/gBdmpsW6JFnYvwRf7";
-  const chapterResources =
-    "https://drive.google.com/drive/folders/1vw8rc5sU0bYJkgH75VZOjI6IF-XAWEmG?usp=share_link";
-  const legacyInstagram =
-    "https://instagram.com/thelegacyprojectus?igshid=MzRlODBiNWFlZA==";
   const MEET_TLP = "/public/team/";
   const START_A_CHAPTER = "/public/start-chapter";
 
