@@ -27,6 +27,11 @@ export const POST = withSession(async (request) => {
         id: request.session.user.id,
       },
     });
+    const otherFiles = await prisma.file.findMany({
+      where: {
+        date: fileData.date,
+      },
+    });
 
     if (user === null || user.SeniorIDs === null) {
       return NextResponse.json(
@@ -39,9 +44,13 @@ export const POST = withSession(async (request) => {
     }
 
     if (
-      !user.SeniorIDs.some((seniorId: string) => seniorId === fileData.seniorId)
+      !user.SeniorIDs.some(
+        (seniorId: string) => seniorId === fileData.seniorId
+      ) ||
+      otherFiles.length > 0
     ) {
       // User has been deselected to work with a senior
+      // If other files with the same date exist, we don't allow for duplicates
       return NextResponse.json(
         FileResponse.parse({
           code: "SUCCESS",
