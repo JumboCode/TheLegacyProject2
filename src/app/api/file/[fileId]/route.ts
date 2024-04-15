@@ -31,9 +31,13 @@ export const PATCH = withSession(async ({ params, session, req }) => {
       },
       include: { senior: true },
     });
+
     const otherFiles = await prisma.file.findMany({
       where: {
-        date: fileRequest.data.date,
+        AND: [
+          { NOT: { id: maybeFile?.id } },
+          { date: fileRequest.data.date, seniorId: fileData.seniorId },
+        ],
       },
     });
 
@@ -47,10 +51,10 @@ export const PATCH = withSession(async ({ params, session, req }) => {
       // If senior doesn't include current user then they have been deselected
       return NextResponse.json(
         FileResponse.parse({
-          code: "SUCCESS_UPDATE",
-          message: "File successfully updated",
+          code: "INVALID_REQUEST",
+          message: "Not a valid request",
         }),
-        { status: 200 }
+        { status: 400 }
       );
     }
 

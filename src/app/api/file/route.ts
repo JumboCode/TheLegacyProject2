@@ -30,33 +30,22 @@ export const POST = withSession(async (request) => {
     const otherFiles = await prisma.file.findMany({
       where: {
         date: fileData.date,
+        seniorId: fileData.seniorId,
       },
     });
 
-    if (user === null || user.SeniorIDs === null) {
+    if (
+      user === null ||
+      user.SeniorIDs === null ||
+      !user.SeniorIDs.some((seniorId) => seniorId === fileData.seniorId) ||
+      otherFiles.length > 0
+    ) {
       return NextResponse.json(
         FileResponse.parse({
           code: "INVALID_REQUEST",
           message: "Not a valid request",
         }),
         { status: 400 }
-      );
-    }
-
-    if (
-      !user.SeniorIDs.some(
-        (seniorId: string) => seniorId === fileData.seniorId
-      ) ||
-      otherFiles.length > 0
-    ) {
-      // User has been deselected to work with a senior
-      // If other files with the same date exist, we don't allow for duplicates
-      return NextResponse.json(
-        FileResponse.parse({
-          code: "SUCCESS",
-          message: "File successfully added",
-        }),
-        { status: 200 }
       );
     }
 
