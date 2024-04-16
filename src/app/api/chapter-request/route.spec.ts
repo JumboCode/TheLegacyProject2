@@ -16,6 +16,6 @@ describe("ChapterRequest", () => {
         availabilities: "I am available",
         questions: "I have a question",
       })
-    ).toThrowError("This is not a valid email");
+    ).toThrowError("Please provide a valid email");
   });
 });
