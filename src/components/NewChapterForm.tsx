@@ -171,7 +171,7 @@ const NewChapterForm = () => {
               />
               <ErrorMessage
                 errors={errors}
-                name="university"
+                name="universityAddress"
                 render={({ message }) => (
                   <p className="flex items-center gap-x-1 text-sm">
                     <FontAwesomeIcon
@@ -197,7 +197,7 @@ const NewChapterForm = () => {
               />
               <ErrorMessage
                 errors={errors}
-                name="university"
+                name="leadershipExperience"
                 render={({ message }) => (
                   <p className="flex items-center gap-x-1 text-sm">
                     <FontAwesomeIcon
@@ -220,7 +220,7 @@ const NewChapterForm = () => {
               />
               <ErrorMessage
                 errors={errors}
-                name="university"
+                name="motivation"
                 render={({ message }) => (
                   <p className="flex items-center gap-x-1 text-sm">
                     <FontAwesomeIcon
@@ -245,7 +245,7 @@ const NewChapterForm = () => {
               />
               <ErrorMessage
                 errors={errors}
-                name="university"
+                name="availabilities"
                 render={({ message }) => (
                   <p className="flex items-center gap-x-1 text-sm">
                     <FontAwesomeIcon
