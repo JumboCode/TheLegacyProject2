@@ -122,14 +122,14 @@ const AddSenior = ({
   );
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
-  const [edited, setEdited] = useState<boolean>(false);
 
   const {
     register,
     handleSubmit,
     reset,
     setValue,
-    formState: { errors },
+    clearErrors,
+    formState: { errors, isValid },
   } = useForm<SeniorData>({
     resolver: zodResolver(seniorFormSchema),
   });
@@ -211,7 +211,6 @@ const AddSenior = ({
     setSelectedStudents([]);
     setCurrentImage(ImageIcon);
     setSeniorPatch(""); // empty string used as falsey value to indicate update or patch
-    setEdited(false);
     reset();
   };
 
@@ -266,14 +265,16 @@ const AddSenior = ({
                   <input
                     className="mb-1 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-dark-teal placeholder:text-dark-teal"
                     style={{
-                      outline: errors?.firstname ? "2px solid red" : "none",
+                      outline: errors?.firstname ? "2px solid #EF6767" : "none",
                     }}
                     type="text"
-                    {...register("firstname")}
-                    onChange={() => setEdited(true)}
+                    {...register("firstname", {
+                      onChange: () => clearErrors("firstname"),
+                    })}
+                    autoComplete="off"
                   />
                   {errors?.firstname && (
-                    <div className="text-s mb-1 text-red-500">
+                    <div className="text-s mb-1 text-sunset-orange">
                       {errors.firstname.message}
                     </div>
                   )}
@@ -287,7 +288,7 @@ const AddSenior = ({
                     className="mb-3 h-[36px] w-full rounded-md border-2 border-solid border-tan px-3 text-sm text-dark-teal placeholder:text-dark-teal"
                     type="text"
                     {...register("lastname")}
-                    onChange={() => setEdited(true)}
+                    autoComplete="off"
                   />
                 </div>
               </div>
@@ -300,7 +301,7 @@ const AddSenior = ({
                 type="text"
                 placeholder="Where are you and your senior meeting?"
                 {...register("location")}
-                onChange={() => setEdited(true)}
+                autoComplete="off"
               />
 
               <div className="mb-5 h-2 w-full text-base text-white">
@@ -310,7 +311,7 @@ const AddSenior = ({
                 className="h-25 mb-3 min-h-[20px] w-full resize-none rounded-md border-2 border-solid border-tan bg-white p-[10px] text-start text-sm text-dark-teal placeholder:text-dark-teal"
                 placeholder="Write a brief description about the senior"
                 {...register("description")}
-                onChange={() => setEdited(true)}
+                autoComplete="off"
               />
 
               <StudentSelector
@@ -332,7 +333,7 @@ const AddSenior = ({
                     className={` mx-2 flex max-h-[36px] w-24 items-center justify-center rounded-xl 
                       px-4 py-2 text-[18px] font-normal drop-shadow-md 
                       ${
-                        edited
+                        isValid
                           ? "bg-white text-dark-teal hover:bg-off-white"
                           : "cursor-not-allowed bg-gray-300 text-gray-500"
                       }`}

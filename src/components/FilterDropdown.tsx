@@ -64,7 +64,7 @@ export default function FilterDropdown<T extends Named>({
 
   return (
     <>
-      <div className="bg-red flex w-full flex-col">
+      <div className="flex w-full flex-col">
         <div
           onChange={onChange}
           className="mb-2 h-[36px] w-full flex-row items-end justify-end rounded-md border-2 border-tan bg-white px-3 text-gray-400 focus:outline-none"
@@ -81,7 +81,7 @@ export default function FilterDropdown<T extends Named>({
             onMouseEnter={() => setShowOptions(true)}
             onMouseLeave={() => setShowOptions(false)}
           >
-            <div className="top-100 absolute z-50 flex max-h-[150px] w-full flex-col overflow-y-auto bg-white">
+            <div className="top-100 absolute z-50 flex max-h-[150px] w-full flex-col overflow-y-auto rounded-md bg-white">
               {filteredItems.map((item: T, index: number) => (
                 <span
                   className="hover:bg-legacy-teal flex  flex-row items-center border border-light-gray py-2

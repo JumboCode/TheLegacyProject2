@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const seniorSchema = z.object({
   id: z.string(),
-  firstname: z.string().min(2, "Must be at least 2 characters long"),
+  firstname: z.string().min(2, "Must be at least 2 characters"),
   lastname: z.string(),
   location: z.string(),
   dateCreated: z.coerce.date(),
