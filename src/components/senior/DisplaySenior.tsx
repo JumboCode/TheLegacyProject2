@@ -6,11 +6,10 @@ import { compareUser, formatFileDate, fullName, seniorFullName } from "@utils";
 import { File } from "@components/file";
 import AddFile from "@components/file/AddFile";
 import { v4 as uuid } from "uuid";
-import Assignment from "./assignment";
+import { Assignment } from "@components/selector";
 import { patchSenior } from "@api/senior/[id]/route.client";
 import React from "react";
 import { useApiThrottle } from "@hooks";
-import { UserContext } from "@context/UserProvider";
 
 interface DisplayProps {
   editable: boolean;
@@ -23,7 +22,6 @@ interface DisplayProps {
 const DisplaySenior = (props: DisplayProps) => {
   const { editable, canAddFile, senior } = props;
   const addFileId = uuid();
-  const userContext = React.useContext(UserContext);
 
   const students = React.useMemo(
     () => senior.chapter.students.sort(compareUser),
@@ -56,6 +54,12 @@ const DisplaySenior = (props: DisplayProps) => {
       <h1 className="text-4xl font-bold text-[#000022]">
         {seniorFullName(senior)}
       </h1>
+      {senior.location.length > 0 && (
+        <p>
+          <b>Meeting Location: </b>
+          <span>{senior.location}</span>
+        </p>
+      )}
       <p>{senior.description}</p>
       <Assignment
         header="Assign members"
@@ -65,6 +69,7 @@ const DisplaySenior = (props: DisplayProps) => {
         selected={assigned}
         setSelected={setAssigned}
         onSave={onSave}
+        tagColor="#A96257"
       />
       <SearchableContainer
         display={(file) => (

@@ -13,10 +13,11 @@ interface DropdownProps<T extends IdentifiableObject> {
   setSelected: React.Dispatch<React.SetStateAction<T[]>>;
   onSave: () => Promise<any>;
   multipleChoice?: boolean;
+  tagColor?: string;
 }
 
 const Dropdown = <T extends IdentifiableObject>(props: DropdownProps<T>) => {
-  const { header, display, elements, selected, setSelected } = props;
+  const { header, display, elements, selected, setSelected, tagColor } = props;
   const multipleChoice = props.multipleChoice ?? true;
   const [displayDropdown, setDisplayDropdown] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -54,35 +55,47 @@ const Dropdown = <T extends IdentifiableObject>(props: DropdownProps<T>) => {
   };
 
   // TODO(nickbar01234) - Handle click outside
+
+  const hexColor = tagColor ?? "#22555A";
+
   return (
     <div className="relative w-full">
       <div
-        className="flex cursor-pointer items-center justify-between rounded-lg border border-dark-teal bg-tan px-4 py-1.5"
+        className={`flex cursor-pointer items-center justify-between rounded-lg border bg-tan px-4 py-1.5`}
         onClick={onDisplayDropdown}
+        style={{ borderColor: tagColor ?? "#22555A" }}
       >
-        <span className="text-dark-teal">{header}</span>
-        <FontAwesomeIcon icon={faCaretDown} className="text-dark-teal" />
+        <span style={{ color: hexColor }}>{header}</span>
+        <FontAwesomeIcon icon={faCaretDown} style={{ color: hexColor }} />
       </div>
       {displayDropdown && (
-        <div className="absolute z-50 mt-2 inline-block w-full rounded border border-dark-teal bg-tan p-4">
+        <div
+          className="absolute z-50 mt-2 inline-block w-full rounded border bg-tan p-4"
+          style={{ borderColor: hexColor }}
+        >
           <div className="flex min-h-[128px] flex-col justify-between gap-y-3">
             <div className="flex max-h-[128px] flex-col gap-y-3 overflow-y-auto">
               {elements.map((element, idx) => (
                 <div
                   key={idx}
-                  className="flex cursor-pointer items-center gap-1.5 text-dark-teal"
+                  className="flex cursor-pointer items-center gap-1.5"
                   onClick={(e) => onCheck(e, element)}
+                  style={{ color: hexColor }}
                 >
                   <button
-                    className={`flex h-4 w-4 items-center justify-center border-2 border-dark-teal ${
+                    className={`flex h-4 w-4 items-center justify-center border-2 ${
                       !multipleChoice && "rounded-full"
                     }`}
+                    style={{ borderColor: hexColor }}
                   >
                     {selected.some((other) => element.id === other.id) &&
                       (multipleChoice ? (
                         <FontAwesomeIcon icon={faCheck} size="xs" />
                       ) : (
-                        <div className="h-full w-full bg-dark-teal" />
+                        <div
+                          className="h-full w-full"
+                          style={{ backgroundColor: hexColor }}
+                        />
                       ))}
                   </button>
                   <span className="overflow-hidden truncate">
@@ -97,8 +110,9 @@ const Dropdown = <T extends IdentifiableObject>(props: DropdownProps<T>) => {
               </div>
             ) : (
               <button
-                className="rounded bg-dark-teal px-6 py-2.5 text-white"
+                className="rounded px-6 py-2.5 text-white"
                 onClick={onSave}
+                style={{ backgroundColor: hexColor }}
               >
                 Save Changes
               </button>

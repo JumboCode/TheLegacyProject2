@@ -3,7 +3,7 @@
 import { editSeniorIDs } from "@api/user/[uid]/edit-seniors/route.client";
 import { UserTile } from "@components/TileGrid";
 import { CardGrid } from "@components/container";
-import Assignment from "@components/senior/assignment";
+import { Assignment } from "@components/selector";
 import { RoleToUrlSegment } from "@constants/RoleAlias";
 import { useApiThrottle } from "@hooks";
 import { Prisma, Senior } from "@prisma/client";

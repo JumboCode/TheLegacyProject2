@@ -13,6 +13,7 @@ interface AssignmentProps<T extends IdentifiableObject> {
   setSelected: React.Dispatch<React.SetStateAction<T[]>>;
   onSave: () => Promise<any>;
   multipleChoice?: boolean;
+  tagColor?: string;
 }
 
 const Assignment = <T extends IdentifiableObject>(
@@ -27,6 +28,7 @@ const Assignment = <T extends IdentifiableObject>(
     setSelected,
     onSave,
     multipleChoice,
+    tagColor,
   } = props;
   const router = useRouter();
 
@@ -45,13 +47,17 @@ const Assignment = <T extends IdentifiableObject>(
               await onSave();
               router.refresh();
             }}
+            tagColor={tagColor}
           />
         </div>
       )}
       {selected.map((elem) => (
         <div
           key={elem.id}
-          className="rounded-3xl bg-dark-teal px-4 py-1.5 text-white"
+          className={`rounded-3xl px-4 py-1.5 text-white`}
+          style={{
+            background: tagColor ?? "#22555A",
+          }}
         >
           {display(elem)}
         </div>
