@@ -54,7 +54,7 @@ const Assignment = <T extends IdentifiableObject>(
       {selected.map((elem) => (
         <div
           key={elem.id}
-          className={`rounded-3xl px-4 py-1.5 text-white`}
+          className={`flex items-center rounded-3xl px-3 py-1 text-white`}
           style={{
             background: tagColor ?? "#22555A",
           }}
