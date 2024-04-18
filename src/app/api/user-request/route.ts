@@ -173,6 +173,7 @@ export const PATCH = withSession(async ({ req, session }) => {
       uid: targetUID,
     },
   });
+
   const chapter = await prisma.chapter.findFirst({
     where: {
       id: chapterRequest.chapterId,
