@@ -1,11 +1,10 @@
 "use client";
 
 import { Senior, User } from "@prisma/client";
-import Image from "next/legacy/image";
 import Link from "next/link";
 import React, { ReactNode } from "react";
 import "@fontsource/merriweather";
-import { fullName, seniorFullName } from "@utils";
+import { fullName, seniorFullName, seniorInitial, userInitial } from "@utils";
 
 interface UserTileProps {
   student?: User;
@@ -20,6 +19,7 @@ export function UserTile({
   link,
   dropdownComponent,
 }: UserTileProps) {
+  console.log(student);
   return (
     <div className="w-48 rounded-lg bg-white shadow-md shadow-gray-500">
       <div className="h-40 w-full rounded-lg bg-white drop-shadow-md hover:bg-off-white">
@@ -30,23 +30,15 @@ export function UserTile({
           }
         >
           <div className="h-full w-full object-cover">
-            {student ? (
-              <Image
-                src={
-                  (student && student.image) ?? "/profile/genericprofile.png"
-                }
-                alt="Placeholder profile image"
-                layout="fill"
-                className="max-h-full max-w-full rounded-lg"
-              />
-            ) : (
-              <Image
-                src={"/profile/seniorprofile_icon.png"}
-                alt="Placeholder profile image"
-                layout="fill"
-                className="max-h-full max-w-full rounded-lg"
-              />
-            )}
+            <div className="flex h-full w-full items-center justify-center rounded-lg bg-dark-teal">
+              <span className="text-3xl text-white">
+                {senior != undefined
+                  ? seniorInitial(senior)
+                  : student != undefined
+                  ? userInitial(student)
+                  : null}
+              </span>
+            </div>
           </div>
         </Link>
       </div>

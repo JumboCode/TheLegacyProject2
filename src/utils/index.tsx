@@ -48,8 +48,17 @@ export const formatFileDate = (date: Date) =>
 
 export const fullName = (user: User) => `${user.firstName} ${user.lastName}`;
 
+const initials = (firstName: string, lastName: string) =>
+  `${firstName[0] ?? ""}${lastName[0] ?? ""}`;
+
+export const userInitial = (user: User) =>
+  initials(user.firstName, user.lastName);
+
 export const seniorFullName = (senior: Senior) =>
   `${senior.firstname} ${senior.lastname}`;
+
+export const seniorInitial = (senior: Senior) =>
+  initials(senior.firstname, senior.lastname);
 
 export const sortedStudents = (students: User[]) => {
   const positionOrder: PositionOrder = {

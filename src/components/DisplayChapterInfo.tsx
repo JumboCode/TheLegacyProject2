@@ -107,7 +107,7 @@ const DisplayChapterInfo = ({
         ].map((value) => (
           <div
             key={value}
-            className="whitespace-nowrap rounded bg-dark-teal p-2.5 font-light text-white"
+            className="whitespace-nowrap rounded-3xl bg-dark-teal px-3 py-1 font-light text-white"
           >
             {value}
           </div>

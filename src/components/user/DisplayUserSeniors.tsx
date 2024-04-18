@@ -58,6 +58,7 @@ const DisplayUserSenior = (props: DisplayProps) => {
         selected={assigned}
         setSelected={setAssigned}
         onSave={onSave}
+        tagColor="#A96257"
       />
       <CardGrid
         tiles={assigned.map((eachSenior) => (
