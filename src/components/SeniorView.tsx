@@ -100,7 +100,7 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
                   (yearsClicked.includes(year)
                     ? "bg-[#AE583C] text-white"
                     : "text-[#AE583C]") +
-                  "cursor-pointer rounded-3xl border-2 border-[#AE583C] px-3 py-1"
+                  " cursor-pointer rounded-3xl border-2 border-[#AE583C] px-3 py-1"
                 }
                 onClick={() =>
                   setYearsClicked((oldYears) => {
