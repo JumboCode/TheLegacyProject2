@@ -14,6 +14,7 @@ import Logo from "@public/icons/logo.svg";
 import Image from "next/image";
 import { RoleAlias } from "@constants/RoleAlias";
 import { fullName } from "@utils";
+import { usePathname } from "next/navigation";
 
 interface Button {
   name: string;
@@ -28,13 +29,19 @@ export interface ISideBar {
 const SidebarItem = ({
   label,
   iconName,
+  active,
 }: {
   label: string;
   iconName: IconDefinition;
+  active: boolean;
 }) => {
   return (
-    <div className="flex w-full space-x-4 text-left duration-150 hover:translate-x-1">
-      <div className="flex w-1/6 items-center justify-center">
+    <div
+      className={`flex w-full items-center space-x-4 text-left duration-150 hover:translate-x-1 ${
+        active ? "text-dark-teal" : ""
+      }`}
+    >
+      <div className="flex w-1/6 justify-center">
         <FontAwesomeIcon icon={iconName} size="lg" />
       </div>
       <div className="flex w-5/6 items-center text-xl">{label}</div>
@@ -44,6 +51,8 @@ const SidebarItem = ({
 
 const _Sidebar = ({ buttons }: ISideBar) => {
   const { user } = React.useContext(UserContext);
+  const path = usePathname();
+
   return (
     <nav className="h-screen w-full overflow-y-auto bg-med-tan pb-32 pt-20">
       <div className="flex h-full flex-col items-center justify-between">
@@ -56,7 +65,11 @@ const _Sidebar = ({ buttons }: ISideBar) => {
           <div className="flex w-full flex-col space-y-6">
             {buttons.map((data) => (
               <Link key={data.name} href={data.link}>
-                <SidebarItem label={data.name} iconName={data.icon} />
+                <SidebarItem
+                  label={data.name}
+                  iconName={data.icon}
+                  active={path.startsWith(data.link)}
+                />
               </Link>
             ))}
           </div>
@@ -82,7 +95,11 @@ const _Sidebar = ({ buttons }: ISideBar) => {
             {RoleAlias[user.role]}
           </div>
           <button onClick={() => signOut({ callbackUrl: "/public/" })}>
-            <SidebarItem label="Sign Out" iconName={faArrowRightFromBracket} />
+            <SidebarItem
+              label="Sign Out"
+              iconName={faArrowRightFromBracket}
+              active={false}
+            />
           </button>
         </div>
       </div>

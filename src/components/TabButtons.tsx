@@ -35,7 +35,7 @@ const TabButtons = ({ queries }: TabButtonsProps) => {
               <Link
                 href={href}
                 className={`text-xl uppercase ${
-                  isTabSelected ? "text-dark-teal" : "text-black"
+                  isTabSelected ? "text-dark-teal" : ""
                 }`}
               >
                 {name}

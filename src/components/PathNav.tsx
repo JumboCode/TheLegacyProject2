@@ -30,9 +30,7 @@ const PathNav = ({ pathInfo }: PathNavParams) => {
           {index !== 0 && <div className="px-2">&gt;</div>}
           <Link
             href={getPath(index, currPath.url)}
-            className={
-              index === array.length - 1 ? "text-dark-teal" : "text-black"
-            }
+            className={index === array.length - 1 ? "text-dark-teal" : ""}
           >
             {currPath.display}
           </Link>

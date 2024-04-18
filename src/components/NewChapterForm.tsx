@@ -62,7 +62,7 @@ const NewChapterForm = () => {
               <div>First Name</div>
               <input
                 {...register("firstName", { onChange: resetForm })}
-                className="h-8 w-full rounded-md px-2 py-2 text-black"
+                className="h-8 w-full rounded-md px-2 py-2"
               />
               <ErrorMessage
                 errors={errors}
@@ -83,7 +83,7 @@ const NewChapterForm = () => {
               <div>Last Name</div>
               <input
                 {...register("lastName", { onChange: resetForm })}
-                className="h-8 w-full rounded-md px-2 py-2 text-black"
+                className="h-8 w-full rounded-md px-2 py-2"
               />
               <ErrorMessage
                 errors={errors}
@@ -104,7 +104,7 @@ const NewChapterForm = () => {
               <div>University Email</div>
               <input
                 {...register("universityEmail", { onChange: resetForm })}
-                className="h-8 w-full rounded-md px-2 py-2 text-black"
+                className="h-8 w-full rounded-md px-2 py-2"
               />
               <ErrorMessage
                 errors={errors}
@@ -125,7 +125,7 @@ const NewChapterForm = () => {
               <div>Phone Number</div>
               <input
                 {...register("phoneNumber", { onChange: resetForm })}
-                className="h-8 w-full rounded-md px-2 py-2 text-black"
+                className="h-8 w-full rounded-md px-2 py-2"
               />
               <ErrorMessage
                 errors={errors}
@@ -146,7 +146,7 @@ const NewChapterForm = () => {
               <div>College / University</div>
               <input
                 {...register("university", { onChange: resetForm })}
-                className="h-8 w-full rounded-md px-2 py-2 text-black"
+                className="h-8 w-full rounded-md px-2 py-2"
               />
               <ErrorMessage
                 errors={errors}
@@ -167,7 +167,7 @@ const NewChapterForm = () => {
               <div>College / University Address</div>
               <input
                 {...register("universityAddress", { onChange: resetForm })}
-                className="h-8 w-full rounded-md px-2 py-2 text-black"
+                className="h-8 w-full rounded-md px-2 py-2"
               />
               <ErrorMessage
                 errors={errors}
@@ -193,7 +193,7 @@ const NewChapterForm = () => {
               </div>
               <textarea
                 {...register("leadershipExperience", { onChange: resetForm })}
-                className="h-18 w-full resize-none rounded-md px-2 py-2 align-top text-black"
+                className="h-18 w-full resize-none rounded-md px-2 py-2 align-top"
               />
               <ErrorMessage
                 errors={errors}
@@ -216,7 +216,7 @@ const NewChapterForm = () => {
               </div>
               <textarea
                 {...register("motivation", { onChange: resetForm })}
-                className="h-18 w-full resize-none rounded-md px-2 py-2 align-top text-black"
+                className="h-18 w-full resize-none rounded-md px-2 py-2 align-top"
               />
               <ErrorMessage
                 errors={errors}
@@ -240,7 +240,7 @@ const NewChapterForm = () => {
               </div>
               <input
                 {...register("availabilities", { onChange: resetForm })}
-                className="h-8 w-full rounded-md px-2 py-2 text-black"
+                className="h-8 w-full rounded-md px-2 py-2"
                 placeholder="Include the date (mm-dd-yyyy), time (hh:mm am/pm), and your timezone"
               />
               <ErrorMessage
@@ -262,7 +262,7 @@ const NewChapterForm = () => {
               <div>What questions do you have for us? </div>
               <textarea
                 {...register("questions", { onChange: resetForm })}
-                className="h-12 w-full resize-none rounded-md px-2 py-1 align-top text-black"
+                className="h-12 w-full resize-none rounded-md px-2 py-1 align-top"
               />
             </div>
           </div>
