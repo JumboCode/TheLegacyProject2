@@ -30,9 +30,7 @@ const DropDownContainer = (props: DropDownContainerProps) => {
       </div>
       <div
         className={`overflow-auto ${
-          showItems
-            ? "h-fit pb-4 sm:max-h-[512px] md:max-h-[1024px]"
-            : "max-h-0"
+          showItems ? "h-fit max-h-[512px] pb-4 md:max-h-[1024px]" : "max-h-0"
         }`}
         style={
           showItems
