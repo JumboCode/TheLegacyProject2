@@ -19,7 +19,6 @@ export function UserTile({
   link,
   dropdownComponent,
 }: UserTileProps) {
-  console.log(student);
   return (
     <div className="w-48 rounded-lg bg-white shadow-md shadow-gray-500">
       <div className="h-40 w-full rounded-lg bg-white drop-shadow-md hover:bg-off-white">
