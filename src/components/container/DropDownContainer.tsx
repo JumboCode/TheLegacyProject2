@@ -20,18 +20,23 @@ const DropDownContainer = (props: DropDownContainerProps) => {
   return (
     <div className={props.classname ?? ""}>
       <div className="flex cursor-pointer" onClick={handleClick}>
-        <div className="h-full pr-2">
-          <FontAwesomeIcon icon={showItems ? faCaretDown : faCaretRight} />
+        <div className="pr-2">
+          <FontAwesomeIcon
+            className="fa-fw"
+            icon={showItems ? faCaretDown : faCaretRight}
+          />
         </div>
         {props.title}
       </div>
       <div
         className={`overflow-auto ${
-          showItems ? "h-fit min-h-[256px] pb-4" : "max-h-0"
+          showItems
+            ? "h-fit pb-4 sm:max-h-[512px] md:max-h-[1024px]"
+            : "max-h-0"
         }`}
         style={
           showItems
-            ? { transition: "max-height 0.5s ease" }
+            ? { transition: "max-height 0.3s ease" }
             : { transition: "max-height 0.1s ease" }
         }
       >
