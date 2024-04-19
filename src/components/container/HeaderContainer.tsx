@@ -15,7 +15,7 @@ const HeaderContainer = (props: IHeaderContainer) => {
     <div className="h-full w-full">
       <div className="flex w-full items-center space-x-4">
         <FontAwesomeIcon className="h-6 w-6" icon={headerIcon} />
-        <h1 className="text-xl text-black">{header}</h1>
+        <h1 className="text-xl">{header}</h1>
       </div>
       {showHorizontalLine && (
         <hr className="mt-6 w-full border-t border-black" />
