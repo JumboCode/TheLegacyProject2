@@ -98,7 +98,7 @@ model Senior {
   folder      String   @default("")
   Files       File[]
   ChapterID   String   @db.ObjectId
-  chapter     Chapter  @relation(fields: [ChapterID], references: [id])
+  chapter     Chapter  @relation(fields: [ChapterID], references: [id], onDelete: Cascade)
 }
 
 model File {
@@ -131,6 +131,8 @@ model ChapterRequest {
   motivation           String
   availabilities       String
   questions            String
+
+  chapter              Chapter?
 }
 
 model Chapter {
@@ -144,6 +146,9 @@ model Chapter {
   // Google Drive API related fields
   chapterFolder String   @default("")
   permissions   String[]
+
+  chapterRequestId String @db.ObjectId @unique
+  chapterRequest ChapterRequest @relation(fields: [chapterRequestId], references: [id], onDelete: Cascade)
 }
 
 model Resource {

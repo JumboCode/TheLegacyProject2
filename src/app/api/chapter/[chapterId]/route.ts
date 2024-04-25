@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
 import { withSessionAndRole } from "@server/decorator";
 import { prisma } from "@server/db/client";
 import { driveV3 } from "@server/service";
+import { NextResponse } from "next/server";
+import { DeleteChapterResponse } from "./route.schema";
 
 export const DELETE = withSessionAndRole(["ADMIN"], async ({ params }) => {
   // TODO
@@ -15,11 +16,21 @@ export const DELETE = withSessionAndRole(["ADMIN"], async ({ params }) => {
     where: {
       id: chapterId,
     },
+    include: {
+      students: true,
+      seniors: true,
+    },
   });
 
   if (chapter == null) {
     // If no ID is found, chapter has been deleted by another admin.
-    return NextResponse.json("ok");
+    return NextResponse.json(
+      DeleteChapterResponse.parse({
+        code: "CHAPTER_NOT_FOUND",
+        message: "Chapter not found",
+      }),
+      { status: 404 }
+    );
   }
 
   await Promise.allSettled(
@@ -31,5 +42,40 @@ export const DELETE = withSessionAndRole(["ADMIN"], async ({ params }) => {
     )
   );
 
-  return NextResponse.json("ok");
+  await prisma.chapterRequest.delete({
+    where: {
+      id: chapter.chapterRequestId,
+    },
+  });
+
+  await prisma.userRequest.deleteMany({
+    where: {
+      chapterId: chapterId,
+    },
+  });
+
+  chapter.students.forEach(async (student) => {
+    await prisma.user.update({
+      where: {
+        id: student.id,
+      },
+      data: {
+        ChapterID: null,
+      },
+    });
+  });
+
+  await prisma.chapter.delete({
+    where: {
+      id: chapterId,
+    },
+  });
+
+  return NextResponse.json(
+    DeleteChapterResponse.parse({
+      code: "SUCCESS",
+      message: "The chapter was successfully deleted",
+    }),
+    { status: 200 }
+  );
 });

@@ -6,6 +6,7 @@ import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { TileEdit } from "./TileGrid/TileEdit";
 import { InfoTile } from "./TileGrid";
 import { fullName } from "@utils";
+import { DeleteChapter } from "@api/chapter/[chapterId]/route.client";
 import SearchableContainer from "./SearchableContainer";
 
 type ChapterWithUser = Prisma.ChapterGetPayload<{
@@ -32,7 +33,9 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
         options.push({
           name: "Remove Chapter",
           onClick: async () => {
-            return;
+            const response = await DeleteChapter(chapter.id);
+            window.location.reload();
+            return response;
           },
           color: "#ef6767",
           icon: <FontAwesomeIcon icon={faTrashCan} />,

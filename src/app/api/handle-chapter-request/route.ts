@@ -59,6 +59,7 @@ export const POST = withSession(async ({ req }) => {
       data: {
         chapterName: chapterRequest.university,
         location: chapterRequest.universityAddress,
+        chapterRequestId: chapterRequest.id,
       },
     });
 
