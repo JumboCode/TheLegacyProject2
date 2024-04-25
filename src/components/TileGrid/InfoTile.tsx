@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import React from "react";
-import DropDownContainer from "@components/container/DropDownContainer";
 
 interface Information {
   key: string;
@@ -15,24 +14,19 @@ interface InfoTileProps {
   topRightButton?: React.ReactNode;
   moreInformation?: React.ReactNode;
   href?: string;
+  ContainerNode?: ({ children }: { children?: React.ReactNode }) => JSX.Element;
+  defaultExpand?: boolean;
 }
 
-/**
- * Displays a tile with the given information.
- *
- * @param information An array of key-value pairs. Each row of the tile display 2 information, as specified by the order
- * in the array
- * @param moreInformation If present, will display a "show more" option that expands on click
- */
-const InfoTile = (params: InfoTileProps) => {
-  const { title, information, topRightButton, moreInformation, href } = params;
+const _InfoTile = (props: Omit<InfoTileProps, "ContainerNode">) => {
+  const { title, information, topRightButton, moreInformation, href } = props;
 
   return (
     <div className="flex h-fit w-full flex-col gap-y-4 rounded-lg bg-white p-6 shadow-md shadow-gray-500">
       <div className="relative flex items-center justify-between">
         <Link
           href={href ?? ""}
-          className={`href ? "" : "cursor-default" truncate`}
+          className={href ? "" : "cursor-default truncate"}
         >
           <h1 className="text-2xl font-bold text-dark-teal">{title}</h1>
         </Link>
@@ -49,17 +43,31 @@ const InfoTile = (params: InfoTileProps) => {
           </div>
         ))}
       </div>
-      {moreInformation ? (
-        <DropDownContainer
-          title={
-            <p className="mb-6 w-fit cursor-pointer text-dark-teal underline">
-              Show more
-            </p>
-          }
-        >
-          {moreInformation}
-        </DropDownContainer>
-      ) : null}
+      {moreInformation ?? null}
+    </div>
+  );
+};
+
+/**
+ * Displays a tile with the given information.
+ *
+ * @param information An array of key-value pairs. Each row of the tile display 2 information, as specified by the order
+ * in the array
+ * @param moreInformation If present, will display a "show more" option that expands on click
+ */
+const InfoTile = (props: InfoTileProps) => {
+  const { ContainerNode, ...other } = props;
+
+  if (ContainerNode != undefined) {
+    return (
+      <ContainerNode>
+        <_InfoTile {...other} />
+      </ContainerNode>
+    );
+  }
+  return (
+    <div className="flex h-fit w-full flex-col gap-y-4 rounded-lg bg-white p-6 shadow-lg">
+      <_InfoTile {...other} />
     </div>
   );
 };

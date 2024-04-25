@@ -5,6 +5,7 @@ const AdminHomePageWrapper = async () => {
   const chapters = await prisma.chapter.findMany({
     include: {
       students: true,
+      chapterRequest: true,
     },
   });
 

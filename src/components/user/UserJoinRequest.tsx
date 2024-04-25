@@ -1,13 +1,6 @@
 "use client";
 
 import { Prisma, UserRequest } from "@prisma/client";
-import { TileEdit } from "../TileGrid/TileEdit";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheck,
-  faEllipsis,
-  faRotateLeft,
-} from "@fortawesome/free-solid-svg-icons";
 import {
   handleJoinChapterRequest,
   handleManageChapterRequest,
@@ -57,7 +50,7 @@ const UserJoinRequest = (props: UserJoinRequestProps) => {
     fetchingHandleJoinChapterRequest || fetchingManageChapterRequest;
 
   return (
-    <div className="flex h-full w-full flex-col gap-y-6  px-7 py-[104px]">
+    <div className="flex h-full w-full flex-col gap-y-6 py-[104px]">
       <p className="text-center text-4xl"> Welcome To The Legacy Project</p>
       <p className="text-2xl font-bold">Join a Chapter Below:</p>
       <CardGrid

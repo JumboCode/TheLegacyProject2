@@ -8,10 +8,11 @@ interface DropDownContainerProps {
   classname?: string;
   title?: React.ReactNode;
   children?: React.ReactNode;
+  defaultExpand?: boolean;
 }
 
 const DropDownContainer = (props: DropDownContainerProps) => {
-  const [showItems, setShowItems] = React.useState(true);
+  const [showItems, setShowItems] = React.useState(props.defaultExpand ?? true);
 
   const handleClick = () => {
     setShowItems(!showItems);
@@ -26,7 +27,11 @@ const DropDownContainer = (props: DropDownContainerProps) => {
             icon={showItems ? faCaretDown : faCaretRight}
           />
         </div>
-        {props.title}
+        {props.title ?? (
+          <p className="w-fit cursor-pointer text-dark-teal underline">
+            Show more
+          </p>
+        )}
       </div>
       <div
         className={`overflow-auto ${
