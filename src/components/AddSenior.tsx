@@ -241,9 +241,9 @@ const AddSenior = ({
   return (
     <>
       {showAddSeniorPopUp && (
-        <Popup className="h-fit w-[36rem]">
+        <Popup className="h-[40rem] w-full overflow-auto sm:w-[36rem]">
           {!confirm && !error ? (
-            <form className="text-white" onSubmit={handleSubmit(onSubmit)}>
+            <form className=" text-white" onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-5 text-xl font-extrabold sm:text-center md:text-left">
                 {seniorPatch ? "Update" : "Add New"} Senior
               </div>
@@ -257,8 +257,8 @@ const AddSenior = ({
                   />
                 </div>
               </div>
-              <div className="flex">
-                <div className="mr-2 flex-1 flex-col">
+              <div className="flex flex-col sm:flex-row">
+                <div className="mr-0 flex-1 flex-col sm:mr-2">
                   <div className=" mb-2 h-[19px] w-full text-base text-white">
                     First name
                   </div>
@@ -280,7 +280,7 @@ const AddSenior = ({
                   )}
                 </div>
 
-                <div className="ml-2 flex-1 flex-col">
+                <div className="ml-0 flex-1 flex-col sm:ml-2">
                   <div className="mb-2 h-[19px] w-full text-base text-white">
                     Last name
                   </div>
