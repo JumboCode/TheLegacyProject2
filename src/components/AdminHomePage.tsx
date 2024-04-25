@@ -37,7 +37,7 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
           name: "Remove Chapter",
           onClick: async () => {
             const response = await deleteChapter(chapter.id);
-            router.refresh(); 
+            router.refresh();
           },
           color: "#ef6767",
           icon: <FontAwesomeIcon icon={faTrashCan} />,

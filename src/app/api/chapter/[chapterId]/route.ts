@@ -42,11 +42,11 @@ export const DELETE = withSessionAndRole(["ADMIN"], async ({ params }) => {
     },
     data: {
       SeniorIDs: {
-        set: []
+        set: [],
       },
       position: "",
-      role: "USER"
-    }
+      role: "USER",
+    },
   });
 
   await prisma.chapterRequest.delete({

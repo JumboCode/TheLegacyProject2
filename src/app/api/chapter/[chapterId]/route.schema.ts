@@ -10,5 +10,4 @@ export const deleteChapterResponse = z.discriminatedUnion("code", [
     code: z.literal("CHAPTER_NOT_FOUND"),
     message: z.literal("The chapter id could not be found"),
   }),
-
 ]);
