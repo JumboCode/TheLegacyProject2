@@ -5,13 +5,11 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import Image, { StaticImageData } from "next/legacy/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FilterDropdown from "@components/FilterDropdown";
 import { Senior, User } from "@prisma/client";
 
-import ImageIcon from "../../public/icons/icon_add_photo.png";
 import { patchSenior } from "src/app/api/senior/[id]/route.client";
 import { postSenior } from "src/app/api/senior/route.client";
 import z from "zod/lib";
@@ -117,9 +115,6 @@ const AddSenior = ({
   setSeniorPatch,
 }: AddSeniorProps) => {
   const [selectedStudents, setSelectedStudents] = useState<User[]>([]);
-  const [currentImage, setCurrentImage] = useState<string | StaticImageData>(
-    ImageIcon
-  );
   const [confirm, setConfirm] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
@@ -209,7 +204,6 @@ const AddSenior = ({
   const handlePopUp = () => {
     setShowAddSeniorPopUp(!showAddSeniorPopUp);
     setSelectedStudents([]);
-    setCurrentImage(ImageIcon);
     setSeniorPatch(""); // empty string used as falsey value to indicate update or patch
     reset();
   };
@@ -220,24 +214,6 @@ const AddSenior = ({
     setError(false);
   };
 
-  const handleImageReplace = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-
-    if (!files || files.length === 0) return;
-
-    const selectedFile = files[0];
-    if (!selectedFile) return;
-    const reader = new FileReader();
-
-    reader.onload = (loadEvent: ProgressEvent<FileReader>) => {
-      const dataUrl = loadEvent.target?.result;
-      if (typeof dataUrl === "string") {
-        setCurrentImage(dataUrl);
-      }
-    };
-
-    reader.readAsDataURL(selectedFile);
-  };
   return (
     <>
       {showAddSeniorPopUp && (
