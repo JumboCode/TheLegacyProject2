@@ -241,25 +241,15 @@ const AddSenior = ({
   return (
     <>
       {showAddSeniorPopUp && (
-        <Popup className="h-[40rem] w-full overflow-auto sm:w-[36rem]">
+        <Popup className="h-fit w-full overflow-auto sm:w-[36rem]">
           {!confirm && !error ? (
             <form className=" text-white" onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-5 text-xl font-extrabold sm:text-center md:text-left">
+              <div className="mb-5 text-2xl font-extrabold sm:text-center md:text-left">
                 {seniorPatch ? "Update" : "Add New"} Senior
-              </div>
-              <div>
-                <div className=" relative mb-4 flex h-2 w-2 flex-col items-center justify-center gap-10 rounded bg-white p-10">
-                  <Image src={currentImage} alt="Description" layout="fill" />
-                  <input
-                    type="file"
-                    className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0"
-                    onChange={handleImageReplace}
-                  />
-                </div>
               </div>
               <div className="flex flex-col sm:flex-row">
                 <div className="mr-0 flex-1 flex-col sm:mr-2">
-                  <div className=" mb-2 h-[19px] w-full text-base text-white">
+                  <div className="mb-2 h-[19px] w-full text-base text-white">
                     First name
                   </div>
                   <input
@@ -274,7 +264,7 @@ const AddSenior = ({
                     autoComplete="off"
                   />
                   {errors?.firstname && (
-                    <div className="text-s mb-1 text-sunset-orange">
+                    <div className="mb-1 text-sm text-sunset-orange">
                       {errors.firstname.message}
                     </div>
                   )}

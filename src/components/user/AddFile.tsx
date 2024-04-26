@@ -53,7 +53,7 @@ const TagOptions = ({
                 ? "bg-white text-[#22555A]"
                 : "hover:bg-white hover:text-[#22555A]"
             } m-2 ml-[-2px] inline-block rounded-full border-2 
-            p-2`}
+            p-2 text-base`}
           >
             {tag.name}
           </label>
@@ -75,7 +75,7 @@ const TagSelector = ({
       <div className="text-neutral-600 h-[30px] w-full font-['merriweather'] text-xl">
         Tags
       </div>
-      <div className="text-base font-thin">
+      <div className="text-sm font-thin">
         Select min of 1, max of 3 <span className="text-red-400">*</span>
       </div>
       <TagOptions
@@ -157,8 +157,8 @@ const AddFile = ({
     // <Popup className="h-[32rem] w-full overflow-y-auto sm:h-[44rem] sm:w-[36rem]">
     <Popup className="h-fit w-full overflow-y-auto sm:w-[36rem]">
       <div className="flex-col justify-between rounded-[16px] text-white">
-        <div className="mb-5 text-xl font-bold"> Create New File</div>
-        <div className="text-neutral-600 h-[30px] w-full text-base">
+        <div className="mb-5 text-2xl font-bold">Create New File</div>
+        <div className="text-neutral-600 h-[30px] w-full text-xl">
           Select Date
         </div>
         <div className="inline-bl w-full">
