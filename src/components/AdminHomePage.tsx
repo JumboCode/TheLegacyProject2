@@ -80,7 +80,7 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
               />
             }
             moreInformation={
-              <DropDownContainer>
+              <DropDownContainer defaultExpand={false}>
                 <ChapterRequest
                   chapterRequest={chapter.chapterRequest}
                   ContainerNode={({ children }) => (

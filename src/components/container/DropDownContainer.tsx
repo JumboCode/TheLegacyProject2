@@ -5,7 +5,8 @@ import { faCaretDown, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface DropDownContainerProps {
-  classname?: string;
+  containerClassName?: string;
+  elementsClassName?: string;
   title?: React.ReactNode;
   children?: React.ReactNode;
   defaultExpand?: boolean;
@@ -13,13 +14,18 @@ interface DropDownContainerProps {
 
 const DropDownContainer = (props: DropDownContainerProps) => {
   const [showItems, setShowItems] = React.useState(props.defaultExpand ?? true);
+  const animationDivRef = React.useRef<HTMLDivElement>(null);
 
   const handleClick = () => {
     setShowItems(!showItems);
+    if (animationDivRef.current) {
+      // Prevent scroll bar from rendering
+      animationDivRef.current.style["overflow"] = "hidden";
+    }
   };
 
   return (
-    <div className={props.classname ?? ""}>
+    <div className={props.containerClassName ?? ""}>
       <div className="flex cursor-pointer" onClick={handleClick}>
         <div className="pr-2">
           <FontAwesomeIcon
@@ -34,16 +40,20 @@ const DropDownContainer = (props: DropDownContainerProps) => {
         )}
       </div>
       <div
-        className={`overflow-auto ${
-          showItems ? "h-fit max-h-[512px] pb-4 md:max-h-[1024px]" : "max-h-0"
+        ref={animationDivRef}
+        className={`overflow-hidden ${
+          showItems ? "max-h-[512px] md:max-h-[1024px]" : "max-h-0"
         }`}
         style={
           showItems
-            ? { transition: "max-height 0.3s ease" }
-            : { transition: "max-height 0.1s ease" }
+            ? { transition: "max-height 1s ease" }
+            : { transition: "max-height 0.3 ease" }
+        }
+        onTransitionEnd={(ref) =>
+          (ref.currentTarget.style["overflow"] = "auto")
         }
       >
-        {props.children}
+        <div className={props.elementsClassName ?? ""}>{props.children}</div>
       </div>
     </div>
   );

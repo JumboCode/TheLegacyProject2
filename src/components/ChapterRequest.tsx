@@ -92,7 +92,7 @@ const ChapterRequest = (props: ChapterRequestProps) => {
             ))}
           </div>
         ) : (
-          <DropDownContainer defaultExpand={false}>
+          <DropDownContainer defaultExpand={false} elementsClassName="pt-4">
             <div className="flex flex-col gap-y-2">
               {qas.map((question) => (
                 <MoreInformation key={question.question} {...question} />
