@@ -47,7 +47,7 @@ const DropDownContainer = (props: DropDownContainerProps) => {
         style={
           showItems
             ? { transition: "max-height 1s ease" }
-            : { transition: "max-height 0.3 ease" }
+            : { transition: "max-height 0.3s ease" }
         }
         onTransitionEnd={(ref) =>
           (ref.currentTarget.style["overflow"] = "auto")
