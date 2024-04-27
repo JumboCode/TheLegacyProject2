@@ -4,9 +4,12 @@ import { Senior, User } from "@prisma/client";
 import SearchableContainer from "./SearchableContainer";
 import { UserTile, TileEdit } from "./TileGrid";
 import AddSenior from "./AddSenior";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { useApiThrottle } from "@hooks";
+import { deleteSenior } from "@api/senior/[id]/route.client";
+import { Spinner } from "./skeleton";
 
 type SeniorViewProps = {
   seniors: Senior[];
@@ -26,9 +29,22 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
 
   const [yearsClicked, setYearsClicked] = useState<number[]>([]);
 
+  const deleteSeniorIdRef = React.useRef("");
+
+  const { fn: throttleDeleteSenior, fetching } = useApiThrottle({
+    fn: deleteSenior,
+    callback: () => {
+      const newSeniorState = seniorsState.filter(
+        (senior) => senior.id !== deleteSeniorIdRef.current
+      );
+      setSeniorsState(newSeniorState);
+      deleteSeniorIdRef.current = "";
+    },
+  });
+
   return (
     <>
-      <div className="mb-6 flex flex-row items-center justify-between ">
+      <div className="mb-6 flex flex-row items-center justify-between">
         <div className="text-2xl">Seniors {`(${seniors.length})`}</div>
         <AddSenior
           key="add-senior"
@@ -64,14 +80,9 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
 
           options.push({
             name: "Delete",
-            onClick: (e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              fetch(`/api/senior/${senior.id}`, {
-                method: "DELETE",
-              }).then(() => {
-                window.location.reload();
-              });
+            onClick: () => {
+              deleteSeniorIdRef.current = senior.id;
+              throttleDeleteSenior({ seniorId: senior.id });
             },
             color: "#EF6767",
             icon: <FontAwesomeIcon icon={faTrashCan} />,
@@ -82,7 +93,13 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
               senior={senior}
               link={`/private/chapter-leader/seniors/${senior.id}`}
               key={senior.id}
-              dropdownComponent={<TileEdit options={options} />}
+              dropdownComponent={
+                fetching && senior.id === deleteSeniorIdRef.current ? (
+                  <Spinner width={12} height={12} />
+                ) : (
+                  <TileEdit options={options} />
+                )
+              }
             />
           );
         }}

@@ -6,10 +6,9 @@ import {
   patchSeniorSchema,
 } from "./route.schema";
 import { prisma } from "@server/db/client";
+import { driveV3 } from "@server/service";
+import { Senior } from "@prisma/client";
 
-/**
- * @TODO - Delete folder belonging to the senior
- */
 export const DELETE = withSessionAndRole(
   ["CHAPTER_LEADER"],
   async ({ session, params }) => {
@@ -39,21 +38,24 @@ export const DELETE = withSessionAndRole(
       );
     }
 
-    const disconnectSenior = await prisma.senior.update({
-      where: {
-        id: seniorId,
-      },
-      data: {
-        Students: {
-          set: [],
+    await driveV3.files.delete({ fileId: maybeSenior.folder });
+    await prisma.$transaction([
+      prisma.senior.update({
+        where: {
+          id: seniorId,
         },
-      },
-    });
-    const deleteSenior = await prisma.senior.delete({
-      where: {
-        id: seniorId,
-      },
-    });
+        data: {
+          Students: {
+            set: [],
+          },
+        },
+      }),
+      prisma.senior.delete({
+        where: {
+          id: seniorId,
+        },
+      }),
+    ]);
 
     return NextResponse.json({ code: "SUCCESS" });
   }
@@ -117,6 +119,18 @@ export const PATCH = withSessionAndRole(
           },
         },
       });
+
+      // TODO(nickbar01234) - Refactor for to sync with POST /senior
+      const toFolderName = (senior: Pick<Senior, "firstname" | "lastname">) =>
+        `${senior.firstname}_${senior.lastname}-${seniorId}`;
+
+      if (toFolderName(seniorBody) != toFolderName(maybeSenior)) {
+        const params = {
+          fileId: maybeSenior.folder,
+          resource: { name: toFolderName(seniorBody) },
+        };
+        await driveV3.files.update(params);
+      }
 
       return NextResponse.json(
         seniorPatchResponse.parse({

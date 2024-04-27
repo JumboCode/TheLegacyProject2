@@ -74,7 +74,7 @@ export const POST = withSessionAndRole(
 
       const baseFolder = chapter.chapterFolder; // TODO: make env variable
       const fileMetadata = {
-        name: [`${seniorBody.firstname}_${seniorBody.lastname}_${senior.id}`],
+        name: [`${seniorBody.firstname}_${seniorBody.lastname}-${senior.id}`],
         mimeType: "application/vnd.google-apps.folder",
         parents: [baseFolder],
       };
