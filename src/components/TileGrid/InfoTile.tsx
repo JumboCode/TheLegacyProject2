@@ -22,7 +22,7 @@ const _InfoTile = (props: Omit<InfoTileProps, "ContainerNode">) => {
   const { title, information, topRightButton, moreInformation, href } = props;
 
   return (
-    <div className="flex h-fit w-full flex-col gap-y-4 rounded-lg bg-white p-6 shadow-md shadow-gray-500">
+    <>
       <div className="relative flex items-center justify-between">
         <Link
           href={href ?? ""}
@@ -44,7 +44,7 @@ const _InfoTile = (props: Omit<InfoTileProps, "ContainerNode">) => {
         ))}
       </div>
       {moreInformation ?? null}
-    </div>
+    </>
   );
 };
 
