@@ -69,7 +69,7 @@ model User {
   Seniors   Senior[]  @relation(fields: [SeniorIDs], references: [id])
   approved  Approval  @default(PENDING)
   ChapterID String?   @db.ObjectId
-  Chapter   Chapter?  @relation(fields: [ChapterID], references: [id])
+  Chapter   Chapter?  @relation(fields: [ChapterID], references: [id], onDelete: SetNull)
   
   userRequest UserRequest?
 }
@@ -149,6 +149,8 @@ model Chapter {
 
   chapterRequestId String @db.ObjectId @unique
   chapterRequest ChapterRequest @relation(fields: [chapterRequestId], references: [id], onDelete: Cascade)
+
+  userRequests  UserRequest[]
 }
 
 model Resource {
@@ -168,6 +170,7 @@ model UserRequest {
   // @deprecated - We ended up not using this anywhere
   approved  Approval @default(PENDING)
   uid       String   @unique @db.ObjectId
-  chapterId String   @db.ObjectId
+  chapterId String   @db.ObjectId 
+  chapter   Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [uid], references: [id])
 }

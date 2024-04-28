@@ -1,10 +1,9 @@
-import { DeleteChapterResponse } from "./route.schema";
+import { deleteChapterResponse } from "./route.schema";
 
-export const DeleteChapter = async (chapterId: string) => {
+export const deleteChapter = async (chapterId: string) => {
   const response = await fetch(`/api/chapter/${chapterId}`, {
     method: "DELETE",
   });
   const json = await response.json();
-  console.log(json);
-  return DeleteChapterResponse.parse(json);
+  return deleteChapterResponse.parse(json);
 };
