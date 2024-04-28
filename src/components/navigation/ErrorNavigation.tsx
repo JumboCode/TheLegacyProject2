@@ -9,9 +9,14 @@ import React from "react";
 interface ErrorNavigationProps {
   message?: string;
   redirectTo?: string;
+  redirectMessage?: string;
 }
 
-const ErrorNavigation = ({ message, redirectTo }: ErrorNavigationProps) => {
+const ErrorNavigation = ({
+  message,
+  redirectTo,
+  redirectMessage,
+}: ErrorNavigationProps) => {
   const router = useRouter();
   const userContext = React.useContext(UserContext);
 
@@ -22,12 +27,12 @@ const ErrorNavigation = ({ message, redirectTo }: ErrorNavigationProps) => {
           {message ?? "Oops, an error has occurred."}
         </h1>
         <button
-          className="mx-1 w-full max-w-[10rem] rounded bg-white p-3 text-lg text-dark-teal drop-shadow-md"
+          className="mx-1 w-fit rounded bg-white p-3 text-lg text-dark-teal drop-shadow-md"
           onClick={() =>
             router.replace(redirectTo ?? formatUserHomeRoute(userContext.user))
           }
         >
-          Redirect
+          {redirectMessage ?? "Redirect"}
         </button>
       </div>
     </Popup>

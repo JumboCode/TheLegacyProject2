@@ -7,6 +7,7 @@ const Error = () => {
     <ErrorNavigation
       message="Oops, an error has occurred."
       redirectTo="/private/chapter-leader/seniors"
+      redirectMessage="View all seniors"
     />
   );
 };

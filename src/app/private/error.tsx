@@ -6,7 +6,7 @@ const Error = () => {
   return (
     <ErrorNavigation
       message="Oops, an error has occurred."
-      redirectTo="/public"
+      redirectMessage="Back to home"
     />
   );
 };
