@@ -1,7 +1,6 @@
 import { ISideBar } from "@components/Sidebar";
 import { CollapsibleSidebarContainer } from "@components/container";
 import { faHome, faUsers, faUser } from "@fortawesome/free-solid-svg-icons";
-import { UserContext } from "src/context/UserProvider";
 
 interface IUserLayout {
   children: React.ReactNode;

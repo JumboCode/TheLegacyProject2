@@ -116,21 +116,33 @@ const Sidebar = (props: ISideBar) => {
         <_Sidebar {...props} />
       </div>
       <div
-        className="mt-6 block lg:hidden"
+        className="block lg:hidden"
         onMouseLeave={() => setSidebarVisible(false)}
       >
-        <svg
-          className="h-8 w-8 text-darkest-tan"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          onClick={() => setSidebarVisible(!sidebarVisible)}
+        <div
+          className="mb-24 block lg:hidden"
+          style={{ display: sidebarVisible ? "none" : "block" }}
         >
-          <line x1="4" y1="7" x2="20" y2="7" />
-          <line x1="4" y1="12" x2="20" y2="12" />
-          <line x1="4" y1="17" x2="20" y2="17" />
-        </svg>
+          <div className="fixed left-0 top-0 z-50 w-full bg-med-tan px-6 shadow-lg shadow-gray-500">
+            <div className="flex items-center justify-between">
+              <svg
+                className="h-8 w-8 text-darkest-tan"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                onClick={() => setSidebarVisible(!sidebarVisible)}
+              >
+                <line x1="4" y1="7" x2="20" y2="7" />
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="17" x2="20" y2="17" />
+              </svg>
+              <Link href="/public">
+                <Image src={Logo} alt="logo" height={96} />
+              </Link>
+            </div>
+          </div>
+        </div>
         {sidebarVisible && (
           <div className="fixed left-0 top-0 z-50 h-full w-64 overflow-y-auto drop-shadow-lg lg:overflow-y-hidden">
             <_Sidebar {...props} />
