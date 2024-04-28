@@ -10,6 +10,7 @@ import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useApiThrottle } from "@hooks";
 import { deleteSenior } from "@api/senior/[id]/route.client";
 import { Spinner } from "./skeleton";
+import { seniorFullName } from "@utils";
 
 type SeniorViewProps = {
   seniors: Senior[];
@@ -29,16 +30,20 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
 
   const [yearsClicked, setYearsClicked] = useState<number[]>([]);
 
-  const deleteSeniorIdRef = React.useRef("");
+  const [deleteSeniorId, setDeleteSeniorId] = React.useState("");
 
   const { fn: throttleDeleteSenior, fetching } = useApiThrottle({
     fn: deleteSenior,
-    callback: () => {
-      const newSeniorState = seniorsState.filter(
-        (senior) => senior.id !== deleteSeniorIdRef.current
-      );
-      setSeniorsState(newSeniorState);
-      deleteSeniorIdRef.current = "";
+    callback: (res) => {
+      setDeleteSeniorId("");
+      if (res.code === "SUCCESS") {
+        setSeniorsState((seniors) =>
+          seniors.filter((senior) => senior.id !== res.seniorId)
+        );
+      } else {
+        // Caught by error.tsx
+        throw new Error("Fail to delete senior");
+      }
     },
   });
 
@@ -81,7 +86,7 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
           options.push({
             name: "Delete",
             onClick: () => {
-              deleteSeniorIdRef.current = senior.id;
+              setDeleteSeniorId(senior.id);
               throttleDeleteSenior({ seniorId: senior.id });
             },
             color: "#EF6767",
@@ -94,19 +99,17 @@ export const SeniorView = ({ seniors, students }: SeniorViewProps) => {
               link={`/private/chapter-leader/seniors/${senior.id}`}
               key={senior.id}
               dropdownComponent={
-                fetching && senior.id === deleteSeniorIdRef.current ? (
+                fetching && senior.id === deleteSeniorId ? (
                   <Spinner width={12} height={12} />
-                ) : (
+                ) : !fetching ? (
                   <TileEdit options={options} />
-                )
+                ) : null
               }
             />
           );
         }}
         search={(senior, key) =>
-          (senior.firstname + " " + senior.lastname)
-            .toLowerCase()
-            .includes(key.toLowerCase())
+          seniorFullName(senior).toLowerCase().includes(key.toLowerCase())
         }
         filterField={
           <div className="mb-6 flex flex-row gap-4">

@@ -57,7 +57,7 @@ export const DELETE = withSessionAndRole(
       }),
     ]);
 
-    return NextResponse.json({ code: "SUCCESS" });
+    return NextResponse.json({ code: "SUCCESS", seniorId: seniorId });
   }
 );
 

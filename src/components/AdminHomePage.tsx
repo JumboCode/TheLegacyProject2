@@ -11,6 +11,9 @@ import { useRouter } from "next/navigation";
 import SearchableContainer from "./SearchableContainer";
 import ChapterRequest from "./ChapterRequest";
 import DropDownContainer from "./container/DropDownContainer";
+import { useApiThrottle } from "@hooks";
+import React from "react";
+import { Spinner } from "./skeleton";
 
 type ChapterWithUserAndChapterRequest = Prisma.ChapterGetPayload<{
   include: { students: true; chapterRequest: true };
@@ -22,6 +25,15 @@ type AdminHomePageProps = {
 
 const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
   const router = useRouter();
+
+  const [deleteChapterId, setDeleteChapterId] = React.useState("");
+  const { fetching, fn: throttleDeleteChapter } = useApiThrottle({
+    fn: deleteChapter,
+    callback: () => {
+      setDeleteChapterId("");
+      router.refresh();
+    },
+  });
 
   return (
     <SearchableContainer
@@ -37,9 +49,9 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
 
         options.push({
           name: "Remove Chapter",
-          onClick: async () => {
-            const response = await deleteChapter(chapter.id);
-            router.refresh();
+          onClick: () => {
+            setDeleteChapterId(chapter.id);
+            throttleDeleteChapter(chapter.id);
           },
           color: "#ef6767",
           icon: <FontAwesomeIcon icon={faTrashCan} />,
@@ -69,15 +81,19 @@ const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
               },
             ]}
             topRightButton={
-              <TileEdit
-                options={options}
-                editIconProps={
-                  <FontAwesomeIcon
-                    className="fa-lg cursor-pointer"
-                    icon={faEllipsis}
-                  />
-                }
-              />
+              fetching && chapter.id === deleteChapterId ? (
+                <Spinner width={8} height={8} />
+              ) : !fetching ? (
+                <TileEdit
+                  options={options}
+                  editIconProps={
+                    <FontAwesomeIcon
+                      className="fa-lg cursor-pointer"
+                      icon={faEllipsis}
+                    />
+                  }
+                />
+              ) : null
             }
             moreInformation={
               <DropDownContainer defaultExpand={false}>

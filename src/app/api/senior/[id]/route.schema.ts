@@ -6,7 +6,7 @@ import {
 import { seniorSchema } from "@server/model";
 
 export const seniorDeleteResponse = z.discriminatedUnion("code", [
-  z.object({ code: z.literal("SUCCESS") }),
+  z.object({ code: z.literal("SUCCESS"), seniorId: z.string() }),
   z.object({
     code: z.literal("NOT_FOUND"),
     message: z.string(),
