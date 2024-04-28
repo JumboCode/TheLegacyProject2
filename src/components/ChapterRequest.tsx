@@ -114,7 +114,7 @@ const ChapterRequest = (props: ChapterRequestProps) => {
             </div>
           ) : (
             <div className="flex justify-center p-2">
-              <Spinner height={16} width={16} />
+              <Spinner height={20} width={16} />
             </div>
           )}
         </div>

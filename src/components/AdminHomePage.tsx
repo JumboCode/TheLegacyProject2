@@ -19,7 +19,6 @@ type AdminHomePageProps = {
 };
 
 const AdminHomePage = ({ chapters }: AdminHomePageProps) => {
-  const userContext = useContext(UserContext);
   const router = useRouter();
 
   return (

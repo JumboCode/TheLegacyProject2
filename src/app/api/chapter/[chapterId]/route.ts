@@ -36,6 +36,19 @@ export const DELETE = withSessionAndRole(["ADMIN"], async ({ params }) => {
     )
   );
 
+  await prisma.user.updateMany({
+    where: {
+      ChapterID: chapterId,
+    },
+    data: {
+      SeniorIDs: {
+        set: []
+      },
+      position: "",
+      role: "USER"
+    }
+  });
+
   await prisma.chapterRequest.delete({
     where: {
       id: chapter.chapterRequestId,
